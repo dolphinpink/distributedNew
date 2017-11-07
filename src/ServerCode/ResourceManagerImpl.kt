@@ -41,7 +41,7 @@ class ResourceManagerImpl : ResourceManager {
         }
     }
 
-    override fun reserveResource(resourceId: String?, reservationQuantity: Int): Boolean {
+    override fun reserveResource(resourceId: String, reservationQuantity: Int): Boolean {
         synchronized(resourceLock) {
             val r = resources.find{r -> r.item.id == resourceId} ?: return false
 

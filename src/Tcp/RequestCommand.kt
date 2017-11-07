@@ -33,6 +33,11 @@ class UpdateResourceRequest(val requestId: Int, val resourceId: String, val newA
     }
 }
 
+class ReserveResourceRequest(val requestId: Int, val resourceId: String, val reservationQuantity: Int): RequestCommand {
+    override fun execute(rm: ResourceManager) {
+        rm.reserveResource(resourceId, reservationQuantity)
+    }
+}
 
 class DeleteResourceRequest(val requestId: Int, val resourceId: String): RequestCommand {
     override fun execute(rm: ResourceManager) {
@@ -75,10 +80,9 @@ class QueryCustomerInfoRequest(val requestId: Int, val customerId: String): Requ
     }
 }
 
-
-class ReserveResourceRequest(val requestId: Int, val customerId: String, val type: ReservableType, val resourceId: String): RequestCommand {
+class CreateReservationRequest(val requestId: Int, val customerId: String, val type: ReservableType, val resourceId: String): RequestCommand {
     override fun execute(rm: ResourceManager) {
-        rm.reserveResource(customerId, type, resourceId)
+        rm.createReservation(customerId, type, resourceId)
     }
 }
 

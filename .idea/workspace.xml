@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dcc90e27-b22c-4a30-bdc4-55d020c0dfcc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerCode/ResourceManager.java" afterPath="$PROJECT_DIR$/src/ServerCode/ResourceManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" afterPath="$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tcp/RequestCommand.kt" afterPath="$PROJECT_DIR$/src/Tcp/RequestCommand.kt" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,7 +33,7 @@
       <file leaf-file-name="TcpRequestSender.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
+            <state relative-caret-position="13">
               <caret line="58" column="36" lean-forward="true" selection-start-line="58" selection-start-column="36" selection-end-line="58" selection-end-column="36" />
               <folding>
                 <element signature="e#14#313#0" expanded="true" />
@@ -60,8 +60,8 @@
       <file leaf-file-name="ResourceManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="93" column="0" lean-forward="true" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+            <state relative-caret-position="366">
+              <caret line="101" column="37" lean-forward="true" selection-start-line="101" selection-start-column="37" selection-end-line="101" selection-end-column="94" />
               <folding>
                 <element signature="docComment;method#createResource#0;class#ResourceManager#0" expanded="false" />
                 <element signature="docComment;method#updateResource#0;class#ResourceManager#0" expanded="false" />
@@ -79,11 +79,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ResourceManagerImpl.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ResourceManagerImpl.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+            <state relative-caret-position="383">
+              <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
               <folding>
                 <element signature="n#!!block;n#Resource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
                 <element signature="n#!!block;n#createResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
@@ -103,11 +103,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RequestCommand.kt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RequestCommand.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Tcp/RequestCommand.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="24" column="48" lean-forward="false" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
+            <state relative-caret-position="425">
+              <caret line="25" column="5" lean-forward="true" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
               <folding>
                 <element signature="e#13#185#0" expanded="true" />
                 <element signature="n#!!block;n#ItineraryRequest#0" expanded="false" />
@@ -175,9 +175,9 @@
         <option value="$PROJECT_DIR$/src/ServerCode/Reservation.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/Tester.kt" />
         <option value="$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt" />
-        <option value="$PROJECT_DIR$/src/Tcp/RequestCommand.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/ResourceManager.java" />
         <option value="$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" />
+        <option value="$PROJECT_DIR$/src/Tcp/RequestCommand.kt" />
       </list>
     </option>
   </component>
@@ -387,12 +387,12 @@
       <workItem from="1509857696332" duration="7463000" />
       <workItem from="1509909694822" duration="1009000" />
       <workItem from="1509910732026" duration="27621000" />
-      <workItem from="1509997175774" duration="23975000" />
+      <workItem from="1509997175774" duration="24366000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61586000" />
+    <option name="totallyTimeSpent" value="61977000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -407,7 +407,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.252386" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.252386" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -710,30 +710,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="58" column="36" lean-forward="true" selection-start-line="58" selection-start-column="36" selection-end-line="58" selection-end-column="36" />
-          <folding>
-            <element signature="e#14#313#0" expanded="true" />
-            <element signature="n#!!block;n#generateRequestId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <marker date="1510031265748" expanded="false" signature="2259:2390" ph="{...}" />
-            <marker date="1510031265748" expanded="false" signature="2448:2542" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tcp/RequestCommand.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="24" column="48" lean-forward="false" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
-          <folding>
-            <element signature="e#13#185#0" expanded="true" />
-            <element signature="n#!!block;n#ItineraryRequest#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerCode/Tester.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="963">
@@ -756,8 +732,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="93" column="0" lean-forward="true" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+        <state relative-caret-position="366">
+          <caret line="101" column="37" lean-forward="true" selection-start-line="101" selection-start-column="37" selection-end-line="101" selection-end-column="94" />
           <folding>
             <element signature="docComment;method#createResource#0;class#ResourceManager#0" expanded="false" />
             <element signature="docComment;method#updateResource#0;class#ResourceManager#0" expanded="false" />
@@ -776,8 +752,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+        <state relative-caret-position="383">
+          <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
           <folding>
             <element signature="n#!!block;n#Resource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
             <element signature="n#!!block;n#createResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
@@ -792,6 +768,30 @@
             <element signature="n#!!block;n#createReservation#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
             <element signature="n#!!block;n#itinerary#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
             <element signature="n#!!block;n#generateCustomerId#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13">
+          <caret line="58" column="36" lean-forward="true" selection-start-line="58" selection-start-column="36" selection-end-line="58" selection-end-column="36" />
+          <folding>
+            <element signature="e#14#313#0" expanded="true" />
+            <element signature="n#!!block;n#generateRequestId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <marker date="1510031265748" expanded="false" signature="2259:2390" ph="{...}" />
+            <marker date="1510031265748" expanded="false" signature="2448:2542" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Tcp/RequestCommand.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="5" lean-forward="true" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+          <folding>
+            <element signature="e#13#185#0" expanded="true" />
+            <element signature="n#!!block;n#ItineraryRequest#0" expanded="false" />
           </folding>
         </state>
       </provider>
