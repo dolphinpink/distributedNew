@@ -11,50 +11,66 @@ public interface ResourceManager {
      */
     public boolean createResource(ReservableType type, String resourceId, int amount, int price);
 
+
     /**
      * Updates total available amount of resource and price, if it exists and it is possible.
      *
      * Will fail if newAmount < amountAlreadyReserved
      *
      * @param resourceId
-     * @param newAmount
+     * @param newTotalAmount
      * @param newPrice
      * @return
      */
-    public boolean updateResource(String resourceId, int newAmount, int newPrice);
+    public boolean updateResource(String resourceId, int newTotalAmount, int newPrice);
+
+
+    /**
+     * subtracts reservationQuantity from the available amount of the resource if possible.
+     *
+     * can provide negative value to free up resource
+     *
+     * @param resourceId
+     * @param reservationQuantity
+     * @return true if successful, false if not enough available resource
+     */
+    public boolean reserveResource(String resourceId, int reservationQuantity);
+
 
     /**
      * Attempts to delete resource
-     * Fails if resource doesn't exist, resource is reserved
+     * Fails if resource doesn't exist, or resource is reserved
      *
      * @param resourceId
-     * @return
+     * @return true if successful, false if resource doesn't exist or is reserved
      */
     public boolean deleteResource(String resourceId);
+
 
     /**
      * returns amount of resource available
      *
-     * -1 if resource doesn't exist
-     *
      * @param resourceId
-     * @return
+     * @return amount of resource available, -1 if resource doesn't exist
      */
     public int queryResource(String resourceId);
 
 
     /**
-     * returns a unique customer ID. DOES NOT CREATE CUSTOMER
+     * returns a unique customer ID. *DOES NOT CREATE CUSTOMER*
      *
-     * @return
+     * @return a unique customer ID
      */
     public String getUniqueCustomerId();
 
+
     /**
-     * creates new customer with ID provresourceIded
+     * creates new customer with ID provided
+     *
+     * fails if customer with ID already exists
      *
      * @param customerId
-     * @return
+     * @return true if successful creation, false customer with ID already exists
      */
     public boolean createCustomer(String customerId);
 
@@ -62,7 +78,7 @@ public interface ResourceManager {
     /**
      * Deletes customer and all their reservations
      * @param customerId
-     * @return
+     * @return true if successful, false otherwise
      */
     public boolean deleteCustomer(String customerId);
 
@@ -71,19 +87,19 @@ public interface ResourceManager {
      * returns all reservation information for customer
      *
      * @param customerId
-     * @return
+     * @return String containing all customer reservations
      */
     public String queryCustomerInfo(String customerId);
 
 
     /**
-     * reserves one unit of this resource
+     * reserves one unit of this resource for this customer
      *
      * @param customerId
      * @param resourceId
-     * @return
+     * @return true if successful, false if customer or resource doesn't exist, or not enough available resource
      */
-    public boolean reserveResource(String customerId, ReservableType type, String resourceId);
+    public boolean createReservation(String customerId, ReservableType type, String resourceId);
 
 
     /**
@@ -91,7 +107,7 @@ public interface ResourceManager {
      *
      * @param customerId
      * @param resourceIds
-     * @return
+     * @return true if successful, false if resources or customer doesn't exist, or insufficient available resources
      */
     public boolean itinerary(String customerId, Set<String> resourceIds);
 
