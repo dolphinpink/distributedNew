@@ -1,6 +1,6 @@
 package ServerCode
 
-data class Customer(val customerId: String) {
+data class Customer(val customerId: Int) {
 
     override fun equals(other : Any?) = customerId == (other as? Customer)?.customerId
 

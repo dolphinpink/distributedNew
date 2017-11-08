@@ -11,7 +11,8 @@ import java.io.PrintWriter
 import java.net.Socket
 
 
-class TcpRequestSender(val portNum: Int, val serverName: String)/*: ResourceManager*/ {
+class TcpRequestSender(val portNum: Int, val serverName: String): ResourceManager {
+
 
     private val outToServer: PrintWriter
     private val inFromServer: BufferedReader
@@ -37,7 +38,7 @@ class TcpRequestSender(val portNum: Int, val serverName: String)/*: ResourceMana
 
                 try {
                     val reply = mapper.readValue<Reply>(json!!)
-                    print("extracted $reply")
+                    println("SENDER RESPONSE LOOP extracted $reply")
                     replies.add(reply)
 
                 } catch (e: Exception) {
@@ -49,69 +50,128 @@ class TcpRequestSender(val portNum: Int, val serverName: String)/*: ResourceMana
 
     }
 
-    private var customerIdGenerator: Long = 0L
+    private var customerIdGenerator: Int = 0
 
-    fun createResource(type: ReservableType, id: String, totalQuantity: Int, price: Int): Boolean {
+    fun sendRequest(request: RequestCommand): Reply {
 
-        val requestId = generateRequestId()
-        val json = mapper.writeValueAsString(CreateResourceRequest(requestId, type, id, totalQuantity, price))
+        val json = mapper.writeValueAsString(request)
+
         outToServer.println(json)
         println("SENDER sent $json")
 
-        val reply: Reply = getReply(requestId)
+        val reply = getReply(request.requestId)
 
-        println("reply received")
+        println("SENDER reply received")
 
-        if (reply !is BooleanReply)
-            throw Exception("Remote failed")
+        return reply
 
-        return reply.reply
     }
 
-    /*override fun updateResource(id: String, newTotalQuantity: Int, newPrice: Int): Boolean {
+    override fun createResource(type: ReservableType, id: String, totalQuantity: Int, price: Int): Boolean {
 
+        val reply = sendRequest(CreateResourceRequest(generateRequestId(), type, id, totalQuantity, price))
+
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
+    }
+
+    override fun updateResource(id: String, newTotalQuantity: Int, newPrice: Int): Boolean {
+
+        val reply = sendRequest(UpdateResourceRequest(generateRequestId(), id, newTotalQuantity, newPrice))
+
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
+    }
+
+    override fun reserveResource(resourceId: String, reservationQuantity: Int): Boolean {
+        val reply = sendRequest(ReserveResourceRequest(generateRequestId(), resourceId, reservationQuantity))
+
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
     }
 
     override fun deleteResource(id: String): Boolean {
-        synchronized(resourceLock) {
-            return resources.remove(resources.find { r -> r.item.id == id })
-        }
+
+        val reply = sendRequest(DeleteResourceRequest(generateRequestId(), id))
+
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
+
     }
 
     override fun queryResource(resourceId: String): Int {
-        return resources.find {r -> r.item.id == resourceId} ?.remainingQuantity ?: -1
+
+        val reply = sendRequest(QueryResourceRequest(generateRequestId(), resourceId))
+
+        if (reply !is IntReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
     }
 
-    override fun getUniqueCustomerId(): String {
-        synchronized(customerIdGenerator) {
-            customerIdGenerator +=1
-            return customerIdGenerator.toString()
-        }
+    override fun uniqueCustomerId(): Int {
+        val reply = sendRequest(UniqueCustomerIdRequest(generateRequestId()))
+
+        if (reply !is IntReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
     }
 
-    override fun createCustomer(customerId: String): Boolean {
-        synchronized(customerLock) {
-            return customers.add(Customer(customerId))
-        }
+    override fun createCustomer(customerId: Int): Boolean {
+        val reply = sendRequest(CreateCustomerRequest(generateRequestId(), customerId))
+
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
     }
 
-    override fun deleteCustomer(customerId: String): Boolean {
-        synchronized(customerLock) {
-            return customers.remove(customers.find { c -> c.customerId == customerId})
-        }
+    override fun deleteCustomer(customerId: Int): Boolean {
+        val reply = sendRequest(DeleteCustomerRequest(generateRequestId(), customerId))
+
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
     }
 
-    override fun queryCustomerInfo(customerId: String): String {
-        return customers.find { c -> c.customerId == customerId}.toString()
+    override fun queryCustomerInfo(customerId: Int): String {
+        val reply = sendRequest(QueryCustomerInfoRequest(generateRequestId(), customerId))
+
+        if (reply !is StringReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
     }
 
-    override fun reserveResource(customerId: String?, type: ReservableType?, resourceId: String?): Boolean {
-        TODO("not implemented")
+    override fun createReservation(customerId: Int, type: ReservableType, resourceId: String): Boolean {
+            val reply = sendRequest(CreateReservationRequest(generateRequestId(), customerId, type, resourceId))
+
+            if (reply !is BooleanReply)
+                throw Exception("SENDER Remote failed")
+
+            return reply.value
     }
 
-    override fun itinerary(customerId: String?, resourceIds: MutableSet<String>?): Boolean {
-        TODO("not implemented")
-    }*/
+    override fun itinerary(customerId: Int, resourceIds: MutableSet<String>): Boolean {
+
+        val reply = sendRequest(ItineraryRequest(generateRequestId(), customerId, resourceIds))
+
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
+
+    }
 
     fun generateRequestId(): Int {
         synchronized(requestIdCounter) {

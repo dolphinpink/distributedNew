@@ -61,7 +61,7 @@ public interface ResourceManager {
      *
      * @return a unique customer ID
      */
-    public String getUniqueCustomerId();
+    public int uniqueCustomerId();
 
 
     /**
@@ -72,7 +72,7 @@ public interface ResourceManager {
      * @param customerId
      * @return true if successful creation, false customer with ID already exists
      */
-    public boolean createCustomer(String customerId);
+    public boolean createCustomer(int customerId);
 
 
     /**
@@ -80,7 +80,7 @@ public interface ResourceManager {
      * @param customerId
      * @return true if successful, false otherwise
      */
-    public boolean deleteCustomer(String customerId);
+    public boolean deleteCustomer(int customerId);
 
 
     /**
@@ -89,7 +89,7 @@ public interface ResourceManager {
      * @param customerId
      * @return String containing all customer reservations
      */
-    public String queryCustomerInfo(String customerId);
+    public String queryCustomerInfo(int customerId);
 
 
     /**
@@ -99,7 +99,7 @@ public interface ResourceManager {
      * @param resourceId
      * @return true if successful, false if customer or resource doesn't exist, or not enough available resource
      */
-    public boolean createReservation(String customerId, ReservableType type, String resourceId);
+    public boolean createReservation(int customerId, ReservableType type, String resourceId);
 
 
     /**
@@ -109,6 +109,6 @@ public interface ResourceManager {
      * @param resourceIds
      * @return true if successful, false if resources or customer doesn't exist, or insufficient available resources
      */
-    public boolean itinerary(String customerId, Set<String> resourceIds);
+    public boolean itinerary(int customerId, Set<String> resourceIds);
 
 }

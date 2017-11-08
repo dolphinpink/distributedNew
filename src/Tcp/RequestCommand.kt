@@ -14,81 +14,82 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
         property = "type")
 @JsonSubTypes(
         JsonSubTypes.Type(value = CreateResourceRequest::class, name = "CreateResourceRequest"),
-        JsonSubTypes.Type(value = UpdateResourceRequest::class, name = "UpdateResourceRequest"))
-interface RequestCommand {
-    abstract fun execute(rm: ResourceManager)
+        JsonSubTypes.Type(value = UpdateResourceRequest::class, name = "UpdateResourceRequest"),
+        JsonSubTypes.Type(value = ReserveResourceRequest::class, name = "ReserveResourceRequest"),
+        JsonSubTypes.Type(value = DeleteResourceRequest::class, name = "DeleteResourceRequest"),
+        JsonSubTypes.Type(value = QueryResourceRequest::class, name = "QueryResourceRequest"),
+        JsonSubTypes.Type(value = UniqueCustomerIdRequest::class, name = "UniqueCustomerIdRequest"),
+        JsonSubTypes.Type(value = CreateCustomerRequest::class, name = "CreateCustomerRequest"),
+        JsonSubTypes.Type(value = DeleteCustomerRequest::class, name = "DeleteCustomerRequest"),
+        JsonSubTypes.Type(value = QueryCustomerInfoRequest::class, name = "QueryCustomerInfoRequest"),
+        JsonSubTypes.Type(value = CreateReservationRequest::class, name = "CreateReservationRequest"),
+        JsonSubTypes.Type(value = ItineraryRequest::class, name = "ItineraryRequest"))
+abstract class RequestCommand(val requestId: Int) {
+    abstract fun execute(rm: ResourceManager): Reply
 }
 
-class CreateResourceRequest(val requestId: Int, val type: ReservableType, val resourceId: String, val amount: Int, val price: Int): RequestCommand {
-    override fun execute(rm: ResourceManager) {
-        rm.createResource(type, resourceId, amount, price)
-        println("requestCommand created Resource")
+class CreateResourceRequest(requestId: Int, val type: ReservableType, val resourceId: String, val amount: Int, val price: Int): RequestCommand(requestId) {
+    override fun execute(rm: ResourceManager): Reply {
+        return BooleanReply(requestId, rm.createResource(type, resourceId, amount, price))
     }
 }
 
-
-class UpdateResourceRequest(val requestId: Int, val resourceId: String, val newAmount: Int, val newPrice: Int): RequestCommand {
-    override fun execute(rm: ResourceManager) {
-        rm.updateResource(resourceId, newAmount, newPrice)
+class UpdateResourceRequest(requestId: Int, val resourceId: String, val newAmount: Int, val newPrice: Int): RequestCommand(requestId){
+    override fun execute(rm: ResourceManager): Reply {
+        return BooleanReply(requestId, rm.updateResource(resourceId, newAmount, newPrice))
     }
 }
 
-class ReserveResourceRequest(val requestId: Int, val resourceId: String, val reservationQuantity: Int): RequestCommand {
-    override fun execute(rm: ResourceManager) {
-        rm.reserveResource(resourceId, reservationQuantity)
+class ReserveResourceRequest(requestId: Int, val resourceId: String, val reservationQuantity: Int): RequestCommand(requestId){
+    override fun execute(rm: ResourceManager): Reply {
+        return BooleanReply(requestId, rm.reserveResource(resourceId, reservationQuantity))
     }
 }
 
-class DeleteResourceRequest(val requestId: Int, val resourceId: String): RequestCommand {
-    override fun execute(rm: ResourceManager) {
-        rm.deleteResource(resourceId)
+class DeleteResourceRequest(requestId: Int, val resourceId: String): RequestCommand(requestId){
+    override fun execute(rm: ResourceManager): Reply {
+        return BooleanReply(requestId, rm.deleteResource(resourceId))
     }
 }
 
-
-class QueryResourceRequest(val requestId: Int, val resourceId: String): RequestCommand {
-    override fun execute(rm: ResourceManager) {
-        rm.queryResource(resourceId)
+class QueryResourceRequest(requestId: Int, val resourceId: String): RequestCommand(requestId){
+    override fun execute(rm: ResourceManager): Reply {
+        return IntReply(requestId, rm.queryResource(resourceId))
     }
 }
 
-
-class GetUniqueCustomerIdRequest(val requestId: Int): RequestCommand {
-    override fun execute(rm: ResourceManager) {
-        rm.getUniqueCustomerId()
+class UniqueCustomerIdRequest(requestId: Int): RequestCommand(requestId){
+    override fun execute(rm: ResourceManager): Reply {
+        return IntReply(requestId, rm.uniqueCustomerId())
     }
 }
 
-
-class CreateCustomerRequest(val requestId: Int, val customerId: String): RequestCommand {
-    override fun execute(rm: ResourceManager) {
-        rm.createCustomer(customerId)
+class CreateCustomerRequest(requestId: Int, val customerId: Int): RequestCommand(requestId){
+    override fun execute(rm: ResourceManager): Reply {
+        return BooleanReply(requestId, rm.createCustomer(customerId))
     }
 }
 
-
-class DeleteCustomerRequest(val requestId: Int, val customerId: String): RequestCommand {
-    override fun execute(rm: ResourceManager) {
-        rm.deleteCustomer(customerId)
+class DeleteCustomerRequest(requestId: Int, val customerId: Int): RequestCommand(requestId){
+    override fun execute(rm: ResourceManager): Reply {
+        return BooleanReply(requestId, rm.deleteCustomer(customerId))
     }
 }
 
-
-class QueryCustomerInfoRequest(val requestId: Int, val customerId: String): RequestCommand {
-    override fun execute(rm: ResourceManager) {
-        rm.queryCustomerInfo(customerId)
+class QueryCustomerInfoRequest(requestId: Int, val customerId: Int): RequestCommand(requestId){
+    override fun execute(rm: ResourceManager): Reply {
+        return StringReply(requestId, rm.queryCustomerInfo(customerId))
     }
 }
 
-class CreateReservationRequest(val requestId: Int, val customerId: String, val type: ReservableType, val resourceId: String): RequestCommand {
-    override fun execute(rm: ResourceManager) {
-        rm.createReservation(customerId, type, resourceId)
+class CreateReservationRequest(requestId: Int, val customerId: Int, val type: ReservableType, val resourceId: String): RequestCommand(requestId){
+    override fun execute(rm: ResourceManager): Reply {
+        return BooleanReply(requestId, rm.createReservation(customerId, type, resourceId))
     }
 }
 
-
-class ItineraryRequest(val requestId: Int, val customerId: String, val resourceIds: Set<String>): RequestCommand {
-    override fun execute(rm: ResourceManager) {
-        rm.itinerary(customerId, resourceIds)
+class ItineraryRequest(requestId: Int, val customerId: Int, val resourceIds: Set<String>): RequestCommand(requestId){
+    override fun execute(rm: ResourceManager): Reply {
+        return BooleanReply(requestId, rm.itinerary(customerId, resourceIds))
     }
 }

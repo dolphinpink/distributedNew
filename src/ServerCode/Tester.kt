@@ -77,7 +77,15 @@ object Tester {
         }.start()
 
         val sender = TcpRequestSender(8080, "127.0.0.1")
-        sender.createResource(ReservableType.FLIGHT, "4", 5, 5)
+        val response = sender.createResource(ReservableType.FLIGHT, "4", 5, 5)
+        println("TESTER received response: $response")
+
+        val response2 = sender.queryResource("4")
+        println("TESTER query previous resource: $response2")
+
+        val response3 = sender.queryResource("10190")
+        println("TESTER query nonexistant resource: $response3")
+
 
     }
 

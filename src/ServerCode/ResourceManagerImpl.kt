@@ -2,9 +2,6 @@ package ServerCode
 
 class ResourceManagerImpl : ResourceManager {
 
-
-
-
     data class Resource(val item: ReservableItem, var remainingQuantity: Int) {
         override fun equals(other: Any?) = item == (other as? Resource)?.item
         override fun hashCode() = item.hashCode();
@@ -16,7 +13,7 @@ class ResourceManagerImpl : ResourceManager {
     private val resourceLock = Any()
     private val customerLock = Any()
 
-    private var customerIdCounter: Long = 0L
+    private var customerIdCounter: Int = 0
 
     override fun createResource(type: ReservableType, resourceId: String, totalQuantity: Int, price: Int): Boolean {
         synchronized(resourceLock) {
@@ -65,38 +62,38 @@ class ResourceManagerImpl : ResourceManager {
         return resources.find {r -> r.item.id == resourceId} ?.remainingQuantity ?: -1
     }
 
-    override fun getUniqueCustomerId(): String {
+    override fun uniqueCustomerId(): Int {
         return generateCustomerId()
     }
 
-    override fun createCustomer(customerId: String): Boolean {
+    override fun createCustomer(customerId: Int): Boolean {
         synchronized(customerLock) {
             return customers.add(Customer(customerId))
         }
     }
 
-    override fun deleteCustomer(customerId: String): Boolean {
+    override fun deleteCustomer(customerId: Int): Boolean {
         synchronized(customerLock) {
             return customers.remove(customers.find { c -> c.customerId == customerId})
         }
     }
 
-    override fun queryCustomerInfo(customerId: String): String {
+    override fun queryCustomerInfo(customerId: Int): String {
         return customers.find { c -> c.customerId == customerId}.toString()
     }
 
-    override fun createReservation(customerId: String?, type: ReservableType?, resourceId: String?): Boolean {
+    override fun createReservation(customerId: Int, type: ReservableType?, resourceId: String?): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun itinerary(customerId: String?, resourceIds: MutableSet<String>?): Boolean {
+    override fun itinerary(customerId: Int, resourceIds: MutableSet<String>?): Boolean {
         TODO("not implemented")
     }
 
-    fun generateCustomerId(): String {
+    private fun generateCustomerId(): Int {
         synchronized(customerIdCounter) {
             customerIdCounter +=1
-            return customerIdCounter.toString()
+            return customerIdCounter
         }
     }
 

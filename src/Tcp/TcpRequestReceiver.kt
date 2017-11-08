@@ -33,10 +33,11 @@ class TcpRequestReceiver(private var rm: ResourceManager, private var socket: In
 
             try {
                 val request = mapper.readValue<RequestCommand>(json!!)
-                print("RECEIVER extracted $request")
+                println("RECEIVER extracted $request")
                 val result = request.execute(rm)
-                val storedResource = rm.queryResource("4")
-                println("stored resource is $storedResource")
+                val json = mapper.writeValueAsString(result)
+                println("RECEIVER sending $json")
+                outToServer.println(json)
 
             } catch (e: Exception) {
                 println(e)
