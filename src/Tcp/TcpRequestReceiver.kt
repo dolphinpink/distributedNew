@@ -15,33 +15,34 @@ class TcpRequestReceiver(private var rm: ResourceManager, private var socket: In
     @Throws(IOException::class)
     fun runServer() {
 
-        val serverSocket = ServerSocket(socket)
-        val clientSocket = serverSocket.accept()
-        val outToServer = PrintWriter(clientSocket.getOutputStream(), true)
-        val inFromSender = BufferedReader(InputStreamReader(clientSocket.getInputStream()))
+        Thread {
+            val serverSocket = ServerSocket(socket)
+            val clientSocket = serverSocket.accept()
+            val outToServer = PrintWriter(clientSocket.getOutputStream(), true)
+            val inFromSender = BufferedReader(InputStreamReader(clientSocket.getInputStream()))
 
-        val mapper = jacksonObjectMapper()
-        mapper.enableDefaultTyping()
+            val mapper = jacksonObjectMapper()
+            mapper.enableDefaultTyping()
 
-        println("RECEIVER $socket ready")
+            println("RECEIVER $socket ready")
 
-        var json: String? = null
-        while ({ json = inFromSender.readLine(); json }() != null) {
+            var json: String? = null
+            while ({ json = inFromSender.readLine(); json }() != null) {
 
-            println("RECEIVER received $json")
+                println("RECEIVER received $json")
 
-            try {
-                val request = mapper.readValue<RequestCommand>(json!!)
-                println("RECEIVER extracted $request")
-                val result = request.execute(rm)
-                val json = mapper.writeValueAsString(result)
-                println("RECEIVER sending $json")
-                outToServer.println(json)
+                try {
+                    val request = mapper.readValue<RequestCommand>(json!!)
+                    println("RECEIVER extracted $request")
+                    val result = request.execute(rm)
+                    val json = mapper.writeValueAsString(result)
+                    println("RECEIVER sending $json")
+                    outToServer.println(json)
 
-            } catch (e: Exception) {
-                println(e)
+                } catch (e: Exception) {
+                    println(e)
+                }
             }
-        }
-        println("RECEIVER finished")
+        }.start()
     }
 }

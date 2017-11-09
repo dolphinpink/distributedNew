@@ -23,46 +23,30 @@ object Tester {
     }
 
     fun testMiddleware() {
+
         val requestReceiverFlight = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.flightRm)
-        Thread {
-            try {
-                requestReceiverFlight.runServer()
-
-            } catch (e: IOException) {
-                println("receiver failed to start")
-            }
-
-        }.start()
+        requestReceiverFlight.runServer()
 
 
         val requestReceiverHotel = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.hotelRm)
+        requestReceiverHotel.runServer()
 
-        Thread {
-            try {
-                requestReceiverHotel.runServer()
-            } catch (e: IOException) {
-                println("receiver failed to start")
-            }
-
-        }.start()
 
         val requestReceiverCar = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.carRm)
+        requestReceiverCar.runServer()
 
-        Thread {
-            try {
-                requestReceiverCar.runServer()
-            } catch (e: IOException) {
-                println("receiver failed to start")
-            }
-
-        }.start()
-
+        Thread.sleep(500)
 
 
         val middleware = Middleware("127.0.0.1")
 
+
+
+        println("\n\n\n TEST 1")
         val response = middleware.createResource(ReservableType.FLIGHT, "fly_1", 5, 5)
         println("TESTER received response: $response")
+
+
 
 
         println("\n\n\n TEST 2")
@@ -70,13 +54,19 @@ object Tester {
         val resource1 = response2
         println("TESTER query previous resource: $response2")
 
+
+
         println("\n\n\n TEST 3")
         val response3 = middleware.queryResource("hotel_5")
         println("TESTER query nonexistant resource: $response3")
 
+
+
         println("\n\n\n TEST 4")
         val response4 = middleware.createCustomer(5)
         println("TESTER created customer: $response4")
+
+
 
         println("\n\n\n TEST 5")
         var response5: Boolean = false
@@ -84,6 +74,8 @@ object Tester {
             response5 = middleware.customerAddReservation(5, 12, resource1.item, 1)
         }
         println("TESTER response is $response5")
+
+
 
         println("\n\n\n TEST 6")
         val response6 = middleware.queryCustomer(5)?.reservations
@@ -100,7 +92,7 @@ object Tester {
         }
         val newReservations = middleware.queryCustomer(5)?.reservations
         println("TESTER customer now has $newReservations.")
-        
+
     }
 
     fun testBasics() {

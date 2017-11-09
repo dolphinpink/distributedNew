@@ -5,52 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dcc90e27-b22c-4a30-bdc4-55d020c0dfcc" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Customer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/JavaTester.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ReservableItem.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ReservableType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Reservation.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ResourceManager.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ResourceManagerImpl$Resource.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester$main$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/CreateReservationRequest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/QueryCustomerInfoRequest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/StringReply.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/ServerCode/JavaTester.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ServerCode/Customer.kt" afterPath="$PROJECT_DIR$/src/ResourceManagerCode/Customer.kt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ServerCode/ReservableItem.kt" afterPath="$PROJECT_DIR$/src/ResourceManagerCode/ReservableItem.kt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ServerCode/ReservableType.kt" afterPath="$PROJECT_DIR$/src/ResourceManagerCode/ReservableType.kt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ServerCode/Reservation.kt" afterPath="$PROJECT_DIR$/src/ResourceManagerCode/Reservation.kt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ServerCode/ResourceManager.java" afterPath="$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ResourceManagerImpl.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ResourceManagerImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/BooleanReply.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/BooleanReply.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/CreateCustomerRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/CreateCustomerRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/CreateResourceRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/CreateResourceRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/DeleteCustomerRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/DeleteCustomerRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/DeleteResourceRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/DeleteResourceRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/IntReply.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/IntReply.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/ItineraryRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/ItineraryRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/QueryResourceRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/QueryResourceRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/Reply.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/Reply.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/RequestCommand.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/RequestCommand.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/ReserveResourceRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/ReserveResourceRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestReceiver$runServer$1.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestReceiver$runServer$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestReceiver.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestReceiver.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$1$1.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$1$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$1.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$getReply$1.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$getReply$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/UniqueCustomerIdRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/UniqueCustomerIdRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/UpdateResourceRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/UpdateResourceRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DistributedNew.iml" afterPath="$PROJECT_DIR$/DistributedNew.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" afterPath="$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester$testMiddleware$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester$testMiddleware$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester$testMiddleware$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestReceiver$runServer$$inlined$readValue$1.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerCode/Tester.kt" afterPath="$PROJECT_DIR$/src/ServerCode/Tester.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tcp/Reply.kt" afterPath="$PROJECT_DIR$/src/Tcp/Reply.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tcp/RequestCommand.kt" afterPath="$PROJECT_DIR$/src/Tcp/RequestCommand.kt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt" afterPath="$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt" afterPath="$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -65,8 +25,8 @@
       <file leaf-file-name="Tester.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ServerCode/Tester.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="102" column="8" lean-forward="false" selection-start-line="102" selection-start-column="8" selection-end-line="102" selection-end-column="8" />
+            <state relative-caret-position="531">
+              <caret line="92" column="71" lean-forward="true" selection-start-line="92" selection-start-column="71" selection-end-line="92" selection-end-column="71" />
               <folding>
                 <element signature="e#20#234#0" expanded="true" />
                 <element signature="n#!!block;n#testBasics#0;n#!!block;n#Tester#0" expanded="false" />
@@ -92,6 +52,18 @@
                 <element signature="n#!!doc;n#customerRemoveReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
                 <element signature="n#!!doc;n#queryCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
                 <element signature="n#!!doc;n#itinerary#0;n#!!block;n#ResourceManager#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TcpRequestReceiver.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="765">
+              <caret line="45" column="17" lean-forward="false" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="17" />
+              <folding>
+                <element signature="e#13#317#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -266,12 +238,12 @@
         <option value="$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.java" />
         <option value="$PROJECT_DIR$/src/Tcp/Reply.kt" />
         <option value="$PROJECT_DIR$/src/ResourceManagerCode/ReservableItem.kt" />
-        <option value="$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt" />
         <option value="$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt" />
         <option value="$PROJECT_DIR$/src/ClientCode/Middleware.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" />
         <option value="$PROJECT_DIR$/src/Tcp/RequestCommand.kt" />
         <option value="$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt" />
+        <option value="$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/Tester.kt" />
       </list>
     </option>
@@ -501,7 +473,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="103267000" />
+    <option name="totallyTimeSpent" value="103589000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -961,24 +933,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="20" column="71" lean-forward="true" selection-start-line="20" selection-start-column="71" selection-end-line="20" selection-end-column="71" />
-          <folding>
-            <element signature="e#13#317#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="84" column="120" lean-forward="false" selection-start-line="84" selection-start-column="120" selection-end-line="84" selection-end-column="120" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Tcp/RequestCommand.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="419">
@@ -989,41 +943,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="142" column="133" lean-forward="false" selection-start-line="142" selection-start-column="133" selection-end-line="142" selection-end-column="133" />
-          <folding>
-            <element signature="e#646#1553#0" expanded="false" />
-            <element signature="e#1081#1537#2" expanded="false" />
-            <element signature="e#1226#1527#1" expanded="false" />
-            <element signature="e#1249#1441#0" expanded="false" />
-            <element signature="e#1463#1513#0" expanded="false" />
-            <element signature="n#!!block;n#sendRequest#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#createResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#updateResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#reserveResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#deleteResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#queryResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#createCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#customerAddReservation#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#customerRemoveReservation#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#queryCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#itinerary#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="n#!!block;n#generateRequestId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="e#5585#5634#2" expanded="false" />
-            <element signature="n#!!block;n#getReply#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-            <element signature="e#5806#5846#1" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Customer.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="18" lean-forward="false" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="84" column="120" lean-forward="false" selection-start-line="84" selection-start-column="120" selection-end-line="84" selection-end-column="120" />
           <folding />
         </state>
       </provider>
@@ -1074,10 +1005,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="142" column="133" lean-forward="false" selection-start-line="142" selection-start-column="133" selection-end-line="142" selection-end-column="133" />
+          <folding>
+            <element signature="e#646#1553#0" expanded="false" />
+            <element signature="e#1081#1537#2" expanded="false" />
+            <element signature="e#1226#1527#1" expanded="false" />
+            <element signature="e#1249#1441#0" expanded="false" />
+            <element signature="e#1463#1513#0" expanded="false" />
+            <element signature="n#!!block;n#sendRequest#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#createResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#updateResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#reserveResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#deleteResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#queryResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#createCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#customerAddReservation#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#customerRemoveReservation#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#queryCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#itinerary#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#generateRequestId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="e#5585#5634#2" expanded="false" />
+            <element signature="n#!!block;n#getReply#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="e#5806#5846#1" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="45" column="17" lean-forward="false" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="17" />
+          <folding>
+            <element signature="e#13#317#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerCode/Tester.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="102" column="8" lean-forward="false" selection-start-line="102" selection-start-column="8" selection-end-line="102" selection-end-column="8" />
+        <state relative-caret-position="531">
+          <caret line="92" column="71" lean-forward="true" selection-start-line="92" selection-start-column="71" selection-end-line="92" selection-end-column="71" />
           <folding>
             <element signature="e#20#234#0" expanded="true" />
             <element signature="n#!!block;n#testBasics#0;n#!!block;n#Tester#0" expanded="false" />
