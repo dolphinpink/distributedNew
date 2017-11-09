@@ -1,7 +1,6 @@
 package Tcp
 
-import ServerCode.ResourceManager
-import ServerCode.ResourceManagerImpl
+import ResourceManagerCode.ResourceManager
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.BufferedReader
@@ -24,7 +23,7 @@ class TcpRequestReceiver(private var rm: ResourceManager, private var socket: In
         val mapper = jacksonObjectMapper()
         mapper.enableDefaultTyping()
 
-        println("RECEIVER ready")
+        println("RECEIVER $socket ready")
 
         var json: String? = null
         while ({ json = inFromSender.readLine(); json }() != null) {

@@ -1,10 +1,12 @@
 package ServerCode
 
+import ClientCode.Middleware
+import ResourceManagerCode.ReservableType
+import ResourceManagerCode.Resource
+import Tcp.PortNumbers
 import Tcp.TcpRequestReceiver
 import Tcp.TcpRequestSender
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.io.IOException
-import java.net.InetAddress
 
 
 object Tester {
@@ -14,24 +16,112 @@ object Tester {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        /*println("try creating customer")
-        tester.createCustomer(tester.uniqueCustomerId)
+        //testBasics()
+
+        testMiddleware()
+
+    }
+
+    fun testMiddleware() {
+        val requestReceiverFlight = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.flightRm)
+        Thread {
+            try {
+                requestReceiverFlight.runServer()
+
+            } catch (e: IOException) {
+                println("receiver failed to start")
+            }
+
+        }.start()
+
+
+        val requestReceiverHotel = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.hotelRm)
+
+        Thread {
+            try {
+                requestReceiverHotel.runServer()
+            } catch (e: IOException) {
+                println("receiver failed to start")
+            }
+
+        }.start()
+
+        val requestReceiverCar = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.carRm)
+
+        Thread {
+            try {
+                requestReceiverCar.runServer()
+            } catch (e: IOException) {
+                println("receiver failed to start")
+            }
+
+        }.start()
+
+
+
+        val middleware = Middleware("127.0.0.1")
+
+        val response = middleware.createResource(ReservableType.FLIGHT, "fly_1", 5, 5)
+        println("TESTER received response: $response")
+
+
+        println("\n\n\n TEST 2")
+        val response2 = middleware.queryResource("fly_1")
+        val resource1 = response2
+        println("TESTER query previous resource: $response2")
+
+        println("\n\n\n TEST 3")
+        val response3 = middleware.queryResource("hotel_5")
+        println("TESTER query nonexistant resource: $response3")
+
+        println("\n\n\n TEST 4")
+        val response4 = middleware.createCustomer(5)
+        println("TESTER created customer: $response4")
+
+        println("\n\n\n TEST 5")
+        var response5: Boolean = false
+        if (resource1 != null) {
+            response5 = middleware.customerAddReservation(5, 12, resource1.item, 1)
+        }
+        println("TESTER response is $response5")
+
+        println("\n\n\n TEST 6")
+        val response6 = middleware.queryCustomer(5)?.reservations
+        println("TESTER customer now has $response6.")
+
+
+
+        println("\n\n\n TEST 7 itinerary")
+        middleware.createResource(ReservableType.CAR, "car_1", 10, 1)
+
+        val resource2 = middleware.queryResource("car_1")
+        if (resource1 != null && resource2 != null) {
+            middleware.itinerary(5, mutableMapOf(1 to resource1.item, 2 to resource2.item))
+        }
+        val newReservations = middleware.queryCustomer(5)?.reservations
+        println("TESTER customer now has $newReservations.")
+        
+    }
+
+    fun testBasics() {
+        println("try creating customer")
+        tester.createCustomer(tester.uniqueCustomerId())
         pp()
 
         println("try creating two customers with same id")
-        println(tester.createCustomer("1"))
+        println(tester.createCustomer(1))
         pp()
 
         println("try creating second customer")
-        tester.createCustomer(tester.uniqueCustomerId)
+        tester.createCustomer(tester.uniqueCustomerId())
         pp()
 
         println("try deleting valid customer 1")
-        tester.deleteCustomer("1")
+        tester.deleteCustomer(1)
         pp()
 
         println("try deleting invalid customer 5 ")
-        tester.deleteCustomer("5")
+        tester.deleteCustomer(5)
         pp()
 
         println("create flight 5")
@@ -53,40 +143,6 @@ object Tester {
         println("delete resource")
         tester.deleteResource("5")
         pp()
-
-        val mapper = jacksonObjectMapper()
-
-        val json = mapper.writeValueAsString(ReservableItem(ReservableType.CAR, "10", 20, 500))
-
-        try {
-            val state = mapper.readValue<ReservableItem>(json)
-            print("extracted $state")
-        } catch (e: Exception) {
-            println(e)
-        }
-        */
-        val requestReceiver = TcpRequestReceiver(ResourceManagerImpl(), 8080)
-
-        Thread {
-            try {
-                requestReceiver.runServer()
-            } catch (e: IOException) {
-                println("receiver failed to start")
-            }
-
-        }.start()
-
-        val sender = TcpRequestSender(8080, "127.0.0.1")
-        val response = sender.createResource(ReservableType.FLIGHT, "4", 5, 5)
-        println("TESTER received response: $response")
-
-        val response2 = sender.queryResource("4")
-        println("TESTER query previous resource: $response2")
-
-        val response3 = sender.queryResource("10190")
-        println("TESTER query nonexistant resource: $response3")
-
-
     }
 
     fun pp() {

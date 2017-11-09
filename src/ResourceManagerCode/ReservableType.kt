@@ -1,4 +1,4 @@
-package ServerCode
+package ResourceManagerCode
 
 enum class ReservableType {
 

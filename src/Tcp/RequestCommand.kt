@@ -1,7 +1,8 @@
 package Tcp
 
-import ServerCode.ReservableType
-import ServerCode.ResourceManager
+import ResourceManagerCode.ReservableItem
+import ResourceManagerCode.ReservableType
+import ResourceManagerCode.ResourceManager
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 
@@ -21,8 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
         JsonSubTypes.Type(value = UniqueCustomerIdRequest::class, name = "UniqueCustomerIdRequest"),
         JsonSubTypes.Type(value = CreateCustomerRequest::class, name = "CreateCustomerRequest"),
         JsonSubTypes.Type(value = DeleteCustomerRequest::class, name = "DeleteCustomerRequest"),
-        JsonSubTypes.Type(value = QueryCustomerInfoRequest::class, name = "QueryCustomerInfoRequest"),
-        JsonSubTypes.Type(value = CreateReservationRequest::class, name = "CreateReservationRequest"),
+        JsonSubTypes.Type(value = CustomerAddReservationRequest::class, name = "CustomerAddReservationRequest"),
+        JsonSubTypes.Type(value = CustomerRemoveReservationRequest::class, name = "CustomerRemoveReservationRequest"),
+        JsonSubTypes.Type(value = QueryCustomerRequest::class, name = "QueryCustomerRequest"),
         JsonSubTypes.Type(value = ItineraryRequest::class, name = "ItineraryRequest"))
 abstract class RequestCommand(val requestId: Int) {
     abstract fun execute(rm: ResourceManager): Reply
@@ -54,7 +56,7 @@ class DeleteResourceRequest(requestId: Int, val resourceId: String): RequestComm
 
 class QueryResourceRequest(requestId: Int, val resourceId: String): RequestCommand(requestId){
     override fun execute(rm: ResourceManager): Reply {
-        return IntReply(requestId, rm.queryResource(resourceId))
+        return ResourceReply(requestId, rm.queryResource(resourceId))
     }
 }
 
@@ -76,20 +78,26 @@ class DeleteCustomerRequest(requestId: Int, val customerId: Int): RequestCommand
     }
 }
 
-class QueryCustomerInfoRequest(requestId: Int, val customerId: Int): RequestCommand(requestId){
+class CustomerAddReservationRequest(requestId: Int, val customerId: Int, val reservationId: Int, val reservableItem: ReservableItem, val quantity: Int): RequestCommand(requestId){
     override fun execute(rm: ResourceManager): Reply {
-        return StringReply(requestId, rm.queryCustomerInfo(customerId))
+        return BooleanReply(requestId, rm.customerAddReservation(customerId, reservationId, reservableItem, quantity))
     }
 }
 
-class CreateReservationRequest(requestId: Int, val customerId: Int, val type: ReservableType, val resourceId: String): RequestCommand(requestId){
+class CustomerRemoveReservationRequest(requestId: Int, val customerId: Int, val reservationId: Int): RequestCommand(requestId){
     override fun execute(rm: ResourceManager): Reply {
-        return BooleanReply(requestId, rm.createReservation(customerId, type, resourceId))
+        return BooleanReply(requestId, rm.customerRemoveReservation(customerId, reservationId))
     }
 }
 
-class ItineraryRequest(requestId: Int, val customerId: Int, val resourceIds: Set<String>): RequestCommand(requestId){
+class QueryCustomerRequest(requestId: Int, val customerId: Int): RequestCommand(requestId){
     override fun execute(rm: ResourceManager): Reply {
-        return BooleanReply(requestId, rm.itinerary(customerId, resourceIds))
+        return CustomerReply(requestId, rm.queryCustomer(customerId))
+    }
+}
+
+class ItineraryRequest(requestId: Int, val customerId: Int, val reservationResources: MutableMap<Int, ReservableItem>): RequestCommand(requestId){
+    override fun execute(rm: ResourceManager): Reply {
+        return BooleanReply(requestId, rm.itinerary(customerId, reservationResources))
     }
 }

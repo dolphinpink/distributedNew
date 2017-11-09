@@ -1,4 +1,4 @@
-package ServerCode
+package ResourceManagerCode
 
 // val is immutable, var is mutable
 data class ReservableItem(val type: ReservableType,

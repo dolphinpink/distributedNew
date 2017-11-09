@@ -1,4 +1,4 @@
-package ServerCode
+package ResourceManagerCode
 
 data class Customer(val customerId: Int) {
 
@@ -6,7 +6,7 @@ data class Customer(val customerId: Int) {
 
     override fun hashCode() = customerId.hashCode()
 
-    private val reservations: MutableSet<Reservation> = mutableSetOf()
+    val reservations: MutableSet<Reservation> = mutableSetOf()
 
     private val lock = Any()
 
@@ -14,7 +14,7 @@ data class Customer(val customerId: Int) {
         return synchronized(lock) {reservations.add(reservation)}
     }
 
-    fun removeReservation(reservationId: String): Boolean {
+    fun removeReservation(reservationId: Int): Boolean {
         return synchronized(lock) {reservations.remove(reservations.find {r -> r.reservationId == reservationId })}
     }
 }

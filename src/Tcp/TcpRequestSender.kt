@@ -1,7 +1,6 @@
 package Tcp
 
-
-import ServerCode.*
+import ResourceManagerCode.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -12,7 +11,6 @@ import java.net.Socket
 
 
 class TcpRequestSender(val portNum: Int, val serverName: String): ResourceManager {
-
 
     private val outToServer: PrintWriter
     private val inFromServer: BufferedReader
@@ -49,8 +47,6 @@ class TcpRequestSender(val portNum: Int, val serverName: String): ResourceManage
 
 
     }
-
-    private var customerIdGenerator: Int = 0
 
     fun sendRequest(request: RequestCommand): Reply {
 
@@ -107,11 +103,11 @@ class TcpRequestSender(val portNum: Int, val serverName: String): ResourceManage
 
     }
 
-    override fun queryResource(resourceId: String): Int {
+    override fun queryResource(resourceId: String): Resource? {
 
         val reply = sendRequest(QueryResourceRequest(generateRequestId(), resourceId))
 
-        if (reply !is IntReply)
+        if (reply !is ResourceReply)
             throw Exception("SENDER Remote failed")
 
         return reply.value
@@ -144,27 +140,36 @@ class TcpRequestSender(val portNum: Int, val serverName: String): ResourceManage
         return reply.value
     }
 
-    override fun queryCustomerInfo(customerId: Int): String {
-        val reply = sendRequest(QueryCustomerInfoRequest(generateRequestId(), customerId))
+    override fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem, quantity: Int): Boolean {
+        val reply = sendRequest(CustomerAddReservationRequest(generateRequestId(), customerId, reservationId, reservableItem, quantity))
 
-        if (reply !is StringReply)
+        if (reply !is BooleanReply)
             throw Exception("SENDER Remote failed")
 
         return reply.value
     }
 
-    override fun createReservation(customerId: Int, type: ReservableType, resourceId: String): Boolean {
-            val reply = sendRequest(CreateReservationRequest(generateRequestId(), customerId, type, resourceId))
+    override fun customerRemoveReservation(customerId: Int, reservationId: Int): Boolean {
+        val reply = sendRequest(CustomerRemoveReservationRequest(generateRequestId(), customerId, reservationId))
 
-            if (reply !is BooleanReply)
-                throw Exception("SENDER Remote failed")
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
 
-            return reply.value
+        return reply.value
     }
 
-    override fun itinerary(customerId: Int, resourceIds: MutableSet<String>): Boolean {
+    override fun queryCustomer(customerId: Int): Customer? {
+        val reply = sendRequest(QueryCustomerRequest(generateRequestId(), customerId))
 
-        val reply = sendRequest(ItineraryRequest(generateRequestId(), customerId, resourceIds))
+        if (reply !is CustomerReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
+    }
+
+    override fun itinerary(customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean {
+
+        val reply = sendRequest(ItineraryRequest(generateRequestId(), customerId, reservationResources))
 
         if (reply !is BooleanReply)
             throw Exception("SENDER Remote failed")

@@ -1,11 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" line="29" />
+    <bookmark url="file://$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" line="26" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dcc90e27-b22c-4a30-bdc4-55d020c0dfcc" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Customer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/JavaTester.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ReservableItem.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ReservableType.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Reservation.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ResourceManager.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ResourceManagerImpl$Resource.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester$main$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/CreateReservationRequest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/QueryCustomerInfoRequest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/StringReply.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/ServerCode/JavaTester.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ServerCode/Customer.kt" afterPath="$PROJECT_DIR$/src/ResourceManagerCode/Customer.kt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ServerCode/ReservableItem.kt" afterPath="$PROJECT_DIR$/src/ResourceManagerCode/ReservableItem.kt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ServerCode/ReservableType.kt" afterPath="$PROJECT_DIR$/src/ResourceManagerCode/ReservableType.kt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ServerCode/Reservation.kt" afterPath="$PROJECT_DIR$/src/ResourceManagerCode/Reservation.kt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ServerCode/ResourceManager.java" afterPath="$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ResourceManagerImpl.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/ResourceManagerImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/BooleanReply.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/BooleanReply.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/CreateCustomerRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/CreateCustomerRequest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/CreateResourceRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/CreateResourceRequest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/DeleteCustomerRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/DeleteCustomerRequest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/DeleteResourceRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/DeleteResourceRequest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/IntReply.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/IntReply.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/ItineraryRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/ItineraryRequest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/QueryResourceRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/QueryResourceRequest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/Reply.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/Reply.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/RequestCommand.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/RequestCommand.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/ReserveResourceRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/ReserveResourceRequest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestReceiver$runServer$1.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestReceiver$runServer$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestReceiver.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestReceiver.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$1$1.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$1$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$1.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$getReply$1.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender$getReply$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/TcpRequestSender.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/UniqueCustomerIdRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/UniqueCustomerIdRequest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/UpdateResourceRequest.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/Tcp/UpdateResourceRequest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DistributedNew.iml" afterPath="$PROJECT_DIR$/DistributedNew.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" afterPath="$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerCode/Tester.kt" afterPath="$PROJECT_DIR$/src/ServerCode/Tester.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tcp/Reply.kt" afterPath="$PROJECT_DIR$/src/Tcp/Reply.kt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tcp/RequestCommand.kt" afterPath="$PROJECT_DIR$/src/Tcp/RequestCommand.kt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt" afterPath="$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt" afterPath="$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt" />
@@ -19,43 +61,65 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file leaf-file-name="Tester.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ServerCode/Tester.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+            <state relative-caret-position="555">
+              <caret line="102" column="8" lean-forward="false" selection-start-line="102" selection-start-column="8" selection-end-line="102" selection-end-column="8" />
               <folding>
-                <element signature="e#20#195#0" expanded="true" />
+                <element signature="e#20#234#0" expanded="true" />
+                <element signature="n#!!block;n#testBasics#0;n#!!block;n#Tester#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TcpRequestSender.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt">
+      <file leaf-file-name="ResourceManager.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="71" column="73" lean-forward="false" selection-start-line="71" selection-start-column="73" selection-end-line="71" selection-end-column="73" />
+            <state relative-caret-position="249">
+              <caret line="89" column="22" lean-forward="false" selection-start-line="89" selection-start-column="22" selection-end-line="89" selection-end-column="22" />
               <folding>
-                <element signature="e#14#313#0" expanded="true" />
-                <element signature="e#639#1546#0" expanded="false" />
-                <marker date="1510128943645" expanded="false" signature="3714:3926" ph="{...}" />
-                <marker date="1510128943645" expanded="false" signature="3986:4198" ph="{...}" />
-                <marker date="1510128943645" expanded="false" signature="4579:4828" ph="{...}" />
-                <marker date="1510128943645" expanded="false" signature="4916:5138" ph="{...}" />
+                <element signature="n#!!doc;n#createResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#updateResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#reserveResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#deleteResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#queryResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#uniqueCustomerId#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#createCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#deleteCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#customerRemoveReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#queryCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#itinerary#0;n#!!block;n#ResourceManager#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TcpRequestReceiver.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt">
+      <file leaf-file-name="Middleware.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ClientCode/Middleware.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
-              <caret line="36" column="48" lean-forward="false" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
+            <state relative-caret-position="300">
+              <caret line="109" column="84" lean-forward="false" selection-start-line="109" selection-start-column="84" selection-end-line="109" selection-end-column="84" />
               <folding>
-                <element signature="e#13#346#0" expanded="true" />
+                <element signature="n#!!block;n#getRm#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="n#!!block;n#createResource#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="n#!!block;n#updateResource#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="n#!!block;n#reserveResource#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="n#!!block;n#deleteResource#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="e#1827#1906#1" expanded="false" />
+                <element signature="n#!!block;n#queryResource#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="n#!!block;n#createCustomer#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="e#2275#2341#2" expanded="false" />
+                <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="e#2444#2542#2" expanded="false" />
+                <element signature="n#!!block;n#queryCustomer#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="e#3250#3404#1" expanded="false" />
+                <element signature="n#!!block;n#customerRemoveReservation#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="n#!!block;n#generateCustomerId#0;n#!!block;n#Middleware#0" expanded="false" />
+                <element signature="e#4840#4922#2" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -64,55 +128,19 @@
       <file leaf-file-name="ResourceManagerImpl.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="68" column="57" lean-forward="true" selection-start-line="68" selection-start-column="57" selection-end-line="68" selection-end-column="57" />
-              <folding>
-                <element signature="n#!!block;n#Resource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <element signature="n#!!block;n#createResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <element signature="n#!!block;n#updateResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <element signature="n#!!block;n#reserveResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <element signature="n#!!block;n#deleteResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <element signature="n#!!block;n#queryResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <element signature="n#!!block;n#createCustomer#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <element signature="n#!!block;n#queryCustomerInfo#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <element signature="n#!!block;n#createReservation#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <element signature="n#!!block;n#itinerary#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-                <marker date="1510108072996" expanded="false" signature="3329:3459" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Customer.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ServerCode/Customer.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+            <state relative-caret-position="368">
+              <caret line="84" column="120" lean-forward="false" selection-start-line="84" selection-start-column="120" selection-end-line="84" selection-end-column="120" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ResourceManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManager.java">
+      <file leaf-file-name="Customer.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Customer.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="799">
-              <caret line="111" column="32" lean-forward="false" selection-start-line="111" selection-start-column="32" selection-end-line="111" selection-end-column="32" />
-              <folding>
-                <element signature="docComment;method#createResource#0;class#ResourceManager#0" expanded="false" />
-                <element signature="docComment;method#updateResource#0;class#ResourceManager#0" expanded="false" />
-                <element signature="docComment;method#reserveResource#0;class#ResourceManager#0" expanded="false" />
-                <element signature="docComment;method#deleteResource#0;class#ResourceManager#0" expanded="false" />
-                <element signature="docComment;method#queryResource#0;class#ResourceManager#0" expanded="false" />
-                <element signature="docComment;method#uniqueCustomerId#0;class#ResourceManager#0" expanded="false" />
-                <element signature="docComment;method#createCustomer#0;class#ResourceManager#0" expanded="false" />
-                <element signature="docComment;method#deleteCustomer#0;class#ResourceManager#0" expanded="false" />
-                <element signature="docComment;method#queryCustomerInfo#0;class#ResourceManager#0" expanded="false" />
-                <element signature="docComment;method#createReservation#0;class#ResourceManager#0" expanded="false" />
-                <element signature="docComment;method#itinerary#0;class#ResourceManager#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="136">
+              <caret line="8" column="18" lean-forward="false" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -120,23 +148,43 @@
       <file leaf-file-name="RequestCommand.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Tcp/RequestCommand.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="833">
-              <caret line="49" column="54" lean-forward="true" selection-start-line="49" selection-start-column="54" selection-end-line="49" selection-end-column="54" />
+            <state relative-caret-position="419">
+              <caret line="80" column="150" lean-forward="false" selection-start-line="80" selection-start-column="150" selection-end-line="80" selection-end-column="150" />
               <folding>
-                <element signature="e#13#185#0" expanded="true" />
-                <element signature="n#!!block;n#ItineraryRequest#0" expanded="false" />
+                <element signature="e#13#245#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Reply.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Tcp/Reply.kt">
+      <file leaf-file-name="TcpRequestSender.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="70" lean-forward="true" selection-start-line="19" selection-start-column="70" selection-end-line="19" selection-end-column="70" />
+            <state relative-caret-position="595">
+              <caret line="142" column="133" lean-forward="false" selection-start-line="142" selection-start-column="133" selection-end-line="142" selection-end-column="133" />
               <folding>
-                <element signature="e#13#118#0" expanded="true" />
+                <element signature="e#646#1553#0" expanded="false" />
+                <element signature="e#1081#1537#2" expanded="false" />
+                <element signature="e#1226#1527#1" expanded="false" />
+                <element signature="e#1249#1441#0" expanded="false" />
+                <element signature="e#1463#1513#0" expanded="false" />
+                <element signature="n#!!block;n#sendRequest#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#createResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#updateResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#reserveResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#deleteResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#queryResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#createCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#customerAddReservation#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#customerRemoveReservation#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#queryCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#itinerary#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="n#!!block;n#generateRequestId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="e#5585#5634#2" expanded="false" />
+                <element signature="n#!!block;n#getReply#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+                <element signature="e#5806#5846#1" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -148,8 +196,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Enum" />
-        <option value="Kotlin File" />
         <option value="Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -164,6 +212,7 @@
       <find>val requestId</find>
       <find>customerId: String</find>
       <find>private</find>
+      <find>Resource.Resource</find>
     </findStrings>
     <replaceStrings>
       <replace>resourceId</replace>
@@ -174,7 +223,11 @@
       <replace>val requestId</replace>
       <replace>requestId</replace>
       <replace>customerId: Int</replace>
+      <replace>Resource</replace>
     </replaceStrings>
+    <dirStrings>
+      <dir>C:\Users\Yiwei Xia\IdeaProjects\DistributedNew\src</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -192,7 +245,6 @@
         <option value="$PROJECT_DIR$/src/ServerCode/RerservableType.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/ReservableType.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/ResourceManagerTCP.java" />
-        <option value="$PROJECT_DIR$/src/ServerCode/ReservableItem.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/ResourceManagerTCP.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/Tester.java" />
         <option value="$PROJECT_DIR$/src/ServerCode/TcpRequestHandler.java" />
@@ -203,14 +255,23 @@
         <option value="$PROJECT_DIR$/src/ServerCode/EndResourceManager.kt" />
         <option value="$PROJECT_DIR$/src/Tcp/RequestExecutor.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/JavaTester.java" />
+        <option value="$PROJECT_DIR$/src/ServerCode/Customer.kt" />
+        <option value="$PROJECT_DIR$/src/ServerCode/ReservableItem.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/Reservation.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/ResourceManager.java" />
-        <option value="$PROJECT_DIR$/src/ServerCode/Customer.kt" />
-        <option value="$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" />
+        <option value="$PROJECT_DIR$/src/ResourceManagerCode/Reservation.kt" />
+        <option value="$PROJECT_DIR$/src/Tcp/PortNumbers.kt" />
+        <option value="$PROJECT_DIR$/src/ResourceManagerCode/Customer.kt" />
+        <option value="$PROJECT_DIR$/src/ResourceManagerCode/Resource.kt" />
+        <option value="$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.java" />
         <option value="$PROJECT_DIR$/src/Tcp/Reply.kt" />
+        <option value="$PROJECT_DIR$/src/ResourceManagerCode/ReservableItem.kt" />
+        <option value="$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt" />
+        <option value="$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt" />
+        <option value="$PROJECT_DIR$/src/ClientCode/Middleware.kt" />
+        <option value="$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" />
         <option value="$PROJECT_DIR$/src/Tcp/RequestCommand.kt" />
         <option value="$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt" />
-        <option value="$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/Tester.kt" />
       </list>
     </option>
@@ -222,9 +283,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="77" />
-    <option name="y" value="-23" />
-    <option name="width" value="1140" />
+    <option name="x" value="-7" />
+    <option name="width" value="974" />
     <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -255,6 +315,18 @@
               <item name="DistributedNew" type="b2602c69:ProjectViewProjectNode" />
               <item name="DistributedNew" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DistributedNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DistributedNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="ClientCode" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DistributedNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DistributedNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="ResourceManagerCode" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="DistributedNew" type="b2602c69:ProjectViewProjectNode" />
@@ -292,6 +364,9 @@
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="ServerCode" />
       <recent name="Tcp" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Yiwei Xia\IdeaProjects\DistributedNew\src\ResourceManagerCode" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -426,7 +501,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77539000" />
+    <option name="totallyTimeSpent" value="103267000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -445,7 +520,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1734375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1328125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873806" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -453,7 +528,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997879" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -484,8 +559,8 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.252386" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1734375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34739584" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873806" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
@@ -498,52 +573,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/Tcp/RequestCommand.kt</url>
-          <line>31</line>
-          <properties />
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt</url>
-          <line>88</line>
-          <properties />
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="7" />
+      <option name="time" value="19" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableItem.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="4" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/RerservableType.kt" />
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Car.kt" />
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableType.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt" />
-    <entry file="file://$PROJECT_DIR$/src/ClientCode/ClientCli.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerCode/JavaTester.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -552,7 +586,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Reservation.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Reservation.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
@@ -560,7 +594,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableItem.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ReservableItem.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
@@ -573,7 +607,7 @@
         <state relative-caret-position="1598">
           <caret line="94" column="1" lean-forward="true" selection-start-line="94" selection-start-column="1" selection-end-line="94" selection-end-column="1" />
           <folding>
-            <element signature="e#20#195#0" expanded="true" />
+            <element signature="e#20#234#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -582,25 +616,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
           <caret line="68" column="57" lean-forward="true" selection-start-line="68" selection-start-column="57" selection-end-line="68" selection-end-column="57" />
-          <folding>
-            <element signature="n#!!block;n#Resource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#createResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#updateResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#reserveResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#deleteResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#queryResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#createCustomer#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#queryCustomerInfo#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#createReservation#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#itinerary#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <marker date="1510108072996" expanded="false" signature="3329:3459" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Customer.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Customer.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
@@ -613,27 +633,27 @@
         <state relative-caret-position="657">
           <caret line="41" column="40" lean-forward="false" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
           <folding>
-            <element signature="e#13#346#0" expanded="true" />
+            <element signature="e#13#317#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManager.java">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="799">
           <caret line="111" column="32" lean-forward="false" selection-start-line="111" selection-start-column="32" selection-end-line="111" selection-end-column="32" />
           <folding>
-            <element signature="docComment;method#createResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#updateResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#reserveResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#deleteResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#queryResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#uniqueCustomerId#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#createCustomer#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#deleteCustomer#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#queryCustomerInfo#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#createReservation#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#itinerary#0;class#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#createResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#updateResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#reserveResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#deleteResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#queryResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#uniqueCustomerId#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#createCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#deleteCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#customerRemoveReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#queryCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#itinerary#0;n#!!block;n#ResourceManager#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -643,7 +663,7 @@
         <state relative-caret-position="323">
           <caret line="19" column="70" lean-forward="true" selection-start-line="19" selection-start-column="70" selection-end-line="19" selection-end-column="70" />
           <folding>
-            <element signature="e#13#118#0" expanded="true" />
+            <element signature="e#13#190#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -653,8 +673,7 @@
         <state relative-caret-position="340">
           <caret line="21" column="186" lean-forward="true" selection-start-line="21" selection-start-column="186" selection-end-line="21" selection-end-column="186" />
           <folding>
-            <element signature="e#13#185#0" expanded="true" />
-            <element signature="n#!!block;n#ItineraryRequest#0" expanded="false" />
+            <element signature="e#13#245#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -664,12 +683,28 @@
         <state relative-caret-position="756">
           <caret line="128" column="8" lean-forward="false" selection-start-line="128" selection-start-column="8" selection-end-line="128" selection-end-column="8" />
           <folding>
-            <element signature="e#14#313#0" expanded="true" />
-            <element signature="e#639#1546#0" expanded="false" />
-            <marker date="1510128943645" expanded="false" signature="3714:3926" ph="{...}" />
-            <marker date="1510128943645" expanded="false" signature="3986:4198" ph="{...}" />
-            <marker date="1510128943645" expanded="false" signature="4579:4828" ph="{...}" />
-            <marker date="1510128943645" expanded="false" signature="4916:5138" ph="{...}" />
+            <element signature="e#646#1553#0" expanded="false" />
+            <element signature="e#1081#1537#2" expanded="false" />
+            <element signature="e#1226#1527#1" expanded="false" />
+            <element signature="e#1249#1441#0" expanded="false" />
+            <element signature="e#1463#1513#0" expanded="false" />
+            <element signature="n#!!block;n#sendRequest#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#createResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#updateResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#reserveResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#deleteResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#queryResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#createCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#customerAddReservation#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#customerRemoveReservation#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#queryCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#itinerary#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#generateRequestId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="e#5585#5634#2" expanded="false" />
+            <element signature="n#!!block;n#getReply#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="e#5806#5846#1" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -679,27 +714,27 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#20#195#0" expanded="true" />
+            <element signature="e#20#234#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManager.java">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="23" lean-forward="false" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
           <folding>
-            <element signature="docComment;method#createResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#updateResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#reserveResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#deleteResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#queryResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#uniqueCustomerId#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#createCustomer#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#deleteCustomer#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#queryCustomerInfo#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#createReservation#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#itinerary#0;class#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#createResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#updateResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#reserveResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#deleteResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#queryResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#uniqueCustomerId#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#createCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#deleteCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#customerRemoveReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#queryCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#itinerary#0;n#!!block;n#ResourceManager#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -709,7 +744,7 @@
         <state relative-caret-position="697">
           <caret line="41" column="9" lean-forward="false" selection-start-line="41" selection-start-column="9" selection-end-line="41" selection-end-column="9" />
           <folding>
-            <element signature="e#13#346#0" expanded="true" />
+            <element signature="e#13#317#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -718,25 +753,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1139">
           <caret line="67" column="9" lean-forward="false" selection-start-line="67" selection-start-column="9" selection-end-line="67" selection-end-column="9" />
-          <folding>
-            <element signature="n#!!block;n#Resource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#createResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#updateResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#reserveResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#deleteResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#queryResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#createCustomer#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#queryCustomerInfo#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#createReservation#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#itinerary#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <marker date="1510108072996" expanded="false" signature="3329:3459" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Customer.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Customer.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
@@ -744,14 +765,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Reservation.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Reservation.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="54" lean-forward="false" selection-start-line="11" selection-start-column="54" selection-end-line="11" selection-end-column="54" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableItem.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ReservableItem.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
@@ -759,7 +781,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Customer.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Customer.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="13" selection-end-column="17" />
@@ -767,14 +789,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableType.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ReservableType.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="18" lean-forward="true" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableItem.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ReservableItem.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="41" lean-forward="true" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
@@ -782,14 +805,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Reservation.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Reservation.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="52" lean-forward="true" selection-start-line="7" selection-start-column="52" selection-end-line="7" selection-end-column="52" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Customer.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Customer.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" column="9" lean-forward="false" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
@@ -797,21 +821,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableType.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Reservation.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="39" lean-forward="true" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableItem.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ReservableType.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
@@ -819,7 +829,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableItem.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Reservation.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="39" lean-forward="true" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ReservableItem.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ReservableItem.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -827,14 +853,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableType.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ReservableType.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableItem.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ReservableItem.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="4" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
@@ -844,13 +871,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerCode/RerservableType.kt" />
     <entry file="file://$PROJECT_DIR$/src/ServerCode/Car.kt" />
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableType.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt" />
     <entry file="file://$PROJECT_DIR$/src/ClientCode/ClientCli.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -859,131 +879,208 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Middleware/Middleware.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerCode/JavaTester.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="6" column="8" lean-forward="false" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Reservation.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ReservableType.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ReservableItem.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <caret line="6" column="7" lean-forward="true" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Reservation.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="68" column="57" lean-forward="true" selection-start-line="68" selection-start-column="57" selection-end-line="68" selection-end-column="57" />
-          <folding>
-            <element signature="n#!!block;n#Resource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#createResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#updateResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#reserveResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#deleteResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#queryResource#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#createCustomer#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#queryCustomerInfo#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#createReservation#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <element signature="n#!!block;n#itinerary#0;n#!!block;n#ResourceManagerImpl#0" expanded="false" />
-            <marker date="1510108072996" expanded="false" signature="3329:3459" ph="{...}" />
-          </folding>
+        <state relative-caret-position="34">
+          <caret line="2" column="45" lean-forward="false" selection-start-line="2" selection-start-column="45" selection-end-line="2" selection-end-column="45" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Customer.kt">
+    <entry file="file://$PROJECT_DIR$/out/production/DistributedNew/ResourceManagerCode/Reservation.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        <state relative-caret-position="85">
+          <caret line="5" column="24" lean-forward="false" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/out/production/DistributedNew/ResourceManagerCode/Resource.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tcp/Reply.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="70" lean-forward="true" selection-start-line="19" selection-start-column="70" selection-end-line="19" selection-end-column="70" />
+        <state relative-caret-position="408">
+          <caret line="24" column="56" lean-forward="false" selection-start-line="24" selection-start-column="56" selection-end-line="24" selection-end-column="56" />
           <folding>
-            <element signature="e#13#118#0" expanded="true" />
+            <element signature="e#13#190#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tcp/RequestCommand.kt">
+    <entry file="file://$PROJECT_DIR$/src/Tcp/PortNumbers.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="49" column="54" lean-forward="true" selection-start-line="49" selection-start-column="54" selection-end-line="49" selection-end-column="54" />
-          <folding>
-            <element signature="e#13#185#0" expanded="true" />
-            <element signature="n#!!block;n#ItineraryRequest#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="136">
+          <caret line="8" column="24" lean-forward="true" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManager.java">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Resource.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="111" column="32" lean-forward="false" selection-start-line="111" selection-start-column="32" selection-end-line="111" selection-end-column="32" />
-          <folding>
-            <element signature="docComment;method#createResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#updateResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#reserveResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#deleteResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#queryResource#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#uniqueCustomerId#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#createCustomer#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#deleteCustomer#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#queryCustomerInfo#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#createReservation#0;class#ResourceManager#0" expanded="false" />
-            <element signature="docComment;method#itinerary#0;class#ResourceManager#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="85">
+          <caret line="5" column="1" lean-forward="true" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ReservableItem.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="36" column="48" lean-forward="false" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
+        <state relative-caret-position="289">
+          <caret line="20" column="71" lean-forward="true" selection-start-line="20" selection-start-column="71" selection-end-line="20" selection-end-column="71" />
           <folding>
-            <element signature="e#13#346#0" expanded="true" />
+            <element signature="e#13#317#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="84" column="120" lean-forward="false" selection-start-line="84" selection-start-column="120" selection-end-line="84" selection-end-column="120" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Tcp/RequestCommand.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="80" column="150" lean-forward="false" selection-start-line="80" selection-start-column="150" selection-end-line="80" selection-end-column="150" />
+          <folding>
+            <element signature="e#13#245#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="71" column="73" lean-forward="false" selection-start-line="71" selection-start-column="73" selection-end-line="71" selection-end-column="73" />
+        <state relative-caret-position="595">
+          <caret line="142" column="133" lean-forward="false" selection-start-line="142" selection-start-column="133" selection-end-line="142" selection-end-column="133" />
           <folding>
-            <element signature="e#14#313#0" expanded="true" />
-            <element signature="e#639#1546#0" expanded="false" />
-            <marker date="1510128943645" expanded="false" signature="3714:3926" ph="{...}" />
-            <marker date="1510128943645" expanded="false" signature="3986:4198" ph="{...}" />
-            <marker date="1510128943645" expanded="false" signature="4579:4828" ph="{...}" />
-            <marker date="1510128943645" expanded="false" signature="4916:5138" ph="{...}" />
+            <element signature="e#646#1553#0" expanded="false" />
+            <element signature="e#1081#1537#2" expanded="false" />
+            <element signature="e#1226#1527#1" expanded="false" />
+            <element signature="e#1249#1441#0" expanded="false" />
+            <element signature="e#1463#1513#0" expanded="false" />
+            <element signature="n#!!block;n#sendRequest#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#createResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#updateResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#reserveResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#deleteResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#queryResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#createCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#customerAddReservation#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#customerRemoveReservation#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#queryCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#itinerary#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="n#!!block;n#generateRequestId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="e#5585#5634#2" expanded="false" />
+            <element signature="n#!!block;n#getReply#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
+            <element signature="e#5806#5846#1" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/Customer.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="18" lean-forward="false" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ClientCode/Middleware.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="109" column="84" lean-forward="false" selection-start-line="109" selection-start-column="84" selection-end-line="109" selection-end-column="84" />
+          <folding>
+            <element signature="n#!!block;n#getRm#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="n#!!block;n#createResource#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="n#!!block;n#updateResource#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="n#!!block;n#reserveResource#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="n#!!block;n#deleteResource#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="e#1827#1906#1" expanded="false" />
+            <element signature="n#!!block;n#queryResource#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="n#!!block;n#createCustomer#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="e#2275#2341#2" expanded="false" />
+            <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="e#2444#2542#2" expanded="false" />
+            <element signature="n#!!block;n#queryCustomer#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="e#3250#3404#1" expanded="false" />
+            <element signature="n#!!block;n#customerRemoveReservation#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="n#!!block;n#generateCustomerId#0;n#!!block;n#Middleware#0" expanded="false" />
+            <element signature="e#4840#4922#2" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="89" column="22" lean-forward="false" selection-start-line="89" selection-start-column="22" selection-end-line="89" selection-end-column="22" />
+          <folding>
+            <element signature="n#!!doc;n#createResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#updateResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#reserveResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#deleteResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#queryResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#uniqueCustomerId#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#createCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#deleteCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#customerRemoveReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#queryCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#itinerary#0;n#!!block;n#ResourceManager#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerCode/Tester.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+        <state relative-caret-position="555">
+          <caret line="102" column="8" lean-forward="false" selection-start-line="102" selection-start-column="8" selection-end-line="102" selection-end-column="8" />
           <folding>
-            <element signature="e#20#195#0" expanded="true" />
+            <element signature="e#20#234#0" expanded="true" />
+            <element signature="n#!!block;n#testBasics#0;n#!!block;n#Tester#0" expanded="false" />
           </folding>
         </state>
       </provider>

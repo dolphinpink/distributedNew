@@ -1,6 +1,6 @@
-package ServerCode
+package ResourceManagerCode
 
-data class Reservation(val reservationId: String,
+data class Reservation(val reservationId: Int,
                        val item: ReservableItem,
                        val quantity: Int,
                        val pricePaid: Int) {

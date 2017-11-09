@@ -1,15 +1,15 @@
-package ServerCode;
+package ResourceManagerCode
 
-import java.util.*;
+import java.util.*
 
-public interface ResourceManager {
+interface ResourceManager {
 
     /**
      * Creates resource if it doesn't exist.
      *
      * @return success.
      */
-    public boolean createResource(ReservableType type, String resourceId, int amount, int price);
+    fun createResource(type: ReservableType, resourceId: String, amount: Int, price: Int): Boolean
 
 
     /**
@@ -22,7 +22,7 @@ public interface ResourceManager {
      * @param newPrice
      * @return
      */
-    public boolean updateResource(String resourceId, int newTotalAmount, int newPrice);
+    fun updateResource(resourceId: String, newTotalAmount: Int, newPrice: Int): Boolean
 
 
     /**
@@ -34,7 +34,7 @@ public interface ResourceManager {
      * @param reservationQuantity
      * @return true if successful, false if not enough available resource
      */
-    public boolean reserveResource(String resourceId, int reservationQuantity);
+    fun reserveResource(resourceId: String, reservationQuantity: Int): Boolean
 
 
     /**
@@ -44,7 +44,7 @@ public interface ResourceManager {
      * @param resourceId
      * @return true if successful, false if resource doesn't exist or is reserved
      */
-    public boolean deleteResource(String resourceId);
+    fun deleteResource(resourceId: String): Boolean
 
 
     /**
@@ -53,7 +53,7 @@ public interface ResourceManager {
      * @param resourceId
      * @return amount of resource available, -1 if resource doesn't exist
      */
-    public int queryResource(String resourceId);
+    fun queryResource(resourceId: String): Resource?
 
 
     /**
@@ -61,7 +61,7 @@ public interface ResourceManager {
      *
      * @return a unique customer ID
      */
-    public int uniqueCustomerId();
+    fun uniqueCustomerId(): Int
 
 
     /**
@@ -72,7 +72,7 @@ public interface ResourceManager {
      * @param customerId
      * @return true if successful creation, false customer with ID already exists
      */
-    public boolean createCustomer(int customerId);
+    fun createCustomer(customerId: Int): Boolean
 
 
     /**
@@ -80,7 +80,26 @@ public interface ResourceManager {
      * @param customerId
      * @return true if successful, false otherwise
      */
-    public boolean deleteCustomer(int customerId);
+    fun deleteCustomer(customerId: Int): Boolean
+
+
+    /**
+     * records reservation for customer
+     * @param customerId
+     * @param reservableItem
+     * @param quantity
+     * @return true if suceeded, false if failed (customer doesn't exist)
+     */
+    fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem, quantity: Int): Boolean
+
+
+    /**
+     * deletes reservation for customer
+     * @param customerId
+     * @param reservationId
+     * @return true if succeeds, false if customer doesn't exist or doesn't hold said resource
+     */
+    fun customerRemoveReservation(customerId: Int, reservationId: Int): Boolean
 
 
     /**
@@ -89,26 +108,16 @@ public interface ResourceManager {
      * @param customerId
      * @return String containing all customer reservations
      */
-    public String queryCustomerInfo(int customerId);
-
-
-    /**
-     * reserves one unit of this resource for this customer
-     *
-     * @param customerId
-     * @param resourceId
-     * @return true if successful, false if customer or resource doesn't exist, or not enough available resource
-     */
-    public boolean createReservation(int customerId, ReservableType type, String resourceId);
+    fun queryCustomer(customerId: Int): Customer?
 
 
     /**
      * reserves an itinerary for this user
      *
      * @param customerId
-     * @param resourceIds
+     * @param reservationResources a map of reservationIds to the reservableItem you want to reserve
      * @return true if successful, false if resources or customer doesn't exist, or insufficient available resources
      */
-    public boolean itinerary(int customerId, Set<String> resourceIds);
+    fun itinerary(customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean
 
 }

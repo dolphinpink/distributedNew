@@ -1,11 +1,8 @@
 package ServerCode
 
-class ResourceManagerImpl : ResourceManager {
+import ResourceManagerCode.*
 
-    data class Resource(val item: ReservableItem, var remainingQuantity: Int) {
-        override fun equals(other: Any?) = item == (other as? Resource)?.item
-        override fun hashCode() = item.hashCode();
-    }
+class ResourceManagerImpl : ResourceManager {
 
     val resources: MutableSet<Resource> = mutableSetOf() // TODO: make private
     val customers: MutableSet<Customer> = mutableSetOf()
@@ -58,8 +55,8 @@ class ResourceManagerImpl : ResourceManager {
         }
     }
 
-    override fun queryResource(resourceId: String): Int {
-        return resources.find {r -> r.item.id == resourceId} ?.remainingQuantity ?: -1
+    override fun queryResource(resourceId: String): Resource? {
+        return resources.find {r -> r.item.id == resourceId}
     }
 
     override fun uniqueCustomerId(): Int {
@@ -78,15 +75,27 @@ class ResourceManagerImpl : ResourceManager {
         }
     }
 
-    override fun queryCustomerInfo(customerId: Int): String {
-        return customers.find { c -> c.customerId == customerId}.toString()
+    override fun queryCustomer(customerId: Int): Customer? {
+        return customers.find { c -> c.customerId == customerId}
     }
 
-    override fun createReservation(customerId: Int, type: ReservableType?, resourceId: String?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem, quantity: Int): Boolean {
+        val customer: Customer = customers.find {c -> c.customerId == customerId} ?: return false
+        synchronized(customerLock) {
+            customer.addReservation(Reservation(reservationId, reservableItem, quantity, reservableItem.price * quantity))
+            return true
+        }
     }
 
-    override fun itinerary(customerId: Int, resourceIds: MutableSet<String>?): Boolean {
+    override fun customerRemoveReservation(customerId: Int, reservationId: Int): Boolean {
+        val customer: Customer = customers.find {c -> c.customerId == customerId} ?: return false
+        synchronized(customerLock) {
+            customer.removeReservation(reservationId)
+            return true
+        }
+    }
+
+    override fun itinerary(customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean {
         TODO("not implemented")
     }
 
