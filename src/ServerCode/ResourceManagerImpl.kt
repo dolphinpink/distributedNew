@@ -4,7 +4,7 @@ import ResourceManagerCode.*
 
 class ResourceManagerImpl : ResourceManager {
 
-    val resources: MutableSet<Resource> = mutableSetOf() // TODO: make private
+    val resources: MutableSet<Resource> = mutableSetOf()
     val customers: MutableSet<Customer> = mutableSetOf()
 
     private val resourceLock = Any()
