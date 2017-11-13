@@ -111,7 +111,13 @@ class LockManager {
         }
     }
 
-    // returns true if lock is acquired, or was already acquired
+    /**
+     * returns true if lock is acquired, or was already acquired
+     * doesn't throw redundant lock exceptions
+     *
+     * throws DeadlockException if it times out
+     * can change it to return false if you want
+     */
     @Throws(DeadlockException::class)
     fun lock(xId: Int, objectId: String, type: LockType): Boolean {
 
