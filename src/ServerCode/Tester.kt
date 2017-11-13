@@ -1,14 +1,15 @@
 package ServerCode
 
-import ClientCode.Middleware
+import Tcp.Middleware
 import LockManagerCustom.LockManager
 import LockManagerCustom.LockType
 import ResourceManagerCode.ReservableType
-import ResourceManagerCode.Resource
 import Tcp.PortNumbers
 import Tcp.TcpRequestReceiver
 import Tcp.TcpRequestSender
-import java.io.IOException
+import Transactions.TransactionalMiddleware
+import Transactions.TransactionalRequestReceiver
+import Transactions.TransactionalRequestSender
 import kotlin.concurrent.thread
 
 
@@ -21,7 +22,32 @@ object Tester {
 
         //testBasics()
         //testMiddleware()
-        testLockManager()
+        //testLockManager()
+        testTransactions()
+
+    }
+
+    fun testTransactions() {
+        val requestReceiverFlight = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.flightRm)
+        requestReceiverFlight.runServer()
+
+        val requestReceiverHotel = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.hotelRm)
+        requestReceiverHotel.runServer()
+
+        val requestReceiverCar = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.carRm)
+        requestReceiverCar.runServer()
+
+        Thread.sleep(500)
+
+        val middleware = TransactionalRequestReceiver(TransactionalMiddleware("127.0.0.1"), PortNumbers.middleware)
+        middleware.runServer()
+
+        Thread.sleep(500)
+
+        val client = TransactionalRequestSender(PortNumbers.middleware, "127.0.0.1", 1)
+
+        client.createResource(ReservableType.FLIGHT, "fly_1", 1, 1)
+
 
     }
 

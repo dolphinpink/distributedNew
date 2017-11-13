@@ -1,8 +1,6 @@
-package ClientCode
+package Tcp
 
 import ResourceManagerCode.*
-import Tcp.PortNumbers
-import Tcp.TcpRequestSender
 
 class Middleware(val server: String): ResourceManager {
 

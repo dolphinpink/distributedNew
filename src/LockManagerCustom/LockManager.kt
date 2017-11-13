@@ -115,10 +115,8 @@ class LockManager {
      * returns true if lock is acquired, or was already acquired
      * doesn't throw redundant lock exceptions
      *
-     * throws DeadlockException if it times out
-     * can change it to return false if you want
+     * throws false if lock is not acquired (deadlockde)
      */
-    @Throws(DeadlockException::class)
     fun lock(xId: Int, objectId: String, type: LockType): Boolean {
 
         // if any parameter is invalid, then return false
@@ -143,7 +141,8 @@ class LockManager {
         }
 
         cleanupDeadlock(lock)
-        throw DeadlockException(xId, "timeout reached. Deadlock assumed. ")
+        println("Timeout reached for lock request: transactionId $xId, objectId $objectId, type $type. Deadlock assumed.")
+        return false
     }
 
 }

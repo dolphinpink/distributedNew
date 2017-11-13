@@ -1,15 +1,33 @@
-package ResourceManagerCode
+package Transactions
 
-import java.util.*
+import ResourceManagerCode.Customer
+import ResourceManagerCode.ReservableItem
+import ResourceManagerCode.ReservableType
+import ResourceManagerCode.Resource
 
-interface ResourceManager {
+interface TransactionalResourceManager {
+
+    /**
+     * starts a transaction with this id
+     *
+     * @ return true if succeeded, false if this transactionId already exists
+     */
+    fun start(transactionId: Int): Boolean
+
+    /**
+     * commits the transaction with this Id
+     */
+    fun commit(transactionId: Int): Boolean
+
+    fun abort(transactionId: Int): Boolean
+
 
     /**
      * Creates resource if it doesn't exist.
      *
      * @return success.
      */
-    fun createResource(type: ReservableType, resourceId: String, amount: Int, price: Int): Boolean
+    fun createResource(transactionId: Int, type: ReservableType, resourceId: String, amount: Int, price: Int): Boolean
 
 
     /**
@@ -22,7 +40,7 @@ interface ResourceManager {
      * @param newPrice
      * @return
      */
-    fun updateResource(resourceId: String, newTotalAmount: Int, newPrice: Int): Boolean
+    fun updateResource(transactionId: Int, resourceId: String, newTotalAmount: Int, newPrice: Int): Boolean
 
 
     /**
@@ -34,7 +52,7 @@ interface ResourceManager {
      * @param reservationQuantity
      * @return true if successful, false if not enough available resource
      */
-    fun reserveResource(resourceId: String, reservationQuantity: Int): Boolean
+    fun reserveResource(transactionId: Int, resourceId: String, reservationQuantity: Int): Boolean
 
 
     /**
@@ -44,7 +62,7 @@ interface ResourceManager {
      * @param resourceId
      * @return true if successful, false if resource doesn't exist or is reserved
      */
-    fun deleteResource(resourceId: String): Boolean
+    fun deleteResource(transactionId: Int, resourceId: String): Boolean
 
 
     /**
@@ -53,7 +71,7 @@ interface ResourceManager {
      * @param resourceId
      * @return amount of resource available, -1 if resource doesn't exist
      */
-    fun queryResource(resourceId: String): Resource?
+    fun queryResource(transactionId: Int, resourceId: String): Resource?
 
 
     /**
@@ -61,7 +79,7 @@ interface ResourceManager {
      *
      * @return a unique customer ID
      */
-    fun uniqueCustomerId(): Int
+    fun uniqueCustomerId(transactionId: Int): Int
 
 
     /**
@@ -72,7 +90,7 @@ interface ResourceManager {
      * @param customerId
      * @return true if successful creation, false customer with ID already exists
      */
-    fun createCustomer(customerId: Int): Boolean
+    fun createCustomer(transactionId: Int, customerId: Int): Boolean
 
 
     /**
@@ -80,7 +98,7 @@ interface ResourceManager {
      * @param customerId
      * @return true if successful, false otherwise
      */
-    fun deleteCustomer(customerId: Int): Boolean
+    fun deleteCustomer(transactionId: Int, customerId: Int): Boolean
 
 
     /**
@@ -88,9 +106,9 @@ interface ResourceManager {
      * @param customerId
      * @param reservableItem
      * @param quantity
-     * @return true if suceeded, false if failed (customer doesn't exist)
+     * @return true if suceeded, false if failed (transactionId: Int, customer doesn't exist)
      */
-    fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean
+    fun customerAddReservation(transactionId: Int, customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean
 
 
     /**
@@ -99,7 +117,7 @@ interface ResourceManager {
      * @param reservationId
      * @return true if succeeds, false if customer doesn't exist or doesn't hold said resource
      */
-    fun customerRemoveReservation(customerId: Int, reservationId: Int): Boolean
+    fun customerRemoveReservation(transactionId: Int, customerId: Int, reservationId: Int): Boolean
 
 
     /**
@@ -108,7 +126,7 @@ interface ResourceManager {
      * @param customerId
      * @return String containing all customer reservations
      */
-    fun queryCustomer(customerId: Int): Customer?
+    fun queryCustomer(transactionId: Int, customerId: Int): Customer?
 
 
     /**
@@ -118,6 +136,6 @@ interface ResourceManager {
      * @param reservationResources a map of reservationIds to the reservableItem you want to reserve
      * @return true if successful, false if resources or customer doesn't exist, or insufficient available resources
      */
-    fun itinerary(customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean
+    fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean
 
 }
