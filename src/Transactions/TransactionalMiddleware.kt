@@ -4,8 +4,12 @@ import LockManagerCustom.DeadlockException
 import LockManagerCustom.LockManager
 import LockManagerCustom.LockType
 import ResourceManagerCode.*
+import Tcp.CreateResourceRequest
+import Tcp.DeleteResourceRequest
 import Tcp.PortNumbers
 import Tcp.TcpRequestSender
+import Tcp.ReserveResourceRequest
+import Tcp.UpdateResourceRequest
 
 class TransactionalMiddleware(val server: String): TransactionalResourceManager {
     companion object {
@@ -15,11 +19,11 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
     val resourceType: MutableMap<String, ReservableType> = mutableMapOf()
 
     private val customers: MutableSet<Customer> = mutableSetOf()
-    private val flightRm: ResourceManager = TcpRequestSender(PortNumbers.flightRm, server)
-    private val hotelRm: ResourceManager = TcpRequestSender(PortNumbers.hotelRm, server)
-    private val carRm: ResourceManager = TcpRequestSender(PortNumbers.carRm, server)
+    private val flightRm: ResourceManager = TcpRequestSender(PortNumbers.flightRm, server, 0)
+    private val hotelRm: ResourceManager = TcpRequestSender(PortNumbers.hotelRm, server, 0)
+    private val carRm: ResourceManager = TcpRequestSender(PortNumbers.carRm, server, 0)
 
-    private val transactionManager = TransactionManager(this)
+    private val transactionManager = TransactionManager()
 
     private val lockManager = LockManager()
 
@@ -57,7 +61,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
         if (lockManager.lock(transactionId, type.toString(), LockType.WRITE)) {
             if (getRm(type).createResource(type, resourceId, totalQuantity, price)) {
                 resourceType.put(resourceId, type)
-                transactionManager.addRequest(transactionId, DeleteResourceRequest(-1, transactionId, resourceId))
+                transactionManager.addRequest(transactionId, DeleteResourceRequest(-1, resourceId))
                 return true
             }
         } else {
@@ -76,7 +80,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
         if (lockManager.lock(transactionId, type.toString(), LockType.WRITE)) {
             val snapshot = getRm(type).queryResource(resourceId) ?: return false
             if (getRm(type).updateResource(resourceId, newTotalQuantity, newPrice)) {
-                transactionManager.addRequest(transactionId, UpdateResourceRequest(-1, transactionId, resourceId, snapshot.item.totalQuantity, snapshot.item.price))
+                transactionManager.addRequest(transactionId, UpdateResourceRequest(-1, resourceId, snapshot.item.totalQuantity, snapshot.item.price))
             }
         } else {
             cleanupDeadlock(transactionId)
@@ -92,7 +96,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
 
         if (lockManager.lock(transactionId, type.toString(), LockType.WRITE)) {
             if (getRm(type).reserveResource(resourceId, reservationQuantity)) {
-                transactionManager.addRequest(transactionId, ReserveResourceRequest(-1, transactionId, resourceId, -reservationQuantity))
+                transactionManager.addRequest(transactionId, ReserveResourceRequest(-1, resourceId, -reservationQuantity))
             }
         } else {
             cleanupDeadlock(transactionId)
@@ -109,7 +113,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
         if (lockManager.lock(transactionId, type.toString(), LockType.WRITE)) {
             val snapshot = getRm(type).queryResource(resourceId) ?: return false
             if (getRm(type).deleteResource(resourceId)) {
-                transactionManager.addRequest(transactionId, CreateResourceRequest(-1, transactionId, snapshot.item.type, resourceId, snapshot.item.totalQuantity, snapshot.item.price))
+                transactionManager.addRequest(transactionId, CreateResourceRequest(-1, snapshot.item.type, resourceId, snapshot.item.totalQuantity, snapshot.item.price))
                 resourceType.remove(resourceId)
                 return true
             }
@@ -211,9 +215,10 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
             val customer = queryCustomer(transactionId, customerId) ?: return false
             val reservation = customer.reservations.find { r -> r.reservationId == reservationId } ?: return false
             customer.removeReservation(reservationId)
-            reserveResource(transactionId, reservation.item.id, -1)
+            reserveResource(transactionId, reservation.item.id, -1) // resource write lock obtained
+            val snapshot = queryResource(transactionId, reservation.item.id)!!.item
 
-            transactionManager.addRequest(transactionId, CustomerAddReservationRequest(-1, transactionId, customerId, ))
+            transactionManager.addRequest(transactionId, CustomerAddReservationRequest(-1, transactionId, customerId, reservationId, snapshot))
         }
         return false
     }

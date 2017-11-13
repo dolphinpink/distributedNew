@@ -2,14 +2,14 @@ package Tcp
 
 import ResourceManagerCode.*
 
-class Middleware(val server: String): ResourceManager {
+class Middleware(val server: String, val requestIdStart: Int): ResourceManager {
 
     val resourceType: MutableMap<String, ReservableType> = mutableMapOf()
 
     private val customers: MutableSet<Customer> = mutableSetOf()
-    private val flightRm: ResourceManager = TcpRequestSender(PortNumbers.flightRm, server)
-    private val hotelRm: ResourceManager = TcpRequestSender(PortNumbers.hotelRm, server)
-    private val carRm: ResourceManager = TcpRequestSender(PortNumbers.carRm, server)
+    private val flightRm: ResourceManager = TcpRequestSender(PortNumbers.flightRm, server, requestIdStart)
+    private val hotelRm: ResourceManager = TcpRequestSender(PortNumbers.hotelRm, server, requestIdStart)
+    private val carRm: ResourceManager = TcpRequestSender(PortNumbers.carRm, server, requestIdStart)
 
     private var customerIdCounter: Int = 0
 
@@ -72,17 +72,17 @@ class Middleware(val server: String): ResourceManager {
         return customers.find { c -> c.customerId == customerId}
     }
 
-    override fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem, quantity: Int): Boolean {
+    override fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean {
 
         val customer: Customer? = queryCustomer(customerId)
         if (customer != null) {
-            if (reserveResource(reservableItem.id, quantity)) {
+            if (reserveResource(reservableItem.id, 1)) {
                 val resource = queryResource(reservableItem.id)?.item ?: return false
-                if (customer.addReservation(Reservation(reservationId, reservableItem, quantity, quantity * reservableItem.price))) {
+                if (customer.addReservation(Reservation(reservationId, reservableItem, 1, reservableItem.price))) {
                     return true
                 } else {
                     // customer may have been deleted in the meantime
-                    reserveResource(reservableItem.id, quantity)
+                    reserveResource(reservableItem.id, -1)
                 }
             }
         }
@@ -105,7 +105,7 @@ class Middleware(val server: String): ResourceManager {
         val reserved: MutableMap<Int, Reserved> = mutableMapOf()
 
         for ((reservationId, reservableItem) in reservationResources){
-            if ( customerAddReservation(customerId, reservationId, reservableItem, 1) == true) {
+            if ( customerAddReservation(customerId, reservationId, reservableItem) == true) {
                 reserved.put(customerId, Reserved(reservableItem.id, reservationId))
             } else {
                 // if any of the fail, undo the reservations so far

@@ -78,9 +78,9 @@ class DeleteCustomerRequest(requestId: Int, val customerId: Int): RequestCommand
     }
 }
 
-class CustomerAddReservationRequest(requestId: Int, val customerId: Int, val reservationId: Int, val reservableItem: ReservableItem, val quantity: Int): RequestCommand(requestId){
+class CustomerAddReservationRequest(requestId: Int, val customerId: Int, val reservationId: Int, val reservableItem: ReservableItem): RequestCommand(requestId){
     override fun execute(rm: ResourceManager): Reply {
-        return BooleanReply(requestId, rm.customerAddReservation(customerId, reservationId, reservableItem, quantity))
+        return BooleanReply(requestId, rm.customerAddReservation(customerId, reservationId, reservableItem))
     }
 }
 

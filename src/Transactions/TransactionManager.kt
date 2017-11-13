@@ -1,10 +1,15 @@
 package Transactions
 
+import ResourceManagerCode.ResourceManager
+import Tcp.Middleware
+import Tcp.RequestCommand
 import java.util.*
 
-class TransactionManager(val rm: TransactionalResourceManager) {
+class TransactionManager() {
 
-    val requestStacks: MutableMap<Int, Stack<TransactionalRequestCommand>> = mutableMapOf()
+    val rm = Middleware("127.0.0.1", 1000000)
+
+    val requestStacks: MutableMap<Int, Stack<RequestCommand>> = mutableMapOf()
 
     fun createTransaction(transactionId: Int): Boolean {
         synchronized(requestStacks) {
@@ -15,7 +20,7 @@ class TransactionManager(val rm: TransactionalResourceManager) {
         }
     }
 
-    fun addRequest(transactionId: Int, request: TransactionalRequestCommand): Boolean {
+    fun addRequest(transactionId: Int, request: RequestCommand): Boolean {
         synchronized(requestStacks) {
             requestStacks[transactionId]?.push(request) ?: return false
             return true

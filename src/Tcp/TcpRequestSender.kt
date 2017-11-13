@@ -10,13 +10,16 @@ import java.io.PrintWriter
 import java.net.Socket
 
 
-class TcpRequestSender(val portNum: Int, val serverName: String): ResourceManager {
+class TcpRequestSender(val portNum: Int, val serverName: String, val requestIdStart: Int): ResourceManager {
+    companion object {
+        val MAX_REQUESTS = 100000
+    }
 
     private val outToServer: PrintWriter
     private val inFromServer: BufferedReader
     private val mapper: ObjectMapper
 
-    private var requestIdCounter: Int = 0
+    private var requestIdCounter: Int = requestIdStart
 
     private val replies: MutableSet<Reply> = mutableSetOf()
 
@@ -140,8 +143,8 @@ class TcpRequestSender(val portNum: Int, val serverName: String): ResourceManage
         return reply.value
     }
 
-    override fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem, quantity: Int): Boolean {
-        val reply = sendRequest(CustomerAddReservationRequest(generateRequestId(), customerId, reservationId, reservableItem, quantity))
+    override fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean {
+        val reply = sendRequest(CustomerAddReservationRequest(generateRequestId(), customerId, reservationId, reservableItem))
 
         if (reply !is BooleanReply)
             throw Exception("SENDER Remote failed")
@@ -180,6 +183,9 @@ class TcpRequestSender(val portNum: Int, val serverName: String): ResourceManage
 
     fun generateRequestId(): Int {
         synchronized(requestIdCounter) {
+            if (requestIdCounter >= requestIdStart + MAX_REQUESTS - 1) {
+                requestIdCounter = requestIdStart
+            }
             return requestIdCounter++
         }
     }
