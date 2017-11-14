@@ -7,7 +7,6 @@ import Tcp.*
 import Transactions.TransactionalMiddleware
 import Transactions.TransactionalRequestReceiver
 import Transactions.TransactionalRequestSender
-import jdk.management.resource.ResourceType
 import kotlin.system.measureTimeMillis
 
 
@@ -79,7 +78,7 @@ object Tester {
         for (i in 0..numClients) {
             Thread {
                 runCustomer(client, i)
-            }
+            }.start()
         }
         while (true) {
 
@@ -108,38 +107,62 @@ object Tester {
 
             when (method) {
                 0-> {
-                    client.createCustomer(transactionId, r3)
-                    customerList.add(r3)
+                    var timeElapsed = measureTimeMillis {
+                        client.createCustomer(transactionId, r3)
+                        customerList.add(r3)
+                        println("Create customer")
+                    }
+                    println("Time Elapsed: $timeElapsed \n")
                 }
                 1-> {
-                    client.deleteCustomer(transactionId, customerList[r1])
-                    customerList.removeAt(r1)
+                    var timeElapsed = measureTimeMillis {
+                        client.deleteCustomer(transactionId, customerList[r1])
+                        customerList.removeAt(r1)
+                        println("Delete customer")
+                    }
+                    println("Time Elapsed: $timeElapsed \n")
                 }
                 2 -> {
-                    val type = when(r1) {
-                        0 -> ReservableType.FLIGHT
-                        1 -> ReservableType.CAR
-                        2 -> ReservableType.HOTEL
-                        else -> ReservableType.FLIGHT
+                    var timeElapsed = measureTimeMillis {
+                        val type = when(r1) {
+                            0 -> ReservableType.FLIGHT
+                            1 -> ReservableType.CAR
+                            2 -> ReservableType.HOTEL
+                            else -> ReservableType.FLIGHT
+                        }
+                        client.createResource(transactionId, type, r5.toString(), r2, r3)
+                        resourceList.add(r5.toString())
+                        println("Create resource")
                     }
-                    client.createResource(transactionId, type, r5.toString(), r2, r3)
-                    resourceList.add(r5.toString())
+                    println("Time Elapsed: $timeElapsed \n")
                 }
                 3 -> {
-                    client.deleteResource(transactionId, resourceList[r1])
-                    resourceList.removeAt(r1)
+                    var timeElapsed = measureTimeMillis {
+                        client.deleteResource(transactionId, resourceList[r1])
+                        resourceList.removeAt(r1)
+                        println("Delete resource")
+                    }
+                    println("Time Elapsed: $timeElapsed \n")
                 }
                 4 -> {
-                    val resource = client.queryResource(transactionId, resourceList[r1])
-                    if (resource != null) {
-                        client.customerAddReservation(transactionId, customerList[r1], r1, resource.item)
-                        client.reserveResource(transactionId, resource.item.id, 1)
+                    var timeElapsed = measureTimeMillis {
+                        val resource = client.queryResource(transactionId, resourceList[r1])
+                        if (resource != null) {
+                            client.customerAddReservation(transactionId, customerList[r1], r1, resource.item)
+                            client.reserveResource(transactionId, resource.item.id, 1)
+                            println("Add reservation response: $resource")
+                        }
                     }
+                    println("Time Elapsed: $timeElapsed \n")
 
                 }
                 5,6 -> {
-                    client.commit(transactionId)
-                    keepgoing = false
+                    var timeElapsed = measureTimeMillis {
+                        client.commit(transactionId)
+                        keepgoing = false
+                        println("Commit response: $keepgoing")
+                    }
+                    println("Time Elapsed: $timeElapsed \n")
                 }
                 7,8 -> {
 
@@ -168,27 +191,21 @@ object Tester {
         } else {
             println("Create customer transaction failed. \n")
         }
-
         for (i in 0..100) {
-
-
             when(r1) {
                 0 -> client.
             }
         }
-
         for (i in 0..5) {
             // Random variables for the resource type, sleep time, and randomized method, respectively.
             r1 = (Math.random()*3).toInt()
             r2 = (Math.random()*400).toInt() + 300
             r3 = (Math.random()*2).toInt() + 1
-
             var timeElapsed = measureTimeMillis {
                 if (r3 == 1) {
                     if(client.start(counter)) {
                         var response = client.queryResource(counter, resourceIds[r1])
                         println("Iteration $i query response: $response")
-
                         if (response != null) {
                             response2 = client.customerAddReservation(counter, custID, counter, response.item)
                             client.reserveResource(counter, resourceIds[r1], 1)
@@ -227,4 +244,3 @@ object Tester {
     }
 
 }
-
