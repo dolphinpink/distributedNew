@@ -49,6 +49,25 @@ object Tester {
             client.createResource(12, ReservableType.FLIGHT, "fly_1", 50, 5)
             client.createResource(12, ReservableType.HOTEL, "hot_1", 50, 5)
             client.createResource(12, ReservableType.CAR, "car_1", 50, 5)
+            client.createResource(12, ReservableType.FLIGHT, "fly_2", 50, 5)
+            client.createResource(12, ReservableType.HOTEL, "hot_2", 50, 5)
+            client.createResource(12, ReservableType.CAR, "car_2", 50, 5)
+
+            resourceList.add("fly_1")
+            resourceList.add("fly_2")
+            resourceList.add("car_1")
+            resourceList.add("car_2")
+            resourceList.add("hot_1")
+            resourceList.add("hot_2")
+
+            client.createCustomer(12, 1)
+            client.createCustomer(12, 2)
+            client.createCustomer(12, 3)
+
+            customerList.add(1)
+            customerList.add(2)
+            customerList.add(3)
+
         }
 
         if (!client.commit(12)){
@@ -118,9 +137,17 @@ object Tester {
                     }
 
                 }
-                5,6,7 -> {
+                5,6 -> {
                     client.commit(transactionId)
                     keepgoing = false
+                }
+                7,8 -> {
+
+
+                }
+                9,10 -> {
+
+
                 }
                 else -> Thread.sleep(r3.toLong())
             }
