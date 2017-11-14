@@ -1,13 +1,17 @@
 package Transactions
 
+import ResourceManagerCode.ReservableType
 import ResourceManagerCode.ResourceManager
-import Tcp.Middleware
-import Tcp.RequestCommand
+import Tcp.*
 import java.util.*
 
-class TransactionManager() {
+class TransactionManager(val resourceType: MutableMap<String, ReservableType> = mutableMapOf(),
+                         private val customerRm: ResourceManager,
+                         private val flightRm: ResourceManager,
+                         private val hotelRm: ResourceManager,
+                         private val carRm: ResourceManager) {
 
-    val rm = Middleware("127.0.0.1", 1000000)
+    val rm = Middleware("127.0.0.1", 1000000, resourceType, customerRm, flightRm, hotelRm, carRm)
 
     val requestStacks: MutableMap<Int, Stack<RequestCommand>> = mutableMapOf()
 
@@ -31,7 +35,9 @@ class TransactionManager() {
         synchronized(requestStacks) {
             val requestStack = requestStacks[transactionId] ?: return false
             while(requestStack.isNotEmpty()) {
-                requestStack.pop().execute(rm)
+                val succeeded = requestStack.pop().execute(rm) as BooleanReply
+                println("TRANSACTION MANAGER popping ${succeeded.value}")
+
             }
             return true
         }

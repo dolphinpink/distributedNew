@@ -1,12 +1,9 @@
 package ServerCode
 
-import Tcp.Middleware
 import LockManagerCustom.LockManager
 import LockManagerCustom.LockType
 import ResourceManagerCode.ReservableType
-import Tcp.PortNumbers
-import Tcp.TcpRequestReceiver
-import Tcp.TcpRequestSender
+import Tcp.*
 import Transactions.TransactionalMiddleware
 import Transactions.TransactionalRequestReceiver
 import Transactions.TransactionalRequestSender
@@ -37,6 +34,9 @@ object Tester {
         val requestReceiverCar = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.carRm)
         requestReceiverCar.runServer()
 
+        val requestReceiverCustomer = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.customerRm)
+        requestReceiverCustomer.runServer()
+
         Thread.sleep(500)
 
         val middleware = TransactionalRequestReceiver(TransactionalMiddleware("127.0.0.1"), PortNumbers.middleware)
@@ -44,9 +44,27 @@ object Tester {
 
         Thread.sleep(500)
 
-        val client = TransactionalRequestSender(PortNumbers.middleware, "127.0.0.1", 1)
+        val client = TransactionalRequestSender(PortNumbers.middleware, "127.0.0.1")
 
-        client.createResource(ReservableType.FLIGHT, "fly_1", 1, 1)
+        client.createResource(1, ReservableType.FLIGHT, "fly_1", 50, 500)
+
+        client.start(3)
+
+        client.createResource(3, ReservableType.FLIGHT, "fly_1", 50, 500)
+
+
+
+        val resource = client.queryResource(3, "fly_1")
+        println("\n\n\nresource 1 $resource")
+
+        client.abort(3)
+
+
+        println("\n\n\n")
+        val resource2 = client.queryResource(3, "fly_1")
+        println("\n\n\nresource 2 $resource2")
+
+        println("\n\n DONE")
 
 
     }
@@ -99,10 +117,10 @@ object Tester {
         Thread.sleep(500)
 
 
-        val middleware = TcpRequestReceiver(Middleware("127.0.0.1"), PortNumbers.middleware)
+        val middleware = TcpRequestReceiver(Middleware("127.0.0.1", 0), PortNumbers.middleware)
         middleware.runServer()
 
-        val client = TcpRequestSender(PortNumbers.middleware, "127.0.0.1")
+        val client = TcpRequestSender(PortNumbers.middleware, "127.0.0.1", 0)
 
 
 
@@ -135,7 +153,7 @@ object Tester {
         println("\n\n\n TEST 5")
         var response5: Boolean = false
         if (resource1 != null) {
-            response5 = client.customerAddReservation(5, 12, resource1.item, 1)
+            response5 = client.customerAddReservation(5, 12, resource1.item)
         }
         println("TESTER response is $response5")
 

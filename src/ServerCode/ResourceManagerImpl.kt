@@ -71,18 +71,23 @@ class ResourceManagerImpl : ResourceManager {
 
     override fun deleteCustomer(customerId: Int): Boolean {
         synchronized(customerLock) {
-            return customers.remove(customers.find { c -> c.customerId == customerId})
+            val customer = customers.find { c -> c.customerId == customerId} ?: return false
+            if (customer.reservations.isEmpty()) {
+                customers.remove(customer)
+                return true
+            }
         }
+        return false
     }
 
     override fun queryCustomer(customerId: Int): Customer? {
         return customers.find { c -> c.customerId == customerId}
     }
 
-    override fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem, quantity: Int): Boolean {
+    override fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean {
         val customer: Customer = customers.find {c -> c.customerId == customerId} ?: return false
         synchronized(customerLock) {
-            customer.addReservation(Reservation(reservationId, reservableItem, quantity, reservableItem.price * quantity))
+            customer.addReservation(Reservation(reservationId, reservableItem, 1, reservableItem.price))
             return true
         }
     }

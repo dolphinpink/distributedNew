@@ -7,5 +7,6 @@ class PortNumbers {
         val flightRm = 8087
         val hotelRm = 8088
         val carRm = 8089
+        val customerRm = 8090
     }
 }

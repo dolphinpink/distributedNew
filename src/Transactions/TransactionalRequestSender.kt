@@ -2,7 +2,6 @@ package Transactions
 
 import ResourceManagerCode.*
 import Tcp.*
-import Transactions.TransactionalRequestCommand
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -12,7 +11,9 @@ import java.io.PrintWriter
 import java.net.Socket
 
 
-class TransactionalRequestSender(val portNum: Int, val serverName: String, val transactionId: Int): ResourceManager {
+class TransactionalRequestSender(val portNum: Int, val serverName: String): TransactionalResourceManager {
+
+
 
     private val outToServer: PrintWriter
     private val inFromServer: BufferedReader
@@ -50,6 +51,34 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
 
     }
 
+    override fun start(transactionId: Int): Boolean {
+
+        val reply = sendRequest(TransactionalStartRequest(generateRequestId(), transactionId))
+
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
+    }
+
+    override fun commit(transactionId: Int): Boolean {
+        val reply = sendRequest(TransactionalCommitRequest(generateRequestId(), transactionId))
+
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
+    }
+
+    override fun abort(transactionId: Int): Boolean {
+        val reply = sendRequest(TransactionalAbortRequest(generateRequestId(), transactionId))
+
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
+    }
+
     fun sendRequest(request: TransactionalRequestCommand): Reply {
 
         val json = mapper.writeValueAsString(request)
@@ -62,12 +91,11 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
         println("SENDER reply received")
 
         return reply
-
     }
 
-    override fun createResource(type: ReservableType, id: String, totalQuantity: Int, price: Int): Boolean {
+    override fun createResource(transactionId: Int, type: ReservableType, id: String, totalQuantity: Int, price: Int): Boolean {
 
-        val reply = sendRequest(CreateResourceRequest(transactionId, generateRequestId(), type, id, totalQuantity, price))
+        val reply = sendRequest(TransactionalCreateResourceRequest(generateRequestId(), transactionId, type, id, totalQuantity, price))
 
         if (reply !is BooleanReply)
             throw Exception("SENDER Remote failed")
@@ -75,18 +103,9 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
         return reply.value
     }
 
-    override fun updateResource(id: String, newTotalQuantity: Int, newPrice: Int): Boolean {
+    override fun updateResource(transactionId: Int, id: String, newTotalQuantity: Int, newPrice: Int): Boolean {
 
-        val reply = sendRequest(UpdateResourceRequest(transactionId, generateRequestId(), id, newTotalQuantity, newPrice))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
-    }
-
-    override fun reserveResource(resourceId: String, reservationQuantity: Int): Boolean {
-        val reply = sendRequest(ReserveResourceRequest(transactionId, generateRequestId(), resourceId, reservationQuantity))
+        val reply = sendRequest(TransactionalUpdateResourceRequest(generateRequestId(), transactionId, id, newTotalQuantity, newPrice))
 
         if (reply !is BooleanReply)
             throw Exception("SENDER Remote failed")
@@ -94,9 +113,18 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
         return reply.value
     }
 
-    override fun deleteResource(id: String): Boolean {
+    override fun reserveResource(transactionId: Int, resourceId: String, reservationQuantity: Int): Boolean {
+        val reply = sendRequest(TransactionalReserveResourceRequest(generateRequestId(), transactionId, resourceId, reservationQuantity))
 
-        val reply = sendRequest(DeleteResourceRequest(transactionId, generateRequestId(), id))
+        if (reply !is BooleanReply)
+            throw Exception("SENDER Remote failed")
+
+        return reply.value
+    }
+
+    override fun deleteResource(transactionId: Int, id: String): Boolean {
+
+        val reply = sendRequest(TransactionalDeleteResourceRequest(generateRequestId(), transactionId, id))
 
         if (reply !is BooleanReply)
             throw Exception("SENDER Remote failed")
@@ -105,9 +133,9 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
 
     }
 
-    override fun queryResource(resourceId: String): Resource? {
+    override fun queryResource(transactionId: Int, resourceId: String): Resource? {
 
-        val reply = sendRequest(QueryResourceRequest(transactionId, generateRequestId(), resourceId))
+        val reply = sendRequest(TransactionalQueryResourceRequest(generateRequestId(), transactionId, resourceId))
 
         if (reply !is ResourceReply)
             throw Exception("SENDER Remote failed")
@@ -115,8 +143,8 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
         return reply.value
     }
 
-    override fun uniqueCustomerId(): Int {
-        val reply = sendRequest(UniqueCustomerIdRequest(transactionId, generateRequestId()))
+    override fun uniqueCustomerId(transactionId: Int): Int {
+        val reply = sendRequest(TransactionalUniqueCustomerIdRequest(generateRequestId(), transactionId))
 
         if (reply !is IntReply)
             throw Exception("SENDER Remote failed")
@@ -124,8 +152,8 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
         return reply.value
     }
 
-    override fun createCustomer(customerId: Int): Boolean {
-        val reply = sendRequest(CreateCustomerRequest(transactionId, generateRequestId(), customerId))
+    override fun createCustomer(transactionId: Int, customerId: Int): Boolean {
+        val reply = sendRequest(TransactionalCreateCustomerRequest(generateRequestId(), transactionId, customerId))
 
         if (reply !is BooleanReply)
             throw Exception("SENDER Remote failed")
@@ -133,8 +161,8 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
         return reply.value
     }
 
-    override fun deleteCustomer(customerId: Int): Boolean {
-        val reply = sendRequest(DeleteCustomerRequest(transactionId, generateRequestId(), customerId))
+    override fun deleteCustomer(transactionId: Int, customerId: Int): Boolean {
+        val reply = sendRequest(TransactionalDeleteCustomerRequest(generateRequestId(), transactionId, customerId))
 
         if (reply !is BooleanReply)
             throw Exception("SENDER Remote failed")
@@ -142,8 +170,8 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
         return reply.value
     }
 
-    override fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean {
-        val reply = sendRequest(CustomerAddReservationRequest(transactionId, generateRequestId(), customerId, reservationId, reservableItem))
+    override fun customerAddReservation(transactionId: Int, customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean {
+        val reply = sendRequest(TransactionalCustomerAddReservationRequest(generateRequestId(), transactionId, customerId, reservationId, reservableItem))
 
         if (reply !is BooleanReply)
             throw Exception("SENDER Remote failed")
@@ -151,8 +179,8 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
         return reply.value
     }
 
-    override fun customerRemoveReservation(customerId: Int, reservationId: Int): Boolean {
-        val reply = sendRequest(CustomerRemoveReservationRequest(transactionId, generateRequestId(), customerId, reservationId))
+    override fun customerRemoveReservation(transactionId: Int, customerId: Int, reservationId: Int): Boolean {
+        val reply = sendRequest(TransactionalCustomerRemoveReservationRequest(generateRequestId(), transactionId, customerId, reservationId))
 
         if (reply !is BooleanReply)
             throw Exception("SENDER Remote failed")
@@ -160,8 +188,8 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
         return reply.value
     }
 
-    override fun queryCustomer(customerId: Int): Customer? {
-        val reply = sendRequest(QueryCustomerRequest(transactionId, generateRequestId(), customerId))
+    override fun queryCustomer(transactionId: Int, customerId: Int): Customer? {
+        val reply = sendRequest(TransactionalQueryCustomerRequest(generateRequestId(), transactionId, customerId))
 
         if (reply !is CustomerReply)
             throw Exception("SENDER Remote failed")
@@ -169,9 +197,9 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String, val t
         return reply.value
     }
 
-    override fun itinerary(customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean {
+    override fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean {
 
-        val reply = sendRequest(ItineraryRequest(transactionId, generateRequestId(), customerId, reservationResources))
+        val reply = sendRequest(TransactionalItineraryRequest(generateRequestId(), transactionId, customerId, reservationResources))
 
         if (reply !is BooleanReply)
             throw Exception("SENDER Remote failed")

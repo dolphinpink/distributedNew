@@ -56,7 +56,7 @@ class TcpRequestSender(val portNum: Int, val serverName: String, val requestIdSt
         val json = mapper.writeValueAsString(request)
 
         outToServer.println(json)
-        println("SENDER sent $json")
+        println("SENDER sent $json AHAH")
 
         val reply = getReply(request.requestId)
 

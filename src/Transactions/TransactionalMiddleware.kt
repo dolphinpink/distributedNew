@@ -4,12 +4,7 @@ import LockManagerCustom.DeadlockException
 import LockManagerCustom.LockManager
 import LockManagerCustom.LockType
 import ResourceManagerCode.*
-import Tcp.CreateResourceRequest
-import Tcp.DeleteResourceRequest
-import Tcp.PortNumbers
-import Tcp.TcpRequestSender
-import Tcp.ReserveResourceRequest
-import Tcp.UpdateResourceRequest
+import Tcp.*
 
 class TransactionalMiddleware(val server: String): TransactionalResourceManager {
     companion object {
@@ -18,12 +13,12 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
 
     val resourceType: MutableMap<String, ReservableType> = mutableMapOf()
 
-    private val customers: MutableSet<Customer> = mutableSetOf()
+    private val customerRm: ResourceManager = TcpRequestSender(PortNumbers.customerRm, server, 0)
     private val flightRm: ResourceManager = TcpRequestSender(PortNumbers.flightRm, server, 0)
     private val hotelRm: ResourceManager = TcpRequestSender(PortNumbers.hotelRm, server, 0)
     private val carRm: ResourceManager = TcpRequestSender(PortNumbers.carRm, server, 0)
 
-    private val transactionManager = TransactionManager()
+    private val transactionManager = TransactionManager(resourceType, customerRm, flightRm, hotelRm, carRm)
 
     private val lockManager = LockManager()
 
@@ -147,8 +142,8 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
         if (!transactionManager.exists(transactionId)) return false
 
         if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) {
-            if (customers.add(Customer(customerId))) {
-                transactionManager.addRequest(transactionId, DeleteCustomerRequest(-1, transactionId, customerId))
+            if (customerRm.createCustomer(customerId)) {
+                transactionManager.addRequest(transactionId, DeleteCustomerRequest(-1, customerId))
                 return true
             }
         } else {
@@ -163,12 +158,8 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
         if (!transactionManager.exists(transactionId)) return false
 
         if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) {
-            val customer = customers.find { c -> c.customerId == customerId } ?: return false
-            if (customer.reservations.isEmpty()) {
-                if (customers.remove(customer)) {
-                    transactionManager.addRequest(transactionId, CreateCustomerRequest(-1, transactionId, customerId))
-                    return true
-                }
+            if(customerRm.deleteCustomer(customerId)) {
+                transactionManager.addRequest(transactionId, CreateCustomerRequest(-1, customerId))
             }
         } else {
             cleanupDeadlock(transactionId)
@@ -182,7 +173,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
         if (!transactionManager.exists(transactionId)) return null
 
         if (lockManager.lock(transactionId, CUSTOMER, LockType.READ)) {
-            return customers.find { c -> c.customerId == customerId}
+            return customerRm.queryCustomer(customerId)
         } else {
             cleanupDeadlock(transactionId)
         }
@@ -193,17 +184,10 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
     override fun customerAddReservation(transactionId: Int, customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean {
 
         if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) { // customer write lock acquired
-
-            val customer = queryCustomer(transactionId, customerId) ?: return false
-            if (reserveResource(transactionId, reservableItem.id, 1)) { //  resource write lock acquired
-                customer.addReservation(Reservation(reservationId, reservableItem, 1, reservableItem.price))
-                // reserveResource will automatically add undo action to the transaction manager, resetting resources if this aborts
-                // however, doesn't reset customer.
-                // customer remove reservation will call a reserve resource as well, adding it to the stack, but will also
-                // pop it off the stack, in total reserveResource will be called 4 times, resetting back to normal
-                transactionManager.addRequest(transactionId, CustomerRemoveReservationRequest(-1, transactionId, customerId, reservationId))
-                return true
-            }
+            customerRm.customerAddReservation(customerId, reservationId, reservableItem)
+            transactionManager.addRequest(transactionId, CustomerRemoveReservationRequest(-1, customerId, reservationId))
+        } else {
+            cleanupDeadlock(transactionId)
         }
         return false
     }
@@ -211,14 +195,11 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
     override fun customerRemoveReservation(transactionId: Int, customerId: Int, reservationId: Int): Boolean {
 
         if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) { // customer write lock acquired
-
-            val customer = queryCustomer(transactionId, customerId) ?: return false
-            val reservation = customer.reservations.find { r -> r.reservationId == reservationId } ?: return false
-            customer.removeReservation(reservationId)
-            reserveResource(transactionId, reservation.item.id, -1) // resource write lock obtained
-            val snapshot = queryResource(transactionId, reservation.item.id)!!.item
-
-            transactionManager.addRequest(transactionId, CustomerAddReservationRequest(-1, transactionId, customerId, reservationId, snapshot))
+            val snapshot = customerRm.queryCustomer(customerId)?.reservations?.find { r -> r.reservationId == reservationId } ?: return false
+            customerRm.customerRemoveReservation(customerId, reservationId)
+            transactionManager.addRequest(transactionId, CustomerAddReservationRequest(-1, customerId, reservationId, snapshot.item))
+        } else {
+            cleanupDeadlock(transactionId)
         }
         return false
     }
