@@ -42,11 +42,11 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
     }
 
     override fun commit(transactionId: Int): Boolean {
-        return transactionManager.commitTransaction(transactionId)
+        return transactionManager.commitTransaction(transactionId) && lockManager.unlockAll(transactionId)
     }
 
     override fun abort(transactionId: Int): Boolean {
-        return transactionManager.abortTransaction(transactionId)
+        return transactionManager.abortTransaction(transactionId) && lockManager.unlockAll(transactionId)
     }
 
     override fun createResource(transactionId: Int, type: ReservableType, resourceId: String, totalQuantity: Int, price: Int): Boolean {
@@ -206,24 +206,24 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
 
     override fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean {
 
-        data class Reserved(val rResourceId: String, val rReservationId: Int)
+        if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) { // customer write lock acquired
 
-        val reserved: MutableMap<Int, Reserved> = mutableMapOf()
-
-        for ((reservationId, reservableItem) in reservationResources){
-            if ( customerAddReservation(transactionId, customerId, reservationId, reservableItem) == true) {
-                reserved.put(customerId, Reserved(reservableItem.id, reservationId))
-            } else {
-                // if any of the fail, undo the reservations so far
-                reserved.forEach({(cId, reserved) ->
-                    customerRemoveReservation(transactionId, cId, reserved.rReservationId)
-                    reserveResource(transactionId, reserved.rResourceId, -1 )
-                    return false
-                })
+            reservationResources.forEach {(reservationId, reservableItem) ->
+                if (!lockManager.lock(transactionId, reservableItem.type.toString(), LockType.WRITE)) return false
+                queryResource(transactionId, reservableItem.id) ?: return false
             }
 
+            val customer = queryCustomer(transactionId, customerId) ?: return false
+
+            reservationResources.forEach {(reservationId, reservableItem) ->
+                val resource = queryResource(transactionId, reservableItem.id)!!
+                customerAddReservation(transactionId, customerId, reservationId, resource.item)
+            }
+
+        } else {
+            cleanupDeadlock(transactionId)
         }
-        return true
+        return false
     }
 
     private fun generateCustomerId(): Int {

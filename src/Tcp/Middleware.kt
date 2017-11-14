@@ -33,7 +33,6 @@ class Middleware(val server: String,
     }
 
     override fun reserveResource(resourceId: String, reservationQuantity: Int): Boolean {
-        println("MIDDLEWARE" + resourceType[resourceId])
         return getRm(resourceType[resourceId] ?: return false).reserveResource(resourceId, reservationQuantity)
     }
 
