@@ -1,19 +1,21 @@
 package ServerCode
 
-import LockManagerCustom.LockManager
-import LockManagerCustom.LockType
+import ResourceManagerCode.ReservableItem
 import ResourceManagerCode.ReservableType
+import ResourceManagerCode.Resource
 import Tcp.*
 import Transactions.TransactionalMiddleware
 import Transactions.TransactionalRequestReceiver
 import Transactions.TransactionalRequestSender
-import kotlin.concurrent.thread
+import jdk.management.resource.ResourceType
 import kotlin.system.measureTimeMillis
 
 
 object Tester {
 
     val tester = ResourceManagerImpl()
+    val customerList: MutableList<Int> = mutableListOf()
+    val resourceList: MutableList<String> = mutableListOf()
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -43,56 +45,109 @@ object Tester {
         val client = TransactionalRequestSender(PortNumbers.middleware, "127.0.0.1")
 
         // Initiate resources to test on
-        if (client.start(12) == true) {
+        if (client.start(12)) {
             client.createResource(12, ReservableType.FLIGHT, "fly_1", 50, 5)
             client.createResource(12, ReservableType.HOTEL, "hot_1", 50, 5)
             client.createResource(12, ReservableType.CAR, "car_1", 50, 5)
         }
-        if (client.commit(12) == false){
+
+        if (!client.commit(12)){
             println("Your transaction failed.\n")
         }
 
-        var clients = 1
+        var numClients = 5
 
-        if (clients == 1){
-            customer(client, 1)
-        } else {
-
+        for (i in 0..numClients) {
             Thread {
-                customer(client, 2)
-            }.start()
-            Thread {
-                customer(client, 3)
-            }.start()
-            Thread {
-                customer(client, 4)
-            }.start()
+                runCustomer(client, i)
+            }
         }
+        while (true) {
 
+        }
         println("END\n")
 
     }
 
 
-    fun customer(middleware: TransactionalRequestSender, custID: Int){
+    fun runCustomer(client: TransactionalRequestSender, transactionId: Int){
         // The customer transaction types are: add reservation, itinerary
         // We assume all other transaction types are administrative, e.g. not accessible to
         // the average customer.
 
-        val resourceIds = arrayOf("car_1", "fly_1", "hot_1")
-        var r1 = 0
-        var r2 = 0
-        var r3 = 0
-        var counter = 1
-        var response2 = false
-        var response3 = false
-        if(middleware.start(999)) {
-            middleware.createCustomer(999, custID)
-            if(!middleware.commit(999)){
+        var method = (Math.random()*15).toInt()
+        var r1 = (Math.random()*3).toInt()
+        var r2 = (Math.random()*10).toInt()
+        var r3 = (Math.random()*100).toInt()
+        var r4 = (Math.random()*100).toInt()
+        var r5 = (Math.random()*10000).toInt()
+
+        client.start(transactionId)
+
+        var keepgoing = true
+        while (keepgoing) {
+
+            when (method) {
+                0-> {
+                    client.createCustomer(transactionId, r3)
+                    customerList.add(r3)
+                }
+                1-> {
+                    client.deleteCustomer(transactionId, customerList[r1])
+                    customerList.removeAt(r1)
+                }
+                2 -> {
+                    val type = when(r1) {
+                        0 -> ReservableType.FLIGHT
+                        1 -> ReservableType.CAR
+                        2 -> ReservableType.HOTEL
+                        else -> ReservableType.FLIGHT
+                    }
+                    client.createResource(transactionId, type, r5.toString(), r2, r3)
+                    resourceList.add(r5.toString())
+                }
+                3 -> {
+                    client.deleteResource(transactionId, resourceList[r1])
+                    resourceList.removeAt(r1)
+                }
+                4 -> {
+                    val resource = client.queryResource(transactionId, resourceList[r1])
+                    if (resource != null) {
+                        client.customerAddReservation(transactionId, customerList[r1], r1, resource.item)
+                        client.reserveResource(transactionId, resource.item.id, 1)
+                    }
+
+                }
+                5,6,7 -> {
+                    client.commit(transactionId)
+                    keepgoing = false
+                }
+                else -> Thread.sleep(r3.toLong())
+            }
+
+            r1 = (Math.random()*3).toInt()
+            r2 = (Math.random()*10).toInt()
+            r3 = (Math.random()*100).toInt()
+            r4 = (Math.random()*100).toInt()
+            r5 = (Math.random()*10000).toInt()
+        }
+
+        /*
+        if(client.start(transactionId)) {
+            client.createCustomer(transactionId, )
+            if(!client.commit(transactionId)){
                 println("Create customer commit failed. \n")
             }
         } else {
             println("Create customer transaction failed. \n")
+        }
+
+        for (i in 0..100) {
+
+
+            when(r1) {
+                0 -> client.
+            }
         }
 
         for (i in 0..5) {
@@ -103,31 +158,31 @@ object Tester {
 
             var timeElapsed = measureTimeMillis {
                 if (r3 == 1) {
-                    if(middleware.start(counter)) {
-                        var response = middleware.queryResource(counter, resourceIds[r1])
+                    if(client.start(counter)) {
+                        var response = client.queryResource(counter, resourceIds[r1])
                         println("Iteration $i query response: $response")
 
                         if (response != null) {
-                            response2 = middleware.customerAddReservation(counter, custID, counter, response.item)
-                            middleware.reserveResource(counter, resourceIds[r1], 1)
+                            response2 = client.customerAddReservation(counter, custID, counter, response.item)
+                            client.reserveResource(counter, resourceIds[r1], 1)
                             println("Iteration $i reserve response: $response2")
                         }
-                        if(!middleware.commit(counter)){
+                        if(!client.commit(counter)){
                             println("Iteration $i commit failed. \n")
                         }
                     } else {
                         println("Iteration $i transaction failed. \n")
                     }
                 } else if (r3 == 2) {
-                    if(middleware.start(counter)) {
-                        var resource1 = middleware.queryResource(counter, resourceIds[r1])
+                    if(client.start(counter)) {
+                        var resource1 = client.queryResource(counter, resourceIds[r1])
                         r1 = (Math.random() * 3).toInt()
-                        var resource2 = middleware.queryResource(counter, resourceIds[r1])
+                        var resource2 = client.queryResource(counter, resourceIds[r1])
                         if (resource1 != null && resource2 != null) {
-                            response3 = middleware.itinerary(counter, custID, mutableMapOf(1 to resource1.item, 2 to resource2.item))
+                            response3 = client.itinerary(counter, custID, mutableMapOf(1 to resource1.item, 2 to resource2.item))
                         }
                         println("Iteration $i itinerary response: $response3")
-                        if(!middleware.commit(counter)){
+                        if(!client.commit(counter)){
                             println("Iteration $i commit failed. \n")
                         }
                     } else {
@@ -140,7 +195,7 @@ object Tester {
             if (custID > 1) {
                 Thread.sleep(r2.toLong())
             }
-        }
+        }*/
 
     }
 

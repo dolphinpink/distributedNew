@@ -4,7 +4,13 @@
     <bookmark url="file://$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" line="26" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcc90e27-b22c-4a30-bdc4-55d020c0dfcc" name="Default" comment="" />
+    <list default="true" id="dcc90e27-b22c-4a30-bdc4-55d020c0dfcc" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester$testLockManager$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester$testLockManager$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/Transactions/TransactionalMiddleware$itinerary$Reserved.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerCode/Tester.kt" afterPath="$PROJECT_DIR$/src/ServerCode/Tester.kt" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,26 +21,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Tester.kt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Tester.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ServerCode/Tester.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="41" column="16" lean-forward="false" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
+            <state relative-caret-position="487">
+              <caret line="142" column="9" lean-forward="true" selection-start-line="142" selection-start-column="9" selection-end-line="142" selection-end-column="9" />
               <folding>
-                <element signature="e#20#317#0" expanded="true" />
-                <element signature="n#!!block;n#testLockManager#0;n#!!block;n#Tester#0" expanded="false" />
-                <element signature="n#!!block;n#testBasics#0;n#!!block;n#Tester#0" expanded="false" />
-                <element signature="n#!!block;n#pp#0;n#!!block;n#Tester#0" expanded="false" />
+                <element signature="e#20#375#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TransactionalMiddleware.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ResourceManager.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-291">
+              <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+              <folding>
+                <element signature="n#!!doc;n#createResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#updateResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#reserveResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#deleteResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#queryResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#uniqueCustomerId#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#createCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#deleteCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#customerAddReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#customerRemoveReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#queryCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+                <element signature="n#!!doc;n#itinerary#0;n#!!block;n#ResourceManager#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TransactionalMiddleware.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Transactions/TransactionalMiddleware.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="159" column="72" lean-forward="false" selection-start-line="159" selection-start-column="72" selection-end-line="159" selection-end-column="72" />
+            <state relative-caret-position="187">
+              <caret line="175" column="44" lean-forward="false" selection-start-line="175" selection-start-column="44" selection-end-line="175" selection-end-column="44" />
               <folding>
                 <element signature="e#22#177#0" expanded="true" />
                 <element signature="n#!!block;n#getRm#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
@@ -46,70 +72,6 @@
                 <element signature="n#!!block;n#deleteResource#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
                 <element signature="n#!!block;n#queryResource#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
                 <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-                <element signature="n#!!block;n#generateCustomerId#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-                <element signature="e#8924#9006#2" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TransactionManager.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Transactions/TransactionManager.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="48" column="27" lean-forward="false" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
-              <folding>
-                <element signature="e#22#138#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Middleware.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Tcp/Middleware.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="100" column="65" lean-forward="false" selection-start-line="100" selection-start-column="65" selection-end-line="100" selection-end-column="65" />
-              <folding>
-                <element signature="n#!!block;n#updateResource#0;n#!!block;n#Middleware#0" expanded="false" />
-                <element signature="n#!!block;n#queryResource#0;n#!!block;n#Middleware#0" expanded="false" />
-                <element signature="n#!!block;n#queryCustomer#0;n#!!block;n#Middleware#0" expanded="false" />
-                <element signature="n#!!block;n#customerRemoveReservation#0;n#!!block;n#Middleware#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LockManager.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LockManagerCustom/LockManager.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="867">
-              <caret line="93" column="50" lean-forward="false" selection-start-line="93" selection-start-column="50" selection-end-line="93" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TcpRequestSender.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="58" column="39" lean-forward="false" selection-start-line="58" selection-start-column="39" selection-end-line="58" selection-end-column="39" />
-              <folding>
-                <element signature="e#1564#1614#0" expanded="false" />
-                <element signature="n#!!block;n#createResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="n#!!block;n#updateResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="n#!!block;n#reserveResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="n#!!block;n#deleteResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="n#!!block;n#queryResource#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="n#!!block;n#createCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="n#!!block;n#deleteCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="n#!!block;n#customerRemoveReservation#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="n#!!block;n#queryCustomer#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="n#!!block;n#itinerary#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="n#!!block;n#getReply#0;n#!!block;n#TcpRequestSender#0" expanded="false" />
-                <element signature="e#6024#6064#1" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -146,29 +108,6 @@
               <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding>
                 <element signature="e#22#309#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ResourceManager.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-291">
-              <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
-              <folding>
-                <element signature="n#!!doc;n#createResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
-                <element signature="n#!!doc;n#updateResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
-                <element signature="n#!!doc;n#reserveResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
-                <element signature="n#!!doc;n#deleteResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
-                <element signature="n#!!doc;n#queryResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
-                <element signature="n#!!doc;n#uniqueCustomerId#0;n#!!block;n#ResourceManager#0" expanded="false" />
-                <element signature="n#!!doc;n#createCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
-                <element signature="n#!!doc;n#deleteCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
-                <element signature="n#!!doc;n#customerAddReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
-                <element signature="n#!!doc;n#customerRemoveReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
-                <element signature="n#!!doc;n#queryCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
-                <element signature="n#!!doc;n#itinerary#0;n#!!block;n#ResourceManager#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -301,9 +240,9 @@
         <option value="$PROJECT_DIR$/src/Transactions/TransactionalRequestSender.kt" />
         <option value="$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt" />
         <option value="$PROJECT_DIR$/src/Transactions/TransactionManager.kt" />
-        <option value="$PROJECT_DIR$/src/ServerCode/Tester.kt" />
         <option value="$PROJECT_DIR$/src/Tcp/Middleware.kt" />
         <option value="$PROJECT_DIR$/src/Transactions/TransactionalMiddleware.kt" />
+        <option value="$PROJECT_DIR$/src/ServerCode/Tester.kt" />
       </list>
     </option>
   </component>
@@ -544,12 +483,12 @@
       <workItem from="1509997175774" duration="39507000" />
       <workItem from="1510352249917" duration="745000" />
       <workItem from="1510353980456" duration="31806000" />
-      <workItem from="1510552575151" duration="29614000" />
+      <workItem from="1510552575151" duration="31856000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="167616000" />
+    <option name="totallyTimeSpent" value="169858000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -624,7 +563,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/Transactions/TransactionalMiddleware.kt</url>
-          <line>170</line>
+          <line>175</line>
           <properties />
           <option name="timeStamp" value="30" />
         </line-breakpoint>
@@ -871,27 +810,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-291">
-          <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
-          <folding>
-            <element signature="n#!!doc;n#createResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
-            <element signature="n#!!doc;n#updateResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
-            <element signature="n#!!doc;n#reserveResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
-            <element signature="n#!!doc;n#deleteResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
-            <element signature="n#!!doc;n#queryResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
-            <element signature="n#!!doc;n#uniqueCustomerId#0;n#!!block;n#ResourceManager#0" expanded="false" />
-            <element signature="n#!!doc;n#createCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
-            <element signature="n#!!doc;n#deleteCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
-            <element signature="n#!!doc;n#customerAddReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
-            <element signature="n#!!doc;n#customerRemoveReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
-            <element signature="n#!!doc;n#queryCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
-            <element signature="n#!!doc;n#itinerary#0;n#!!block;n#ResourceManager#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Transactions/TransactionalRequestCommand.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -955,6 +873,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/LockManagerCustom/LockManager.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="867">
+          <caret line="93" column="50" lean-forward="false" selection-start-line="93" selection-start-column="50" selection-end-line="93" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Tcp/Middleware.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="254">
@@ -978,31 +904,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/LockManagerCustom/LockManager.kt">
+    <entry file="file://$PROJECT_DIR$/src/ResourceManagerCode/ResourceManager.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="867">
-          <caret line="93" column="50" lean-forward="false" selection-start-line="93" selection-start-column="50" selection-end-line="93" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerCode/Tester.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="41" column="16" lean-forward="false" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
+        <state relative-caret-position="-291">
+          <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
           <folding>
-            <element signature="e#20#317#0" expanded="true" />
-            <element signature="n#!!block;n#testLockManager#0;n#!!block;n#Tester#0" expanded="false" />
-            <element signature="n#!!block;n#testBasics#0;n#!!block;n#Tester#0" expanded="false" />
-            <element signature="n#!!block;n#pp#0;n#!!block;n#Tester#0" expanded="false" />
+            <element signature="n#!!doc;n#createResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#updateResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#reserveResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#deleteResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#queryResource#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#uniqueCustomerId#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#createCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#deleteCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#customerAddReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#customerRemoveReservation#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#queryCustomer#0;n#!!block;n#ResourceManager#0" expanded="false" />
+            <element signature="n#!!doc;n#itinerary#0;n#!!block;n#ResourceManager#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Transactions/TransactionalMiddleware.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="159" column="72" lean-forward="false" selection-start-line="159" selection-start-column="72" selection-end-line="159" selection-end-column="72" />
+        <state relative-caret-position="187">
+          <caret line="175" column="44" lean-forward="false" selection-start-line="175" selection-start-column="44" selection-end-line="175" selection-end-column="44" />
           <folding>
             <element signature="e#22#177#0" expanded="true" />
             <element signature="n#!!block;n#getRm#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
@@ -1014,8 +940,16 @@
             <element signature="n#!!block;n#deleteResource#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
             <element signature="n#!!block;n#queryResource#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
             <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-            <element signature="n#!!block;n#generateCustomerId#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-            <element signature="e#8924#9006#2" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ServerCode/Tester.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="487">
+          <caret line="142" column="9" lean-forward="true" selection-start-line="142" selection-start-column="9" selection-end-line="142" selection-end-column="9" />
+          <folding>
+            <element signature="e#20#375#0" expanded="true" />
           </folding>
         </state>
       </provider>
