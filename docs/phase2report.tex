@@ -42,8 +42,11 @@ In order to push functions onto stacks, the command pattern was used to create t
 
 With the way aborts work, it was necessary to create ``doubles'' of each function. If the TransactionalMiddleware create() function were to push the TransactionalMiddleware delete() function onto the stack, popping that delete function would push a create() function onto the stack, making an endless loop. Instead, the TransactionalMiddleware create() function pushes the Middleware delete() function onto the stack, whose operations are final (the same way they were implemented in project one).
 
-The performance analysis class was designed by executing 50 queries/reservations of randomized resources, of 1 in quantity, by the same customer. To vary the performance, we also randomized the itinerary invocation, and performed the same test using multiple client process threads running at once, with a delay after each iteration randomized in the interval [300,700] milliseconds. We measured the time each execution took on the client-side as well as the middleware-side, to get a better idea of the execution time of each component as well as the bottleneck of the system overall.
+The performance analysis was by creating N customers in different threads, and having each of them submit transactions. Each of the N customers would loop and perform random actions, which included creating/deleting customers,resources and creating reservations(50\%), sleeping for a small amount of time (50\%), or committing their transactions(10\%). They start off with 6 resources and 6 customers, which they are free to randomly add to/modify/delete.
+For 1 customer, these transactions would always complete. However, with 2, this quickly deteriorates, with about 1/2 of them deadlocking. With 5 customers, usually none of the customers would complete.
 
+Response time increased ____ with number of customers. The test was modified so that each customer would submit transactions with only one request in it, each requiring only one lock (no possiblity of deadlock). The customers would sleep 10 ms after each commit. Response time started to increase after n customers.
+examples
 
 
 \section{Results}

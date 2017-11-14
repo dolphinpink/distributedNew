@@ -219,7 +219,7 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String): Tran
         var reply: Reply? = null
 
         while({reply = replies.find {r -> r.requestId == requestId}; reply}() == null) {
-            Thread.sleep(50)
+            Thread.sleep(5)
         }
 
         replies.remove(reply)

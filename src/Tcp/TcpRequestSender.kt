@@ -195,7 +195,7 @@ class TcpRequestSender(val portNum: Int, val serverName: String, val requestIdSt
         var reply: Reply? = null
 
         while({reply = replies.find {r -> r.requestId == requestId}; reply}() == null) {
-            Thread.sleep(50)
+            Thread.sleep(5)
         }
 
         replies.remove(reply)
