@@ -161,6 +161,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
             if(customerRm.deleteCustomer(customerId)) {
                 transactionManager.addRequest(transactionId, CreateCustomerRequest(-1, customerId))
             }
+            return true
         } else {
             cleanupDeadlock(transactionId)
         }
@@ -186,6 +187,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
         if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) { // customer write lock acquired
             customerRm.customerAddReservation(customerId, reservationId, reservableItem)
             transactionManager.addRequest(transactionId, CustomerRemoveReservationRequest(-1, customerId, reservationId))
+            return true
         } else {
             cleanupDeadlock(transactionId)
         }
@@ -198,6 +200,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
             val snapshot = customerRm.queryCustomer(customerId)?.reservations?.find { r -> r.reservationId == reservationId } ?: return false
             customerRm.customerRemoveReservation(customerId, reservationId)
             transactionManager.addRequest(transactionId, CustomerAddReservationRequest(-1, customerId, reservationId, snapshot.item))
+            return true
         } else {
             cleanupDeadlock(transactionId)
         }
@@ -219,6 +222,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
                 val resource = queryResource(transactionId, reservableItem.id)!!
                 customerAddReservation(transactionId, customerId, reservationId, resource.item)
             }
+            return true
 
         } else {
             cleanupDeadlock(transactionId)
