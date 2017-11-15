@@ -40,7 +40,10 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String): Tran
                 try {
                     val reply = mapper.readValue<Reply>(json!!)
                     println("SENDER RESPONSE LOOP extracted $reply")
-                    replies.add(reply)
+                    synchronized(replies) {
+                        replies.add(reply)
+                    }
+
 
                 } catch (e: Exception) {
                     println(e)
@@ -218,11 +221,16 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String): Tran
 
         var reply: Reply? = null
 
-        while({reply = replies.find {r -> r.requestId == requestId}; reply}() == null) {
+        var wait = true
+        while (wait) {
+            synchronized(replies) {
+                wait = { reply = replies.find { r -> r.requestId == requestId }; reply }() == null
+            }
             Thread.sleep(5)
         }
-
-        replies.remove(reply)
+        synchronized(replies) {
+            replies.remove(reply)
+        }
 
         return reply!!
     }

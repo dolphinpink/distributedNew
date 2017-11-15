@@ -73,7 +73,7 @@ object Tester {
             println("Your transaction failed.\n")
         }
 
-        var numClients = 5
+        var numClients = 1000
 
         for (i in 0..numClients) {
             Thread {
@@ -91,80 +91,27 @@ object Tester {
         // We assume all other transaction types are administrative, e.g. not accessible to
         // the average customer.
 
-        var method = (Math.random()*15).toInt()
+        var method = (Math.random()*4).toInt()
         var r1 = (Math.random()*3).toInt()
         var r2 = (Math.random()*10).toInt()
         var r3 = (Math.random()*100).toInt()
         var r4 = (Math.random()*100).toInt()
         var r5 = (Math.random()*10000).toInt()
 
-        client.start(transactionId)
+
 
         var keepgoing = true
-        while (keepgoing) {
+        for(i in 0..3) {
+            client.start(transactionId)
 
-            when (method) {
-                0-> {
-                    var timeElapsed = measureTimeMillis {
-                        client.createCustomer(transactionId, r3)
-                        customerList.add(r3)
-                        println("Create customer")
-                    }
-                    println("Time Elapsed: $timeElapsed \n")
-                }
-                1-> {
-                    var timeElapsed = measureTimeMillis {
-                        client.deleteCustomer(transactionId, customerList[r1])
-                        customerList.removeAt(r1)
-                        println("Delete customer")
-                    }
-                    println("Time Elapsed: $timeElapsed \n")
-                }
-                2 -> {
-                    var timeElapsed = measureTimeMillis {
-                        val type = when(r1) {
-                            0 -> ReservableType.FLIGHT
-                            1 -> ReservableType.CAR
-                            2 -> ReservableType.HOTEL
-                            else -> ReservableType.FLIGHT
-                        }
-                        client.createResource(transactionId, type, r5.toString(), r2, r3)
-                        resourceList.add(r5.toString())
-                        println("Create resource")
-                    }
-                    println("Time Elapsed: $timeElapsed \n")
-                }
-                3 -> {
-                    var timeElapsed = measureTimeMillis {
-                        client.deleteResource(transactionId, resourceList[r1])
-                        resourceList.removeAt(r1)
-                        println("Delete resource")
-                    }
-                    println("Time Elapsed: $timeElapsed \n")
-                }
-                4 -> {
-                    var timeElapsed = measureTimeMillis {
-                        val resource = client.queryResource(transactionId, resourceList[r1])
-                        if (resource != null) {
-                            client.customerAddReservation(transactionId, customerList[r1], r1, resource.item)
-                            client.reserveResource(transactionId, resource.item.id, 1)
-                            println("Add reservation response: $resource")
-                        }
-                    }
-                    println("Time Elapsed: $timeElapsed \n")
-
-                }
-                5,6 -> {
-                    var timeElapsed = measureTimeMillis {
-                        client.commit(transactionId)
-                        keepgoing = false
-                        println("Commit response: $keepgoing")
-                    }
-                    println("Time Elapsed: $timeElapsed \n")
-                }
-
-                else -> Thread.sleep(r4.toLong())
+            var timeElapsed = measureTimeMillis {
+                client.queryCustomer(transactionId, 1)
+                println("Create customer")
             }
+            println("Time Elapsed: $timeElapsed \n")
+
+            client.commit(transactionId)
+            Thread.sleep(100)
 
             r1 = (Math.random()*3).toInt()
             r2 = (Math.random()*10).toInt()
@@ -172,66 +119,6 @@ object Tester {
             r4 = (Math.random()*100).toInt()
             r5 = (Math.random()*10000).toInt()
         }
-
-
-        /*
-        if(client.start(transactionId)) {
-            client.createCustomer(transactionId, )
-            if(!client.commit(transactionId)){
-                println("Create customer commit failed. \n")
-            }
-        } else {
-            println("Create customer transaction failed. \n")
-        }
-        for (i in 0..100) {
-            when(r1) {
-                0 -> client.
-            }
-        }
-        for (i in 0..5) {
-            // Random variables for the resource type, sleep time, and randomized method, respectively.
-            r1 = (Math.random()*3).toInt()
-            r2 = (Math.random()*400).toInt() + 300
-            r3 = (Math.random()*2).toInt() + 1
-            var timeElapsed = measureTimeMillis {
-                if (r3 == 1) {
-                    if(client.start(counter)) {
-                        var response = client.queryResource(counter, resourceIds[r1])
-                        println("Iteration $i query response: $response")
-                        if (response != null) {
-                            response2 = client.customerAddReservation(counter, custID, counter, response.item)
-                            client.reserveResource(counter, resourceIds[r1], 1)
-                            println("Iteration $i reserve response: $response2")
-                        }
-                        if(!client.commit(counter)){
-                            println("Iteration $i commit failed. \n")
-                        }
-                    } else {
-                        println("Iteration $i transaction failed. \n")
-                    }
-                } else if (r3 == 2) {
-                    if(client.start(counter)) {
-                        var resource1 = client.queryResource(counter, resourceIds[r1])
-                        r1 = (Math.random() * 3).toInt()
-                        var resource2 = client.queryResource(counter, resourceIds[r1])
-                        if (resource1 != null && resource2 != null) {
-                            response3 = client.itinerary(counter, custID, mutableMapOf(1 to resource1.item, 2 to resource2.item))
-                        }
-                        println("Iteration $i itinerary response: $response3")
-                        if(!client.commit(counter)){
-                            println("Iteration $i commit failed. \n")
-                        }
-                    } else {
-                        println("Iteration $i transaction failed. \n")
-                    }
-                }
-            }
-            println("Time Elapsed: $timeElapsed \n")
-            counter++
-            if (custID > 1) {
-                Thread.sleep(r2.toLong())
-            }
-        }*/
 
     }
 
