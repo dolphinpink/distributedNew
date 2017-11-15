@@ -22,6 +22,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
 
     private val lockManager = LockManager()
 
+    private val customerIdLock = Any()
     private var customerIdCounter: Int = 0
 
     private fun getRm(type: ReservableType): ResourceManager {
@@ -231,7 +232,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
     }
 
     private fun generateCustomerId(): Int {
-        synchronized(customerIdCounter) {
+        synchronized(customerIdLock) {
             customerIdCounter +=1
             return customerIdCounter
         }

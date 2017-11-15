@@ -13,12 +13,13 @@ import java.net.Socket
 
 class TransactionalRequestSender(val portNum: Int, val serverName: String): TransactionalResourceManager {
 
-
+    private val requestHistory: MutableMap<Int, String> = mutableMapOf()
 
     private val outToServer: PrintWriter
     private val inFromServer: BufferedReader
     private val mapper: ObjectMapper
 
+    private val requestIdLock = Any()
     private var requestIdCounter: Int = 0
 
     private val replies: MutableSet<Reply> = mutableSetOf()
@@ -39,7 +40,7 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String): Tran
 
                 try {
                     val reply = mapper.readValue<Reply>(json!!)
-                    println("SENDER RESPONSE LOOP extracted $reply")
+                    //println("SENDER RESPONSE LOOP extracted $reply")
                     synchronized(replies) {
                         replies.add(reply)
                     }
@@ -54,86 +55,54 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String): Tran
 
     }
 
-    override fun start(transactionId: Int): Boolean {
-
-        val reply = sendRequest(TransactionalStartRequest(generateRequestId(), transactionId))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
-    }
-
-    override fun commit(transactionId: Int): Boolean {
-        val reply = sendRequest(TransactionalCommitRequest(generateRequestId(), transactionId))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
-    }
-
-    override fun abort(transactionId: Int): Boolean {
-        val reply = sendRequest(TransactionalAbortRequest(generateRequestId(), transactionId))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
-    }
-
     fun sendRequest(request: TransactionalRequestCommand): Reply {
 
         val json = mapper.writeValueAsString(request)
-
+        requestHistory.put(request.requestId, json)
+        //println("${request.requestId} submitted $json")
         outToServer.println(json)
-        println("SENDER sent $json")
+        //println("SENDER sent $json")
 
         val reply = getReply(request.requestId)
 
-        println("SENDER reply received")
+        //println("SENDER reply received")
 
         return reply
     }
 
+    override fun start(transactionId: Int): Boolean {
+        val reply = sendRequest(TransactionalStartRequest(generateRequestId(), transactionId))
+        return getBoolean(reply)
+    }
+
+    override fun commit(transactionId: Int): Boolean {
+        val reply = sendRequest(TransactionalCommitRequest(generateRequestId(), transactionId))
+        return getBoolean(reply)
+    }
+
+    override fun abort(transactionId: Int): Boolean {
+        val reply = sendRequest(TransactionalAbortRequest(generateRequestId(), transactionId))
+        return getBoolean(reply)
+    }
+
     override fun createResource(transactionId: Int, type: ReservableType, id: String, totalQuantity: Int, price: Int): Boolean {
-
         val reply = sendRequest(TransactionalCreateResourceRequest(generateRequestId(), transactionId, type, id, totalQuantity, price))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
+        return getBoolean(reply)
     }
 
     override fun updateResource(transactionId: Int, id: String, newTotalQuantity: Int, newPrice: Int): Boolean {
-
         val reply = sendRequest(TransactionalUpdateResourceRequest(generateRequestId(), transactionId, id, newTotalQuantity, newPrice))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
+        return getBoolean(reply)
     }
 
     override fun reserveResource(transactionId: Int, resourceId: String, reservationQuantity: Int): Boolean {
         val reply = sendRequest(TransactionalReserveResourceRequest(generateRequestId(), transactionId, resourceId, reservationQuantity))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
+        return getBoolean(reply)
     }
 
     override fun deleteResource(transactionId: Int, id: String): Boolean {
-
         val reply = sendRequest(TransactionalDeleteResourceRequest(generateRequestId(), transactionId, id))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
-
+        return getBoolean(reply)
     }
 
     override fun queryResource(transactionId: Int, resourceId: String): Resource? {
@@ -141,7 +110,7 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String): Tran
         val reply = sendRequest(TransactionalQueryResourceRequest(generateRequestId(), transactionId, resourceId))
 
         if (reply !is ResourceReply)
-            throw Exception("SENDER Remote failed")
+            throw Exception("SENDER Getting ResourceReply failed. got $reply. request was ${requestHistory.get(reply.requestId)}")
 
         return reply.value
     }
@@ -150,71 +119,57 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String): Tran
         val reply = sendRequest(TransactionalUniqueCustomerIdRequest(generateRequestId(), transactionId))
 
         if (reply !is IntReply)
-            throw Exception("SENDER Remote failed")
+            throw Exception("SENDER Getting IntReply failed. got $reply. request was ${requestHistory.get(reply.requestId)}")
 
         return reply.value
     }
 
     override fun createCustomer(transactionId: Int, customerId: Int): Boolean {
         val reply = sendRequest(TransactionalCreateCustomerRequest(generateRequestId(), transactionId, customerId))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
+        return getBoolean(reply)
     }
 
     override fun deleteCustomer(transactionId: Int, customerId: Int): Boolean {
         val reply = sendRequest(TransactionalDeleteCustomerRequest(generateRequestId(), transactionId, customerId))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
+        return getBoolean(reply)
     }
 
     override fun customerAddReservation(transactionId: Int, customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean {
         val reply = sendRequest(TransactionalCustomerAddReservationRequest(generateRequestId(), transactionId, customerId, reservationId, reservableItem))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
+        return getBoolean(reply)
     }
 
     override fun customerRemoveReservation(transactionId: Int, customerId: Int, reservationId: Int): Boolean {
         val reply = sendRequest(TransactionalCustomerRemoveReservationRequest(generateRequestId(), transactionId, customerId, reservationId))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
+        return getBoolean(reply)
     }
 
     override fun queryCustomer(transactionId: Int, customerId: Int): Customer? {
         val reply = sendRequest(TransactionalQueryCustomerRequest(generateRequestId(), transactionId, customerId))
 
         if (reply !is CustomerReply)
-            throw Exception("SENDER Remote failed")
+            throw Exception("SENDER Getting CustomerReply failed. got $reply. request was ${requestHistory.get(reply.requestId)}")
 
         return reply.value
     }
 
     override fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean {
-
         val reply = sendRequest(TransactionalItineraryRequest(generateRequestId(), transactionId, customerId, reservationResources))
-
-        if (reply !is BooleanReply)
-            throw Exception("SENDER Remote failed")
-
-        return reply.value
-
+        return getBoolean(reply)
     }
 
     fun generateRequestId(): Int {
-        synchronized(requestIdCounter) {
-            return requestIdCounter++
+        synchronized(requestIdLock) {
+            requestIdCounter += 1
+            return requestIdCounter
         }
+    }
+    
+    fun getBoolean(reply: Reply): Boolean {
+        if (reply !is BooleanReply) {
+            throw Exception("SENDER Getting BooleanReply failed. got $reply. request was ${requestHistory.get(reply.requestId)}")
+        }
+        return reply.value
     }
 
     fun getReply(requestId: Int): Reply {
@@ -226,7 +181,7 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String): Tran
             synchronized(replies) {
                 wait = { reply = replies.find { r -> r.requestId == requestId }; reply }() == null
             }
-            Thread.sleep(5)
+            Thread.sleep(TuningParameters.CHECK_DELAY)
         }
         synchronized(replies) {
             replies.remove(reply)

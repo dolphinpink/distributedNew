@@ -10,6 +10,7 @@ class ResourceManagerImpl : ResourceManager {
     private val resourceLock = Any()
     private val customerLock = Any()
 
+    private val customerIdLock = Any()
     private var customerIdCounter: Int = 0
 
     override fun createResource(type: ReservableType, resourceId: String, totalQuantity: Int, price: Int): Boolean {
@@ -105,7 +106,7 @@ class ResourceManagerImpl : ResourceManager {
     }
 
     private fun generateCustomerId(): Int {
-        synchronized(customerIdCounter) {
+        synchronized(customerIdLock) {
             customerIdCounter +=1
             return customerIdCounter
         }

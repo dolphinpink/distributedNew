@@ -1,14 +1,14 @@
-/*package ServerCode;
+/*
+package ServerCode;
 
 import Transactions.TransactionalMiddleware;
 
 import ResourceManagerCode.ReservableType;
 import Tcp.*;
-import Transactions.TransactionalMiddleware;
+import ResourceManagerCode.*;
 import Transactions.TransactionalRequestReceiver;
 import Transactions.TransactionalRequestSender;
 import java.rmi.RemoteException;
-import java.util.concurrent.TimeUnit;
 
 import java.util.*;
 import java.io.*;
@@ -18,27 +18,43 @@ public class Client {
 
     private static List<Integer> activeTransactions = new ArrayList<Integer>();
 
-    public static void main(String args[]) throws RemoteException
-    {
+    public static void main(String args[]){
 
-        TcpRequestReceiver requestReceiverFlight = new TcpRequestReceiver(new ResourceManagerImpl(), 8087);
-        requestReceiverFlight.runServer();
+        try {
 
-        TcpRequestReceiver requestReceiverHotel = new TcpRequestReceiver(new ResourceManagerImpl(), 8088);
-        requestReceiverHotel.runServer();
+            TcpRequestReceiver requestReceiverFlight = new TcpRequestReceiver(new ResourceManagerImpl(), PortNumbers.Companion.getFlightRm());
+            requestReceiverFlight.runServer();
 
-        TcpRequestReceiver requestReceiverCar = new TcpRequestReceiver(new ResourceManagerImpl(), 8089);
-        requestReceiverCar.runServer();
+            TcpRequestReceiver requestReceiverHotel = new TcpRequestReceiver(new ResourceManagerImpl(), PortNumbers.Companion.getHotelRm());
+            requestReceiverHotel.runServer();
 
-        TcpRequestReceiver requestReceiverCustomer = new TcpRequestReceiver(new ResourceManagerImpl(), 8090);
-        requestReceiverCustomer.runServer();
+            TcpRequestReceiver requestReceiverCar = new TcpRequestReceiver(new ResourceManagerImpl(), PortNumbers.Companion.getCarRm());
+            requestReceiverCar.runServer();
 
-        Thread.sleep(500);
+            TcpRequestReceiver requestReceiverCustomer = new TcpRequestReceiver(new ResourceManagerImpl(), PortNumbers.Companion.getCustomerRm());
+            requestReceiverCustomer.runServer();
+        } catch(IOException ioe) {
+            System.out.println("io exception");
+        }
 
-        TransactionalRequestReceiver midware = new TransactionalRequestReceiver(new TransactionalMiddleware("127.0.0.1"), 8086);
-        midware.runServer();
+        try {
+            Thread.sleep(500);
+        } catch (Exception e){
+            System.out.println(e);
+        }
 
-        Thread.sleep(500);
+        try {
+            TransactionalRequestReceiver midware = new TransactionalRequestReceiver(new TransactionalMiddleware("127.0.0.1"), 8086);
+            midware.runServer();
+        } catch(IOException ioe) {
+            System.out.println("io exception");
+        }
+
+        try {
+            Thread.sleep(500);
+        } catch (Exception e){
+            System.out.println(e);
+        }
 
         TransactionalRequestSender client = new TransactionalRequestSender(8086, "127.0.0.1");
 
@@ -69,28 +85,136 @@ public class Client {
             int transaction;
             switch (head(arglist))
             {
-                case "add":
+                case "createresource":
                     transaction = parseTransactionId(tail(arglist));
-                    if (transaction != -1)
-                        add(client, transaction, tail(tail(arglist)));
+                    if (transaction != -1) {
+                        try {
+                            createResource(client, transaction, tail(tail(arglist)));
+                        } catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
                     break;
-                case "delete":
+                case "updateresource":
                     transaction = parseTransactionId(tail(arglist));
-                    if (transaction != -1)
-                        delete(client, transaction, tail(tail(arglist)));
+                    if (transaction != -1) {
+                        try {
+                            updateResource(client, transaction, tail(tail(arglist)));
+                        } catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
                     break;
-                case "query":
+                case "reserveresource":
                     transaction = parseTransactionId(tail(arglist));
-                    if (transaction != -1)
-                        query(client, transaction, tail(tail(arglist)));
+
+                    if (transaction != -1) {
+                        try {
+                            reserveResource(client, transaction, tail(tail(arglist)));
+                        } catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
                     break;
-                case "reserve":
+
+                case "deleteresource":
                     transaction = parseTransactionId(tail(arglist));
-                    if (transaction != -1)
-                        reserve(client, transaction, tail(tail(arglist)));
+                    if (transaction != -1) {
+                        try {
+                            deleteResource(client, transaction, tail(tail(arglist)));
+                        } catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
                     break;
+
+                case "queryresource":
+                    transaction = parseTransactionId(tail(arglist));
+                    if (transaction != -1) {
+                        try {
+                            queryResource(client, transaction, tail(tail(arglist)));
+                        } catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
+                    break;
+                case "uniquecustomerid":
+                    transaction = parseTransactionId(tail(arglist));
+                    if (transaction != -1) {
+                        try {
+                            uniqueCustomerId(client, transaction, tail(tail(arglist)));
+                        } catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
+                    break;
+                case "createCustomer":
+                    transaction = parseTransactionId(tail(arglist));
+                    if (transaction != -1) {
+                        try {
+                            createCustomer(client, transaction, tail(tail(arglist)));
+                        } catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
+                    break;
+                case "deletecustomer":
+                    transaction = parseTransactionId(tail(arglist));
+                    if (transaction != -1) {
+                        try {
+                            deleteCustomer(client, transaction, tail(tail(arglist)));
+                        } catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
+                    break;
+                case "customeraddreservation":
+                    transaction = parseTransactionId(tail(arglist));
+                    if (transaction != -1) {
+                        try {
+                            customerAddReservation(client, transaction, tail(tail(arglist)));
+                        } catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
+                    break;
+                case "customerremovereservation":
+                    transaction = parseTransactionId(tail(arglist));
+                    if (transaction != -1) {
+                        try {
+                            customerRemoveReservation(client, transaction, tail(tail(arglist)));
+                        } catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
+                    break;
+                case "querycustomer":
+                    transaction = parseTransactionId(tail(arglist));
+                    if (transaction != -1) {
+                        try {
+                            queryCustomer(client, transaction, tail(tail(arglist)));
+                        } catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
+                    break;
+                case "itinerary":
+                    transaction = parseTransactionId(tail(arglist));
+                    if (transaction != -1) {
+                        try {
+                            itinerary(client, transaction, tail(tail(arglist)));
+                        }catch (Exception e) {
+                            System.out.println("Exception occurred.");
+                        }
+                    }
+                    break;
+
                 case "start":
-                    start(client, activeTransactions, tail(tail(arglist)));
+                    try {
+                        start(client, activeTransactions, tail(arglist));
+                    }catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
                 case "commit":
                     commit(client, activeTransactions, tail(tail(arglist)));
@@ -99,160 +223,190 @@ public class Client {
                     abort(client, activeTransactions, tail(tail(arglist)));
                     break;
                 case "help":
-                    printHelp(head(tail(arglist)));
+                    listCommands();
+                    break;
+                case "quit":
+                    return;
                 default:
                     System.out.println("The interface does not support this command.");
+                    listCommands();
                     break;
             }
         }
     }
 
-    private static void add(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException
-    {
+
+    private static void createResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
         if (args.size() < 1)
         {
-            wrongNumber("add");
+            wrongNumber("createResource");
             return;
         }
         String[] values = (String[]) tail(args).toArray();
-        boolean success;
-        int id;
-        switch (head(args))
-        {
-            case "customer":
-                if (values.length == 0)
-                {
-                    id = client.newCustomer(transaction);
-                    success = true;
-                }
-                else if (values.length == 1)
-                {
-                    id = Integer.parseInt(values[0]);
-                    success = client.newCustomer(transaction, id);
-                }
-                else
-                {
-                    wrongNumber("add");
-                    break;
-                }
-                System.out.println(success ? "Customer " + id +" added." : "Could not add customer.");
-                break;
-            default:
-                if (values.length != 3 || typeOf(head(args)) == ReservableItem.Type.UNKNOWN)
-                {
-                    wrongNumber("add");
-                    break;
-                }
-                success = client.add(transaction, new ReservableItem(typeOf(head(args)), values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2])));
-                System.out.println(success ? "Item added." : "Could not add item.");
-                break;
-        }
+        boolean success = client.createResource(transaction, typeOf(values[0]), values[1], Integer.parseInt(values[2]), Integer.parseInt(values[3]));
+        System.out.println(success ? "Resource created." : "Could not create resource.");
+
     }
 
-    private static void query(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException
-    {
+    private static void updateResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
         if (args.size() < 1)
         {
-            wrongNumber("query");
+            wrongNumber("updateResource");
             return;
         }
         String[] values = (String[]) tail(args).toArray();
-        int count;
-        switch (head(args))
-        {
-            case "customer":
-                if (values.length != 1)
-                {
-                    wrongNumber("query");
-                    return;
-                }
-                String bill = client.queryCustomerInfo(transaction, Integer.parseInt(values[0]));
-                System.out.println(bill);
-                break;
-            case "count":
-                if (values.length != 2|| typeOf(values[0]) == ReservableItem.Type.UNKNOWN)
-                {
-                    wrongNumber("query");
-                    return;
-                }
-                count = client.queryCount(transaction, typeOf(values[0]), values[1]);
-                System.out.println("Count: " + count + ".");
-                break;
-            case "price":
-                if (values.length != 2 || typeOf(values[0]) == ReservableItem.Type.UNKNOWN)
-                {
-                    wrongNumber("query");
-                    return;
-                }
-                count = client.queryPrice(transaction, typeOf(values[0]), values[1]);
-                System.out.println("Price: " + count + ".");
-                break;
-            default:
-                System.out.println("Cannot query property: " + head(args) + ".");
-                break;
-        }
+        boolean success = client.updateResource(transaction, values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]));
+        System.out.println(success ? "Resource updated." : "Could not update resource.");
+        return;
+
     }
 
-    private static void delete(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException
-    {
+    private static void reserveResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
         if (args.size() < 1)
         {
-            wrongNumber("delete");
+            wrongNumber("reserveResource");
             return;
         }
         String[] values = (String[]) tail(args).toArray();
-        boolean success;
-        switch (head(args))
-        {
-            case "customer":
-                if (values.length == 1)
-                {
-                    success = client.newCustomer(transaction, Integer.parseInt(values[0]));
-                    System.out.println(success ? "Customer deleted." : "Could not delete customer.");
-                }
-                else
-                {
-                    wrongNumber("delete");
-                    return;
-                }
-                break;
-            default:
-                if (values.length != 1 || typeOf(head(args)) == ReservableItem.Type.UNKNOWN)
-                {
-                    wrongNumber("delete");
-                    return;
-                }
-                success = client.delete(transaction, typeOf(values[0]), values[0]);
-                System.out.println(success ? "Item deleted." : "Could not delete item.");
-                break;
-        }
+        boolean success = client.reserveResource(transaction, values[0], Integer.parseInt(values[1]));
+        System.out.println(success ? "Resource reserved." : "Could not reserve resource.");
+
     }
 
-    private static void reserve(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException
-    {
-        if (args.size() != 3)
+    private static void deleteResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
+        if (args.size() < 1)
         {
-            wrongNumber("reserve");
+            wrongNumber("deleteResource");
             return;
         }
         String[] values = (String[]) tail(args).toArray();
-        boolean success = client.reserve(transaction, Integer.parseInt(values[0]), typeOf(values[1]), values[2]);
-        System.out.println(success ? "Item reserved." : "Could not reserve item.");
+        boolean success = client.deleteResource(transaction, values[0]);
+        System.out.println(success ? "Resource deleted." : "Could not delete resource.");
+
+    }
+
+    private static void queryResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
+        if (args.size() < 1)
+        {
+            wrongNumber("queryResource");
+            return;
+        }
+        String[] values = (String[]) tail(args).toArray();
+        Resource res = client.queryResource(transaction, values[0]);
+        System.out.println("Resource returned:" + res);
+    }
+
+    private static void uniqueCustomerId(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
+        if (args.size() > 2)
+        {
+            wrongNumber("uniqueCustomerId");
+            return;
+        }
+        int ID = client.uniqueCustomerId(transaction);
+        System.out.println("Unique customer id returned:" + ID);
+
+    }
+
+    private static void createCustomer(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
+        if (args.size() < 1)
+        {
+            wrongNumber("createCustomer");
+            return;
+        }
+        String[] values = (String[]) tail(args).toArray();
+        boolean success = client.createCustomer(transaction, Integer.parseInt(values[0]));
+        System.out.println(success ? "Customer created." : "Could not create customer.");
+
+    }
+
+    private static void deleteCustomer(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
+        if (args.size() < 1)
+        {
+            wrongNumber("deleteCustomer");
+            return;
+        }
+        String[] values = (String[]) tail(args).toArray();
+        boolean success = client.deleteCustomer(transaction, Integer.parseInt(values[0]));
+        System.out.println(success ? "Customer deleted." : "Could not delete customer.");
+    }
+
+    private static void customerAddReservation(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
+        if (args.size() < 1)
+        {
+            wrongNumber("customerAddReservation");
+            return;
+        }
+        String[] values = (String[]) tail(args).toArray();
+        boolean success = client.customerAddReservation(transaction, Integer.parseInt(values[0]), Integer.parseInt(values[1]), new ReservableItem(typeOf(values[2]), values[3], Integer.parseInt(values[4]), Integer.parseInt(values[5])));
+        System.out.println(success ? "Customer reserved resource." : "Could not reserve resource.");
+    }
+
+    private static void customerRemoveReservation(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
+        if (args.size() < 1)
+        {
+            wrongNumber("customerRemoveReservation");
+            return;
+        }
+        String[] values = (String[]) tail(args).toArray();
+        boolean success = client.customerRemoveReservation(transaction, Integer.parseInt(values[0]), Integer.parseInt(values[1]));
+        System.out.println(success ? "Customer removed reservation." : "Could not remove reservation.");
+
+    }
+
+    private static void queryCustomer(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
+
+        if (args.size() < 1)
+        {
+            wrongNumber("queryCustomer");
+            return;
+        }
+
+        String[] values = (String[]) tail(args).toArray();
+        if (values.length != 1)
+        {
+            wrongNumber("queryCustomer");
+            return;
+        }
+        Customer bill = client.queryCustomer(transaction, Integer.parseInt(values[0]));
+        System.out.println(bill);
+    }
+
+    private static void itinerary(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
+        if (args.size() < 1)
+        {
+            wrongNumber("itinerary");
+            return;
+        }
+        String[] values = (String[]) tail(args).toArray();
+        int counter = 1;
+        Map map = new HashMap();
+        for(int i=1; i<args.size(); i+=4){
+            map.put(counter, new ReservableItem(typeOf(values[i++]), values[i++], Integer.parseInt(values[i++]), Integer.parseInt(values[i++])));
+            counter++;
+        }
+        boolean success = client.itinerary(transaction, Integer.parseInt(values[0]), map);
+        System.out.println(success ? "Itinerary created." : "Could not create itinerary.");
+
     }
 
     private static void start(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args) throws RemoteException
     {
-        if (args.size() != 0)
+        if (args.size() != 1)
         {
             wrongNumber("start");
             return;
         }
-        int transaction = client.start();
-        activeTransactions.add(transaction);
-        System.out.println("Started transaction: " + transaction + ".");
+        int transaction = Integer.parseInt(args.get(0));
+        boolean success = client.start(transaction);
+        if(success) {
+            activeTransactions.add(transaction);
+            System.out.println("Started transaction: " + transaction + ".");
+        } else {
+            System.out.println("Start transaction failed.");
+        }
     }
 
-    private static void commit(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args) throws RemoteException, InvalidTransactionException, TransactionAbortedException
+    private static void commit(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args)
     {
         if (args.size() != 1)
         {
@@ -265,7 +419,7 @@ public class Client {
         System.out.println(exists ? "Committed transaction: " + transaction + "." : "Could not commit transaction " + transaction + ". Transaction does not exist.");
     }
 
-    private static void abort(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args) throws RemoteException, InvalidTransactionException
+    private static void abort(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args)
     {
         if (args.size() != 1)
         {
@@ -274,7 +428,23 @@ public class Client {
         }
         int transaction = Integer.parseInt(args.get(0));
         activeTransactions.remove(transaction);
-        client.abort(transaction);
+        boolean success = client.abort(transaction);
+        if (success){
+            System.out.println("Transaction successfully aborted.");
+        }
+    }
+
+    private static ReservableType typeOf(String s){
+        switch(s){
+            case "hotel":
+                return ReservableType.HOTEL;
+            case "flight":
+                return ReservableType.FLIGHT;
+            case "car":
+                return ReservableType.CAR;
+            default:
+                return null;
+        }
     }
 
     private static String head(List<String> args)
@@ -289,21 +459,6 @@ public class Client {
         if (args.size() > 0)
             return args.subList(1, args.size());
         return Collections.emptyList();
-    }
-
-    private static ReservableItem.Type typeOf(String type)
-    {
-        switch (type.trim().toLowerCase())
-        {
-            case "car":
-                return ReservableItem.Type.CAR;
-            case "room":
-                return ReservableItem.Type.HOTEL;
-            case "flight":
-                return ReservableItem.Type.FLIGHT;
-            default:
-                return ReservableItem.Type.UNKNOWN;
-        }
     }
 
     private static int parseTransactionId(List<String> args)
@@ -327,53 +482,36 @@ public class Client {
     }
 
 
-    public void listCommands()
+    private static void listCommands()
     {
-        System.out.println("\nWelcome to the client interface provided to test your project.");
-        System.out.println("Commands accepted by the interface are:");
-        System.out.println("help");
-        System.out.println("newflight\nnewcar\nnewroom\nnewcustomer\nnewcusomterid\ndeleteflight\ndeletecar\ndeleteroom");
-        System.out.println("deletecustomer\nqueryflight\nquerycar\nqueryroom\nquerycustomer");
-        System.out.println("queryflightprice\nquerycarprice\nqueryroomprice");
-        System.out.println("reserveflight\nreservecar\nreserveroom\nitinerary");
-        System.out.println("nquit");
-        System.out.println("\ntype help, <commandname> for detailed info(NOTE the use of comma).");
+        System.out.println("Commands accepted by the interface are:\n");
+        System.out.println("help\n");
+        System.out.println("createresource <transactionId: Int> <type: ReservableType> <id: String> <totalQuantity: Int> <price: Int>\n");
+        System.out.println("updateresource <transactionId: Int> <id: String> <newTotalQuantity: Int> <newPrice: Int>\n");
+        System.out.println("reserveresource <transactionId: Int> <resourceId: String> <reservationQuantity: Int>\n");
+        System.out.println("deleteresource <transactionId: Int> <id: String>\n");
+        System.out.println("queryresource <transactionId: Int> <resourceId: String>\n");
+        System.out.println("uniquecustomerid <transactionId: Int>\n");
+        System.out.println("createcustomer <transactionId: Int> <customerId: Int>\n");
+        System.out.println("deletecustomer <transactionId: Int> <customerId: Int>\n");
+        System.out.println("customeraddreservation <transactionId: Int> <customerId: Int> <reservationId: Int> <reservableItem: ReservableItem>");
+        System.out.println("e.g. customeraddreservation 12 5 7 hotel hotel_1 1 20\n");
+        System.out.println("customerremovereservation <transactionId: Int> <customerId: Int> <reservationId: Int>\n");
+        System.out.println("querycustomer <transactionId: Int> <customerId: Int>\n");
+        System.out.println("itinerary <transactionId: Int> <customerId: Int> <reservationResources: MutableMap<Int, ReservableItem>>\n");
+        System.out.println("start <transactionId: Int>\n");
+        System.out.println("commit <transactionId: Int>\n");
+        System.out.println("abort <transactionId: Int>\n");
+        System.out.println("quit");
     }
 
 
 
-    }
 
-    public static void wrongNumber(String command)
+    private static void wrongNumber(String command)
     {
         System.out.println("Invalid number of arguments provided to <" + command + "> command.");
-        printHelp(command);
+        listCommands();
     }
-
-    private static void printHelp(String command)
-    {
-        switch (command.trim().toLowerCase())
-        {
-            case "":
-                break;
-            case "add":
-                break;
-            case "delete":
-                break;
-            case "query":
-                break;
-            case "reserve":
-                break;
-            case "start":
-                break;
-            case "commit":
-                break;
-            case "abort":
-                break;
-            default:
-                break;
-        }
-    }
-
 }
 */

@@ -16,10 +16,18 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
         JsonSubTypes.Type(value = ResourceReply::class, name = "ResourceReply"))
 abstract class Reply(val requestId: Int)
 
-class BooleanReply(requestId: Int, val value: Boolean): Reply(requestId)
+class BooleanReply(requestId: Int, val value: Boolean): Reply(requestId) {
+    override fun toString(): String = "requestId: $requestId, return value: $value"
+}
 
-class IntReply(requestId: Int, val value: Int): Reply(requestId)
+class IntReply(requestId: Int, val value: Int): Reply(requestId) {
+    override fun toString(): String = "requestId: $requestId, return value: $value"
+}
 
-class CustomerReply(requestId: Int, val value: Customer?): Reply(requestId)
+class CustomerReply(requestId: Int, val value: Customer?): Reply(requestId) {
+    override fun toString(): String = "requestId: $requestId, return value: $value"
+}
 
-class ResourceReply(requestId: Int, val value: Resource?): Reply(requestId)
+class ResourceReply(requestId: Int, val value: Resource?): Reply(requestId) {
+    override fun toString(): String = "requestId: $requestId, return value: $value"
+}

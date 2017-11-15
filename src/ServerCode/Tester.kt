@@ -5,6 +5,7 @@ import Tcp.*
 import Transactions.TransactionalMiddleware
 import Transactions.TransactionalRequestReceiver
 import Transactions.TransactionalRequestSender
+import java.util.*
 
 import kotlin.system.measureTimeMillis
 
@@ -12,9 +13,12 @@ import kotlin.system.measureTimeMillis
 
 object Tester {
 
-    val tester = ResourceManagerImpl()
     val customerList: MutableList<Int> = mutableListOf()
     val resourceList: MutableList<String> = mutableListOf()
+    val times: MutableMap<Int, MutableList<Long>> = mutableMapOf()
+
+    val finishedLock = Any()
+    var finishedCounter = 0
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -73,53 +77,93 @@ object Tester {
             println("Your transaction failed.\n")
         }
 
-        var numClients = 1000
+        var numClients = 1
+        while (true){
 
-        for (i in 0..numClients) {
-            Thread {
-                runCustomer(client, i)
-            }.start()
+            if (numClients > 1500)
+                break
+
+            finishedCounter = 0
+
+            for (i in 1..numClients) {
+                Thread {
+                    runCustomerSetTime(client, i, numClients)
+                }.start()
+            }
+            while (true) {
+                if (finishedCounter == numClients)
+                    break
+                Thread.sleep(10)
+            }
+            println("$numClients clients finished")
+
+            numClients *= 2
         }
 
         println("END\n")
 
+        times.forEach{(numClients, times) -> println("clients $numClients average time ${times.average()}")}
+        return
+
     }
 
 
-    fun runCustomer(client: TransactionalRequestSender, transactionId: Int){
+    fun runCustomer(client: TransactionalRequestSender, transactionId: Int, totalClients: Int){
         // The customer transaction types are: add reservation, itinerary
         // We assume all other transaction types are administrative, e.g. not accessible to
         // the average customer.
 
-        var method = (Math.random()*4).toInt()
-        var r1 = (Math.random()*3).toInt()
-        var r2 = (Math.random()*10).toInt()
-        var r3 = (Math.random()*100).toInt()
-        var r4 = (Math.random()*100).toInt()
-        var r5 = (Math.random()*10000).toInt()
-
-
-
-        var keepgoing = true
-        for(i in 0..3) {
+        for(i in 0..10) {
             client.start(transactionId)
 
             var timeElapsed = measureTimeMillis {
                 client.queryCustomer(transactionId, 1)
-                println("Create customer")
             }
-            println("Time Elapsed: $timeElapsed \n")
+
+            if (times.get(totalClients) == null)
+                times.put(totalClients, mutableListOf())
+
+            times.get(totalClients)!!.add(timeElapsed)
 
             client.commit(transactionId)
             Thread.sleep(100)
-
-            r1 = (Math.random()*3).toInt()
-            r2 = (Math.random()*10).toInt()
-            r3 = (Math.random()*100).toInt()
-            r4 = (Math.random()*100).toInt()
-            r5 = (Math.random()*10000).toInt()
         }
 
+        finished()
+    }
+
+    fun runCustomerSetTime(client: TransactionalRequestSender, transactionId: Int, totalClients: Int){
+        // The customer transaction types are: add reservation, itinerary
+        // We assume all other transaction types are administrative, e.g. not accessible to
+        // the average customer.
+
+        var customerStartTime = Date().time
+
+        while(true) {
+            client.start(transactionId)
+
+            var timeElapsed = measureTimeMillis {
+                client.queryCustomer(transactionId, 1)
+            }
+
+            if (times.get(totalClients) == null)
+                times.put(totalClients, mutableListOf())
+
+            times.get(totalClients)!!.add(timeElapsed)
+
+            client.commit(transactionId)
+            Thread.sleep(100)
+            if (Date().time - customerStartTime > 10000)
+                break
+        }
+
+        finished()
+    }
+
+    fun finished() {
+        synchronized(finishedLock){
+            finishedCounter += 1
+        }
     }
 
 }

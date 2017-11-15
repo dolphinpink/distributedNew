@@ -11,9 +11,9 @@ class TransactionManager(val resourceType: MutableMap<String, ReservableType> = 
                          private val hotelRm: ResourceManager,
                          private val carRm: ResourceManager) {
 
-    val rm = Middleware("127.0.0.1", 1000000, resourceType, customerRm, flightRm, hotelRm, carRm)
+    private val rm = Middleware("127.0.0.1", TcpRequestSender.MAX_REQUESTS, resourceType, customerRm, flightRm, hotelRm, carRm)
 
-    val requestStacks: MutableMap<Int, Stack<RequestCommand>> = mutableMapOf()
+    private val requestStacks: MutableMap<Int, Stack<RequestCommand>> = mutableMapOf()
 
     fun createTransaction(transactionId: Int): Boolean {
         synchronized(requestStacks) {
@@ -36,7 +36,7 @@ class TransactionManager(val resourceType: MutableMap<String, ReservableType> = 
             val requestStack = requestStacks[transactionId] ?: return false
             while(requestStack.isNotEmpty()) {
                 val succeeded = requestStack.pop().execute(rm) as BooleanReply
-                println("TRANSACTION MANAGER popping ${succeeded.value}")
+                //println("TRANSACTION MANAGER popping ${succeeded.value}")
 
             }
             return true

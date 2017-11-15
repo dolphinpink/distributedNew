@@ -8,8 +8,8 @@ class LockManager {
         private val DEADLOCK_TIMEOUT = 10000
     }
 
-    private var acquiredLocks: MutableSet<LockRequest> = mutableSetOf()
-    private var waitingLocks: MutableList<LockRequest> = mutableListOf()
+    private val acquiredLocks: MutableSet<LockRequest> = mutableSetOf()
+    private val waitingLocks: MutableList<LockRequest> = mutableListOf()
 
     /**
      * if the resource is already locked for the passed lockRequest type, return that lockRequest
@@ -63,8 +63,8 @@ class LockManager {
 
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
-                acquiredLocks = acquiredLocks.filter { acquiredLock -> acquiredLock.xId != xId }.toMutableSet()
-                waitingLocks = waitingLocks.filter { acquiredLock -> acquiredLock.xId != xId }.toMutableList()
+                acquiredLocks.removeAll(acquiredLocks.filter { acquiredLock -> acquiredLock.xId == xId })
+                waitingLocks.removeAll(waitingLocks.filter { acquiredLock -> acquiredLock.xId == xId })
                 waitlistAcquire()
             }
         }

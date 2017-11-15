@@ -23,19 +23,19 @@ class TransactionalRequestReceiver(private var rm: TransactionalResourceManager,
             val mapper = jacksonObjectMapper()
             mapper.enableDefaultTyping()
 
-            println("RECEIVER $socket ready")
+            //println("RECEIVER $socket ready")
 
             var json: String? = null
             while ({ json = inFromSender.readLine(); json }() != null) {
 
-                println("RECEIVER received $json")
+                //println("RECEIVER received $json")
 
                 try {
                     val request = mapper.readValue<TransactionalRequestCommand>(json!!)
-                    println("RECEIVER extracted $request")
+                    //println("RECEIVER extracted $request")
                     val result = request.execute(rm)
                     val json = mapper.writeValueAsString(result)
-                    println("RECEIVER sending $json")
+                    //println("RECEIVER sending $json")
                     outToServer.println(json)
 
                 } catch (e: Exception) {

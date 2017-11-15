@@ -1,6 +1,7 @@
 package Tcp
 
 import ResourceManagerCode.*
+import Transactions.TuningParameters
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -12,13 +13,14 @@ import java.net.Socket
 
 class TcpRequestSender(val portNum: Int, val serverName: String, val requestIdStart: Int): ResourceManager {
     companion object {
-        val MAX_REQUESTS = 100000
+        val MAX_REQUESTS = 1000000
     }
 
     private val outToServer: PrintWriter
     private val inFromServer: BufferedReader
     private val mapper: ObjectMapper
 
+    private val requestIdLock = Any()
     private var requestIdCounter: Int = requestIdStart
 
     private val replies: MutableSet<Reply> = mutableSetOf()
@@ -39,7 +41,7 @@ class TcpRequestSender(val portNum: Int, val serverName: String, val requestIdSt
 
                 try {
                     val reply = mapper.readValue<Reply>(json!!)
-                    println("SENDER RESPONSE LOOP extracted $reply")
+                    //println("SENDER RESPONSE LOOP extracted $reply")
                     replies.add(reply)
 
                 } catch (e: Exception) {
@@ -54,13 +56,13 @@ class TcpRequestSender(val portNum: Int, val serverName: String, val requestIdSt
     fun sendRequest(request: RequestCommand): Reply {
 
         val json = mapper.writeValueAsString(request)
-
+        //println("port $portNum sending request Id: ${request.requestId}")
         outToServer.println(json)
-        println("SENDER sent $json AHAH")
+        //println("SENDER sent $json AHAH")
 
         val reply = getReply(request.requestId)
 
-        println("SENDER reply received")
+        //println("SENDER reply received")
 
         return reply
 
@@ -182,7 +184,7 @@ class TcpRequestSender(val portNum: Int, val serverName: String, val requestIdSt
     }
 
     fun generateRequestId(): Int {
-        synchronized(requestIdCounter) {
+        synchronized(requestIdLock) {
             if (requestIdCounter >= requestIdStart + MAX_REQUESTS - 1) {
                 requestIdCounter = requestIdStart
             }
@@ -195,7 +197,7 @@ class TcpRequestSender(val portNum: Int, val serverName: String, val requestIdSt
         var reply: Reply? = null
 
         while({reply = replies.find {r -> r.requestId == requestId}; reply}() == null) {
-            Thread.sleep(5)
+            Thread.sleep(TuningParameters.CHECK_DELAY)
         }
 
         replies.remove(reply)
