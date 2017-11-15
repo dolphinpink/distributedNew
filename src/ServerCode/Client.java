@@ -84,7 +84,7 @@ public class Client {
                         try {
                             createResource(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -94,7 +94,7 @@ public class Client {
                         try {
                             updateResource(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -105,7 +105,7 @@ public class Client {
                         try {
                             reserveResource(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -116,7 +116,7 @@ public class Client {
                         try {
                             deleteResource(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -127,7 +127,7 @@ public class Client {
                         try {
                             queryResource(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -137,7 +137,7 @@ public class Client {
                         try {
                             uniqueCustomerId(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -147,7 +147,7 @@ public class Client {
                         try {
                             createCustomer(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -157,7 +157,7 @@ public class Client {
                         try {
                             deleteCustomer(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -167,7 +167,7 @@ public class Client {
                         try {
                             customerAddReservation(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -177,7 +177,7 @@ public class Client {
                         try {
                             customerRemoveReservation(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -187,7 +187,7 @@ public class Client {
                         try {
                             queryCustomer(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -197,7 +197,7 @@ public class Client {
                         try {
                             itinerary(client, transaction, tail(tail(arglist)));
                         }catch (Exception e) {
-                            System.out.println("Exception occurred.");
+                            System.out.println("Deadlock occurred.");
                         }
                     }
                     break;
@@ -206,7 +206,7 @@ public class Client {
                     try {
                         start(client, activeTransactions, arglist);
                     }catch (Exception e) {
-                        System.out.println("Exception occurred.");
+                        System.out.println("Deadlock occurred.");
                     }
                     break;
                 case "commit":
@@ -258,7 +258,6 @@ public class Client {
             wrongNumber("reserveResource");
             return;
         }
-        String[] values = (String[]) tail(args).toArray();
         boolean success = client.reserveResource(transaction, args.get(0), Integer.parseInt(args.get(1)));
         System.out.println(success ? "Resource reserved." : "Could not reserve resource.");
 
@@ -282,7 +281,6 @@ public class Client {
             wrongNumber("queryResource");
             return;
         }
-        String[] values = (String[]) tail(args).toArray();
         Resource res = client.queryResource(transaction, args.get(0));
         System.out.println("Resource returned:" + res);
     }
