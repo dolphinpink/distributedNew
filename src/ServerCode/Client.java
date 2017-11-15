@@ -22,17 +22,32 @@ public class Client {
     public static void main(String args[]){
 
         TcpRequestReceiver requestReceiverFlight = new TcpRequestReceiver(new ResourceManagerImpl(), 8087);
-        requestReceiverFlight.runServer();
+        try {
+            requestReceiverFlight.runServer();
+        } catch(Exception e){
+            System.out.println("Wasn't able to start flight RM.");
+        }
 
         TcpRequestReceiver requestReceiverHotel = new TcpRequestReceiver(new ResourceManagerImpl(), 8088);
-        requestReceiverHotel.runServer();
+        try {
+            requestReceiverHotel.runServer();
+        } catch(Exception e){
+            System.out.println("Wasn't able to start hotel RM.");
+        }
 
         TcpRequestReceiver requestReceiverCar = new TcpRequestReceiver(new ResourceManagerImpl(), 8089);
-        requestReceiverCar.runServer();
+        try {
+            requestReceiverCar.runServer();
+        } catch(Exception e){
+            System.out.println("Wasn't able to start car RM.");
+        }
 
         TcpRequestReceiver requestReceiverCustomer = new TcpRequestReceiver(new ResourceManagerImpl(), 8090);
-        requestReceiverCustomer.runServer();
-
+        try {
+            requestReceiverCustomer.runServer();
+        } catch (Exception e){
+            System.out.println("Wasn't able to start customer RM.");
+        }
         try {
             Thread.sleep(500);
         } catch (Exception e){
