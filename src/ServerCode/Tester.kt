@@ -22,7 +22,42 @@ object Tester {
 
     @JvmStatic
     fun main(args: Array<String>) {
+        val requestReceiverFlight = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.flightRm)
+        requestReceiverFlight.runServer()
 
+        val requestReceiverHotel = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.hotelRm)
+        requestReceiverHotel.runServer()
+
+        val requestReceiverCar = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.carRm)
+        requestReceiverCar.runServer()
+
+        val requestReceiverCustomer = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.customerRm)
+        requestReceiverCustomer.runServer()
+
+        Thread.sleep(500)
+
+        val midware = TransactionalRequestReceiver(TransactionalMiddleware("127.0.0.1"), PortNumbers.middleware)
+        midware.runServer()
+
+        Thread.sleep(500)
+
+        val client = TransactionalRequestSender(PortNumbers.middleware, "127.0.0.1")
+
+        // Initiate resources to test on
+        val r1 = client.start(12)
+        val r2 =client.createResource(12, ReservableType.FLIGHT, "fly_1", 50, 5)
+        val r3 =client.createResource(12, ReservableType.HOTEL, "hot_1", 50, 5)
+        val r4 =client.createResource(12, ReservableType.CAR, "car_1", 50, 5)
+
+        val r5 =client.queryResource(12, "fly_1")
+        val r6 =client.commit(12)
+
+        print("$r1 $r2 $r3 $r4 $r5 $r6")
+
+
+        }
+
+    fun performanceTest() {
         println(" Performance Analysis Testing: \n")
         println("START: \n")
 
@@ -107,7 +142,6 @@ object Tester {
 
     }
 
-
     fun runCustomer(client: TransactionalRequestSender, transactionId: Int, totalClients: Int){
         // The customer transaction types are: add reservation, itinerary
         // We assume all other transaction types are administrative, e.g. not accessible to
@@ -143,7 +177,7 @@ object Tester {
             client.start(transactionId)
 
             var timeElapsed = measureTimeMillis {
-                client.queryCustomer(transactionId, 1)
+                client.queryResource(transactionId, "fly_1")
             }
 
             if (times.get(totalClients) == null)
