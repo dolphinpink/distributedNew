@@ -183,10 +183,16 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
         return null
     }
 
-    override fun customerAddReservation(transactionId: Int, customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean {
+    override fun customerAddReservation(transactionId: Int, customerId: Int, reservationId: Int, resourceId: String): Boolean {
 
-        if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) { // customer write lock acquired
-            customerRm.customerAddReservation(customerId, reservationId, reservableItem)
+        val itemType = resourceType.get(resourceId) ?: return false
+
+        if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE) && lockManager.lock(transactionId, itemType.toString(), LockType.WRITE)) {
+            val resource = queryResource(transactionId, resourceId) ?: return false
+            val customer = queryCustomer(transactionId, customerId) ?: return false
+            getRm(itemType).reserveResource(resourceId, 1)
+            customerRm.customerAddReservation(customerId, reservationId, resource.item)
+            transactionManager.addRequest(transactionId, ReserveResourceRequest(-1, resourceId, -1))
             transactionManager.addRequest(transactionId, CustomerRemoveReservationRequest(-1, customerId, reservationId))
             return true
         } else {
@@ -208,20 +214,28 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
         return false
     }
 
-    override fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean {
+    override fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, String>): Boolean {
 
         if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) { // customer write lock acquired
 
-            reservationResources.forEach {(reservationId, reservableItem) ->
-                if (!lockManager.lock(transactionId, reservableItem.type.toString(), LockType.WRITE)) return false
-                queryResource(transactionId, reservableItem.id) ?: return false
+            reservationResources.forEach {(reservationId, resourceId) ->
+                val resourceType = resourceType.get(resourceId) ?: return false
+                if (!lockManager.lock(transactionId, resourceType.toString(), LockType.WRITE)) {
+                    cleanupDeadlock(transactionId)
+                    return false
+                }
+            } // all locks acquired
+
+            reservationResources.forEach {(reservationId, resourceId) ->
+                queryResource(transactionId, resourceId) ?: return false
             }
 
             val customer = queryCustomer(transactionId, customerId) ?: return false
 
-            reservationResources.forEach {(reservationId, reservableItem) ->
-                val resource = queryResource(transactionId, reservableItem.id)!!
-                customerAddReservation(transactionId, customerId, reservationId, resource.item)
+            // everything exists and can no longer be deleted, as locks have been acquired
+
+            reservationResources.forEach {(reservationId, resourceId) ->
+                customerAddReservation(transactionId, customerId, reservationId, resourceId)
             }
             return true
 

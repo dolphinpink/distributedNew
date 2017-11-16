@@ -104,11 +104,11 @@ interface TransactionalResourceManager {
     /**
      * records reservation for customer
      * @param customerId
-     * @param reservableItem
-     * @param quantity
+     * @param reservationId
+     * @param resourceId
      * @return true if suceeded, false if failed (transactionId: Int, customer doesn't exist)
      */
-    fun customerAddReservation(transactionId: Int, customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean
+    fun customerAddReservation(transactionId: Int, customerId: Int, reservationId: Int, resourceId: String): Boolean
 
 
     /**
@@ -133,9 +133,9 @@ interface TransactionalResourceManager {
      * reserves an itinerary for this user
      *
      * @param customerId
-     * @param reservationResources a map of reservationIds to the reservableItem you want to reserve
+     * @param reservationResources a map of reservationIds to the resourceIds you want to reserve
      * @return true if successful, false if resources or customer doesn't exist, or insufficient available resources
      */
-    fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean
+    fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, String>): Boolean
 
 }

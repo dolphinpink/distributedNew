@@ -134,8 +134,8 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String): Tran
         return getBoolean(reply)
     }
 
-    override fun customerAddReservation(transactionId: Int, customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean {
-        val reply = sendRequest(TransactionalCustomerAddReservationRequest(generateRequestId(), transactionId, customerId, reservationId, reservableItem))
+    override fun customerAddReservation(transactionId: Int, customerId: Int, reservationId: Int, resourceId: String): Boolean {
+        val reply = sendRequest(TransactionalCustomerAddReservationRequest(generateRequestId(), transactionId, customerId, reservationId, resourceId))
         return getBoolean(reply)
     }
 
@@ -153,7 +153,7 @@ class TransactionalRequestSender(val portNum: Int, val serverName: String): Tran
         return reply.value
     }
 
-    override fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean {
+    override fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, String>): Boolean {
         val reply = sendRequest(TransactionalItineraryRequest(generateRequestId(), transactionId, customerId, reservationResources))
         return getBoolean(reply)
     }

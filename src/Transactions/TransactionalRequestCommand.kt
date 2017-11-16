@@ -100,9 +100,9 @@ class TransactionalDeleteCustomerRequest(requestId: Int, transactionId: Int, val
     }
 }
 
-class TransactionalCustomerAddReservationRequest(requestId: Int, transactionId: Int, val customerId: Int, val reservationId: Int, val reservableItem: ReservableItem): TransactionalRequestCommand(requestId, transactionId){
+class TransactionalCustomerAddReservationRequest(requestId: Int, transactionId: Int, val customerId: Int, val reservationId: Int, val resourceId: String): TransactionalRequestCommand(requestId, transactionId){
     override fun execute(rm: TransactionalResourceManager): Reply {
-        return BooleanReply(requestId, rm.customerAddReservation(transactionId, customerId, reservationId, reservableItem))
+        return BooleanReply(requestId, rm.customerAddReservation(transactionId, customerId, reservationId, resourceId))
     }
 }
 
@@ -118,7 +118,7 @@ class TransactionalQueryCustomerRequest(requestId: Int, transactionId: Int, val 
     }
 }
 
-class TransactionalItineraryRequest(requestId: Int, transactionId: Int, val customerId: Int, val reservationResources: MutableMap<Int, ReservableItem>): TransactionalRequestCommand(requestId, transactionId){
+class TransactionalItineraryRequest(requestId: Int, transactionId: Int, val customerId: Int, val reservationResources: MutableMap<Int, String>): TransactionalRequestCommand(requestId, transactionId){
     override fun execute(rm: TransactionalResourceManager): Reply {
         return BooleanReply(requestId, rm.itinerary(transactionId, customerId, reservationResources))
     }
