@@ -216,6 +216,15 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
 
     override fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, String>): Boolean {
 
+        //don't allow itineraries with same resource twice
+
+        println("${reservationResources.values.toSet().size}    ${reservationResources.size}")
+
+        if (reservationResources.values.toSet().size != reservationResources.size) {
+            println("duplicate resources in itinerary")
+            return false
+        }
+
         if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) { // customer write lock acquired
 
             reservationResources.forEach {(reservationId, resourceId) ->
@@ -226,8 +235,10 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
                 }
             } // all locks acquired
 
+            // checks that each resource is available
             reservationResources.forEach {(reservationId, resourceId) ->
-                queryResource(transactionId, resourceId) ?: return false
+                val resource = queryResource(transactionId, resourceId) ?: return false
+                if (resource.remainingQuantity < 1) return false
             }
 
             val customer = queryCustomer(transactionId, customerId) ?: return false

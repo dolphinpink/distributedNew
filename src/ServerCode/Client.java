@@ -8,6 +8,7 @@ import ResourceManagerCode.*;
 import Transactions.TransactionalMiddleware;
 import Transactions.TransactionalRequestReceiver;
 import Transactions.TransactionalRequestSender;
+
 import java.rmi.RemoteException;
 import java.util.concurrent.TimeUnit;
 
@@ -19,39 +20,39 @@ public class Client {
 
     private static List<Integer> activeTransactions = new ArrayList<Integer>();
 
-    public static void main(String args[]){
+    public static void main(String args[]) {
 
         TcpRequestReceiver requestReceiverFlight = new TcpRequestReceiver(new ResourceManagerImpl(), 8087);
         try {
             requestReceiverFlight.runServer();
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Wasn't able to start flight RM.");
         }
 
         TcpRequestReceiver requestReceiverHotel = new TcpRequestReceiver(new ResourceManagerImpl(), 8088);
         try {
             requestReceiverHotel.runServer();
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Wasn't able to start hotel RM.");
         }
 
         TcpRequestReceiver requestReceiverCar = new TcpRequestReceiver(new ResourceManagerImpl(), 8089);
         try {
             requestReceiverCar.runServer();
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Wasn't able to start car RM.");
         }
 
         TcpRequestReceiver requestReceiverCustomer = new TcpRequestReceiver(new ResourceManagerImpl(), 8090);
         try {
             requestReceiverCustomer.runServer();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Wasn't able to start customer RM.");
         }
 
         try {
             Thread.sleep(500);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
 
@@ -59,18 +60,17 @@ public class Client {
         TransactionalRequestReceiver midware = new TransactionalRequestReceiver(new TransactionalMiddleware("127.0.0.1"), 8086);
         try {
             midware.runServer();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Wasn't able to start middleware server.");
         }
 
         try {
             Thread.sleep(500);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
 
         TransactionalRequestSender client = new TransactionalRequestSender(8086, "127.0.0.1");
-
 
 
         System.out.println("\n\n\tClient Interface");
@@ -79,32 +79,27 @@ public class Client {
 
         BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
         List<String> arglist = null;
-        while(true){
+        while (true) {
             System.out.print("\n>");
-            try
-            {
+            try {
                 arglist = Arrays.asList(stdin.readLine().split(" "));
                 if (arglist.size() == 0)
                     continue;
-            }
-            catch (IOException io)
-            {
+            } catch (IOException io) {
                 System.out.println("Unable to read from stdin.");
                 System.exit(1);
             }
 
 
-
             int transaction;
-            switch (head(arglist))
-            {
+            switch (head(arglist)) {
                 case "createresource":
                     transaction = parseTransactionId(tail(arglist));
                     if (transaction != -1) {
                         try {
                             createResource(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -114,7 +109,7 @@ public class Client {
                         try {
                             updateResource(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -125,7 +120,7 @@ public class Client {
                         try {
                             reserveResource(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -136,7 +131,7 @@ public class Client {
                         try {
                             deleteResource(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -147,7 +142,7 @@ public class Client {
                         try {
                             queryResource(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -157,7 +152,7 @@ public class Client {
                         try {
                             uniqueCustomerId(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -167,7 +162,7 @@ public class Client {
                         try {
                             createCustomer(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -177,7 +172,7 @@ public class Client {
                         try {
                             deleteCustomer(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -187,7 +182,7 @@ public class Client {
                         try {
                             customerAddReservation(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -197,7 +192,7 @@ public class Client {
                         try {
                             customerRemoveReservation(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -207,7 +202,7 @@ public class Client {
                         try {
                             queryCustomer(client, transaction, tail(tail(arglist)));
                         } catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -216,8 +211,8 @@ public class Client {
                     if (transaction != -1) {
                         try {
                             itinerary(client, transaction, tail(tail(arglist)));
-                        }catch (Exception e) {
-                            System.out.println("Deadlock occurred.");
+                        } catch (Exception e) {
+                            System.out.println(e);
                         }
                     }
                     break;
@@ -225,8 +220,8 @@ public class Client {
                 case "start":
                     try {
                         start(client, activeTransactions, arglist);
-                    }catch (Exception e) {
-                        System.out.println("Deadlock occurred.");
+                    } catch (Exception e) {
+                        System.out.println(e);
                     }
                     break;
                 case "commit":
@@ -250,8 +245,7 @@ public class Client {
 
 
     private static void createResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() != 4 || ((typeOf(args.get(0))) == null))
-        {
+        if (args.size() != 4 || ((typeOf(args.get(0))) == null)) {
             wrongNumber("createResource");
             return;
         }
@@ -261,8 +255,7 @@ public class Client {
     }
 
     private static void updateResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() != 3)
-        {
+        if (args.size() != 3) {
             wrongNumber("updateResource");
             return;
         }
@@ -273,8 +266,7 @@ public class Client {
     }
 
     private static void reserveResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() != 2)
-        {
+        if (args.size() != 2) {
             wrongNumber("reserveResource");
             return;
         }
@@ -284,8 +276,7 @@ public class Client {
     }
 
     private static void deleteResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() != 1)
-        {
+        if (args.size() != 1) {
             wrongNumber("deleteResource");
             return;
         }
@@ -295,8 +286,7 @@ public class Client {
     }
 
     private static void queryResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() != 1)
-        {
+        if (args.size() != 1) {
             wrongNumber("queryResource");
             return;
         }
@@ -305,8 +295,7 @@ public class Client {
     }
 
     private static void uniqueCustomerId(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() > 1)
-        {
+        if (args.size() > 1) {
             wrongNumber("uniqueCustomerId");
             return;
         }
@@ -316,8 +305,7 @@ public class Client {
     }
 
     private static void createCustomer(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() != 1)
-        {
+        if (args.size() != 1) {
             wrongNumber("createCustomer");
             return;
         }
@@ -327,8 +315,7 @@ public class Client {
     }
 
     private static void deleteCustomer(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() != 1)
-        {
+        if (args.size() != 1) {
             wrongNumber("deleteCustomer");
             return;
         }
@@ -337,8 +324,7 @@ public class Client {
     }
 
     private static void customerAddReservation(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() != 3)
-        {
+        if (args.size() != 3) {
             wrongNumber("customerAddReservation");
             return;
         }
@@ -347,8 +333,7 @@ public class Client {
     }
 
     private static void customerRemoveReservation(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() != 2)
-        {
+        if (args.size() != 2) {
             wrongNumber("customerRemoveReservation");
             return;
         }
@@ -360,8 +345,7 @@ public class Client {
 
     private static void queryCustomer(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
 
-        if (args.size() != 1)
-        {
+        if (args.size() != 1) {
             wrongNumber("queryCustomer");
             return;
         }
@@ -371,16 +355,13 @@ public class Client {
     }
 
     private static void itinerary(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() < 2)
-        {
+        if (args.size() < 2 || args.size() % 2 != 1) {
             wrongNumber("itinerary");
             return;
         }
-        int counter = 1;
-        Map map = new HashMap();
-        for(int i=1; i<args.size(); i++){
-            map.put(counter, args.get(i));
-            counter++;
+        Map<Integer, String> map = new HashMap();
+        for (int i = 1; i < args.size(); i+=2) {
+            map.put(Integer.parseInt(args.get(i)), args.get(i+1));
         }
         boolean success = client.itinerary(transaction, Integer.parseInt(args.get(0)), map);
         System.out.println(success ? "Itinerary created." : "Could not create itinerary.");
@@ -388,17 +369,15 @@ public class Client {
     }
 
 
-    private static void start(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args) throws RemoteException
-    {
+    private static void start(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args) throws RemoteException {
 
-        if (args.size() != 2)
-        {
+        if (args.size() != 2) {
             wrongNumber("start");
             return;
         }
         int transaction = Integer.parseInt(args.get(1));
         boolean success = client.start(transaction);
-        if(success) {
+        if (success) {
             activeTransactions.add(transaction);
             System.out.println("Started transaction: " + transaction + ".");
         } else {
@@ -406,10 +385,8 @@ public class Client {
         }
     }
 
-    private static void commit(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args)
-    {
-        if (args.size() != 1)
-        {
+    private static void commit(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args) {
+        if (args.size() != 1) {
             wrongNumber("commit");
             return;
         }
@@ -419,23 +396,21 @@ public class Client {
         System.out.println(exists ? "Committed transaction: " + transaction + "." : "Could not commit transaction " + transaction + ". Transaction does not exist.");
     }
 
-    private static void abort(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args)
-    {
-        if (args.size() != 1)
-        {
+    private static void abort(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args) {
+        if (args.size() != 1) {
             wrongNumber("abort");
             return;
         }
         int transaction = Integer.parseInt(args.get(0));
-        activeTransactions.remove(new Integer (transaction));
+        activeTransactions.remove(new Integer(transaction));
         boolean success = client.abort(transaction);
-        if (success){
+        if (success) {
             System.out.println("Transaction successfully aborted.");
         }
     }
 
-    private static ReservableType typeOf(String s){
-        switch(s){
+    private static ReservableType typeOf(String s) {
+        switch (s) {
             case "hotel":
                 return ReservableType.HOTEL;
             case "flight":
@@ -447,34 +422,27 @@ public class Client {
         }
     }
 
-    private static String head(List<String> args)
-    {
+    private static String head(List<String> args) {
         if (args.size() > 0)
             return args.get(0).trim().toLowerCase();
         return "";
     }
 
-    private static List<String> tail(List<String> args)
-    {
+    private static List<String> tail(List<String> args) {
         if (args.size() > 0)
             return args.subList(1, args.size());
         return Collections.emptyList();
     }
 
-    private static int parseTransactionId(List<String> args)
-    {
+    private static int parseTransactionId(List<String> args) {
         int transaction;
-        try
-        {
+        try {
             transaction = Integer.parseInt(head(args));
-            if (!activeTransactions.contains(transaction))
-            {
+            if (!activeTransactions.contains(transaction)) {
                 System.out.println("Invalid transaction number. Please start the transaction with <start> command.");
                 return -1;
             }
-        }
-        catch (NumberFormatException e)
-        {
+        } catch (NumberFormatException e) {
             System.out.println("Invalid transaction number. All commands should start with a transaction identifier.");
             return -1;
         }
@@ -482,8 +450,7 @@ public class Client {
     }
 
 
-    private static void listCommands()
-    {
+    private static void listCommands() {
         System.out.println("Commands accepted by the interface are:\n");
         System.out.println("help\n");
         System.out.println("createresource <transactionId: Int> <type: ReservableType> <id: String> <totalQuantity: Int> <price: Int>\n");
@@ -506,11 +473,8 @@ public class Client {
     }
 
 
-
-
-    private static void wrongNumber(String command)
-    {
+    private static void wrongNumber(String command) {
         System.out.println("Invalid number of arguments provided to <" + command + "> command.");
-        listCommands();
+        //listCommands();
     }
 }
