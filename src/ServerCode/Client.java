@@ -48,6 +48,7 @@ public class Client {
         } catch (Exception e){
             System.out.println("Wasn't able to start customer RM.");
         }
+
         try {
             Thread.sleep(500);
         } catch (Exception e){
@@ -56,7 +57,11 @@ public class Client {
 
 
         TransactionalRequestReceiver midware = new TransactionalRequestReceiver(new TransactionalMiddleware("127.0.0.1"), 8086);
-        midware.runServer();
+        try {
+            midware.runServer();
+        } catch (Exception e){
+            System.out.println("Wasn't able to start middleware server.");
+        }
 
         try {
             Thread.sleep(500);
@@ -284,7 +289,6 @@ public class Client {
             wrongNumber("deleteResource");
             return;
         }
-        String[] values = (String[]) tail(args).toArray();
         boolean success = client.deleteResource(transaction, args.get(0));
         System.out.println(success ? "Resource deleted." : "Could not delete resource.");
 
@@ -338,7 +342,6 @@ public class Client {
             wrongNumber("customerAddReservation");
             return;
         }
-        String[] values = (String[]) tail(args).toArray();
         boolean success = client.customerAddReservation(transaction, Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), new ReservableItem(typeOf(args.get(2)), args.get(3), Integer.parseInt(args.get(4)), Integer.parseInt(args.get(5))));
         System.out.println(success ? "Customer reserved resource." : "Could not reserve resource.");
     }
@@ -349,7 +352,7 @@ public class Client {
             wrongNumber("customerRemoveReservation");
             return;
         }
-        String[] values = (String[]) tail(args).toArray();
+
         boolean success = client.customerRemoveReservation(transaction, Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)));
         System.out.println(success ? "Customer removed reservation." : "Could not remove reservation.");
 
@@ -393,7 +396,6 @@ public class Client {
             wrongNumber("start");
             return;
         }
-        String[] values = (String[]) args.toArray();
         int transaction = Integer.parseInt(args.get(1));
         boolean success = client.start(transaction);
         if(success) {
