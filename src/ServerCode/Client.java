@@ -242,7 +242,7 @@ public class Client {
                     System.exit(0);
                 default:
                     System.out.println("The interface does not support this command.");
-                    //listCommands();
+                    listCommands();
                     break;
             }
         }
@@ -250,7 +250,7 @@ public class Client {
 
 
     private static void createResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() < 1 || ((typeOf(args.get(0))) == null))
+        if (args.size() != 4 || ((typeOf(args.get(0))) == null))
         {
             wrongNumber("createResource");
             return;
@@ -261,7 +261,7 @@ public class Client {
     }
 
     private static void updateResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() < 1)
+        if (args.size() != 3)
         {
             wrongNumber("updateResource");
             return;
@@ -273,7 +273,7 @@ public class Client {
     }
 
     private static void reserveResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() < 1)
+        if (args.size() != 2)
         {
             wrongNumber("reserveResource");
             return;
@@ -284,7 +284,7 @@ public class Client {
     }
 
     private static void deleteResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() < 1)
+        if (args.size() != 1)
         {
             wrongNumber("deleteResource");
             return;
@@ -295,7 +295,7 @@ public class Client {
     }
 
     private static void queryResource(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() < 1)
+        if (args.size() != 1)
         {
             wrongNumber("queryResource");
             return;
@@ -305,7 +305,7 @@ public class Client {
     }
 
     private static void uniqueCustomerId(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() > 2)
+        if (args.size() > 1)
         {
             wrongNumber("uniqueCustomerId");
             return;
@@ -337,17 +337,17 @@ public class Client {
     }
 
     private static void customerAddReservation(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() < 1)
+        if (args.size() != 3)
         {
             wrongNumber("customerAddReservation");
             return;
         }
-        boolean success = client.customerAddReservation(transaction, Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), new ReservableItem(typeOf(args.get(2)), args.get(3), Integer.parseInt(args.get(4)), Integer.parseInt(args.get(5))));
+        boolean success = client.customerAddReservation(transaction, Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), args.get(2));
         System.out.println(success ? "Customer reserved resource." : "Could not reserve resource.");
     }
 
     private static void customerRemoveReservation(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() < 1)
+        if (args.size() != 2)
         {
             wrongNumber("customerRemoveReservation");
             return;
@@ -360,7 +360,7 @@ public class Client {
 
     private static void queryCustomer(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
 
-        if (args.size() < 1)
+        if (args.size() != 1)
         {
             wrongNumber("queryCustomer");
             return;
@@ -371,15 +371,15 @@ public class Client {
     }
 
     private static void itinerary(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() < 1)
+        if (args.size() < 2)
         {
             wrongNumber("itinerary");
             return;
         }
         int counter = 1;
         Map map = new HashMap();
-        for(int i=1; i<args.size(); i+=4){
-            map.put(counter, new ReservableItem(typeOf(args.get(i++)), args.get(i++), Integer.parseInt(args.get(i++)), Integer.parseInt(args.get(i++))));
+        for(int i=1; i<args.size(); i++){
+            map.put(counter, args.get(i));
             counter++;
         }
         boolean success = client.itinerary(transaction, Integer.parseInt(args.get(0)), map);
@@ -408,7 +408,7 @@ public class Client {
 
     private static void commit(TransactionalRequestSender client, List<Integer> activeTransactions, List<String> args)
     {
-        if (args.size() < 1)
+        if (args.size() != 1)
         {
             wrongNumber("commit");
             return;
