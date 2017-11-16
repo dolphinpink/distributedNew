@@ -36,9 +36,10 @@ class TransactionManager(val resourceType: MutableMap<String, ReservableType> = 
             val requestStack = requestStacks[transactionId] ?: return false
             while(requestStack.isNotEmpty()) {
                 val succeeded = requestStack.pop().execute(rm) as BooleanReply
-                //println("TRANSACTION MANAGER popping ${succeeded.value}")
+                println("TRANSACTION MANAGER popping ${succeeded.value}")
 
             }
+            requestStacks.remove(transactionId)
             return true
         }
     }

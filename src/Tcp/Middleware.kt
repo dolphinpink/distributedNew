@@ -67,51 +67,15 @@ class Middleware(val server: String,
     }
 
     override fun customerAddReservation(customerId: Int, reservationId: Int, reservableItem: ReservableItem): Boolean {
-
-        val customer: Customer? = queryCustomer(customerId)
-        if (customer != null) {
-            if (reserveResource(reservableItem.id, 1)) {
-                val resource = queryResource(reservableItem.id)?.item ?: return false
-                if (customer.addReservation(Reservation(reservationId, reservableItem, 1, reservableItem.price))) {
-                    return true
-                } else {
-                    // customer may have been deleted in the meantime
-                    reserveResource(reservableItem.id, -1)
-                }
-            }
-        }
-        return false
+        return customerRm.customerAddReservation(customerId, reservationId, reservableItem)
     }
 
     override fun customerRemoveReservation(customerId: Int, reservationId: Int): Boolean {
-
-        val customer: Customer = queryCustomer(customerId) ?: return false
-        val reservation = customer.reservations.find { r -> r.reservationId == reservationId } ?: return false
-        customer.removeReservation(reservationId)
-        reserveResource(reservation.item.id, -1)
-        return false
+        return customerRm.customerRemoveReservation(customerId, reservationId)
     }
 
     override fun itinerary(customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean {
-
-        data class Reserved(val rResourceId: String, val rReservationId: Int)
-
-        val reserved: MutableMap<Int, Reserved> = mutableMapOf()
-
-        for ((reservationId, reservableItem) in reservationResources){
-            if ( customerAddReservation(customerId, reservationId, reservableItem) == true) {
-                reserved.put(customerId, Reserved(reservableItem.id, reservationId))
-            } else {
-                // if any of the fail, undo the reservations so far
-                reserved.forEach({(cId, reserved) ->
-                    customerRemoveReservation(cId, reserved.rReservationId)
-                    reserveResource(reserved.rResourceId, -1 )
-                    return false
-                })
-            }
-
-        }
-        return true
+        return false;
     }
 
 }
