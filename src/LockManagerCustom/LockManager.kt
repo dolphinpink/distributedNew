@@ -12,6 +12,41 @@ class LockManager {
     private val waitingLocks: MutableList<LockRequest> = mutableListOf()
 
     /**
+     * returns true if lock is acquired, or was already acquired
+     * doesn't throw redundant lock exceptions
+     *
+     * throws false if lock is not acquired (deadlockde)
+     */
+    fun lock(xId: Int, objectId: String, type: LockType): Boolean {
+
+        // if any parameter is invalid, then return false
+        if (xId < 0) return false
+
+        var lock = LockRequest(xId, objectId, type, Date())
+
+        synchronized(acquiredLocks) {
+            synchronized(waitingLocks) {
+                val sameLock = sameLockAs(lock)
+                if (sameLock == null)
+                    addToWaitQueue(lock)
+                else
+                    lock = sameLock
+            }
+        }
+
+        do {
+            if (isAcquired(lock)) {
+                return true
+            }
+        } while (Date().time - lock.creationTime.time < DEADLOCK_TIMEOUT)
+
+        cleanupDeadlock(lock)
+        println("Timeout reached for lock request: transactionId $xId, objectId $objectId, type $type. Deadlock assumed.")
+        return false
+    }
+
+
+    /**
      * if the resource is already locked for the passed lockRequest type, return that lockRequest
      * e.g. an acquired write lock for object A would make a read lock redundant
      * @param lockRequest a lockRequest that you're checking for redundancy
@@ -109,40 +144,6 @@ class LockManager {
         synchronized(acquiredLocks) {
             acquiredLocks.add(lockRequest)
         }
-    }
-
-    /**
-     * returns true if lock is acquired, or was already acquired
-     * doesn't throw redundant lock exceptions
-     *
-     * throws false if lock is not acquired (deadlockde)
-     */
-    fun lock(xId: Int, objectId: String, type: LockType): Boolean {
-
-        // if any parameter is invalid, then return false
-        if (xId < 0) return false
-
-        var lock = LockRequest(xId, objectId, type, Date())
-
-        synchronized(acquiredLocks) {
-            synchronized(waitingLocks) {
-                val sameLock = sameLockAs(lock)
-                if (sameLock == null)
-                    addToWaitQueue(lock)
-                else
-                    lock = sameLock
-            }
-        }
-
-        while (Date().time - lock.creationTime.time < DEADLOCK_TIMEOUT) {
-            if (isAcquired(lock)) {
-                return true
-            }
-        }
-
-        cleanupDeadlock(lock)
-        println("Timeout reached for lock request: transactionId $xId, objectId $objectId, type $type. Deadlock assumed.")
-        return false
     }
 
 }

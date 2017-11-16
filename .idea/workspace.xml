@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dcc90e27-b22c-4a30-bdc4-55d020c0dfcc" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Tester$main$1.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Client.class" afterPath="$PROJECT_DIR$/out/production/DistributedNew/ServerCode/Client.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/LockManagerCustom/LockManager.kt" afterPath="$PROJECT_DIR$/src/LockManagerCustom/LockManager.kt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerCode/Client.java" afterPath="$PROJECT_DIR$/src/ServerCode/Client.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ServerCode/Tester.kt" afterPath="$PROJECT_DIR$/src/ServerCode/Tester.kt" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -47,32 +48,11 @@
       <file leaf-file-name="Client.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ServerCode/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="854">
-              <caret line="514" column="0" lean-forward="true" selection-start-line="514" selection-start-column="0" selection-end-line="514" selection-end-column="0" />
+            <state relative-caret-position="-1793">
+              <caret line="244" column="22" lean-forward="false" selection-start-line="244" selection-start-column="22" selection-end-line="244" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#499#508#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TransactionalMiddleware.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Transactions/TransactionalMiddleware.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4">
-              <caret line="210" column="8" lean-forward="true" selection-start-line="210" selection-start-column="8" selection-end-line="210" selection-end-column="8" />
-              <folding>
-                <element signature="e#22#177#0" expanded="true" />
-                <element signature="n#!!block;n#getRm#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-                <element signature="n#!!block;n#cleanupDeadlock#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-                <element signature="n#!!block;n#start#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-                <element signature="n#!!block;n#createResource#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-                <element signature="n#!!block;n#updateResource#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-                <element signature="n#!!block;n#reserveResource#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-                <element signature="n#!!block;n#deleteResource#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-                <element signature="n#!!block;n#queryResource#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
-                <element signature="n#!!block;n#uniqueCustomerId#0;n#!!block;n#TransactionalMiddleware#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -83,16 +63,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
               <caret line="12" column="38" lean-forward="false" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TcpRequestReceiver.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Tcp/TcpRequestReceiver.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="15" column="8" lean-forward="false" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -136,8 +106,8 @@
       <file leaf-file-name="LockManager.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LockManagerCustom/LockManager.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="48" column="58" lean-forward="true" selection-start-line="48" selection-start-column="58" selection-end-line="48" selection-end-column="58" />
+            <state relative-caret-position="255">
+              <caret line="114" column="9" lean-forward="true" selection-start-line="114" selection-start-column="9" selection-end-line="114" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -277,13 +247,13 @@
         <option value="$PROJECT_DIR$/src/Tcp/Middleware.kt" />
         <option value="$PROJECT_DIR$/src/Transactions/TransactionManager.kt" />
         <option value="$PROJECT_DIR$/src/Tcp/Reply.kt" />
-        <option value="$PROJECT_DIR$/src/LockManagerCustom/LockManager.kt" />
         <option value="$PROJECT_DIR$/src/Transactions/TransactionalMiddleware.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/ResourceManagerImpl.kt" />
         <option value="$PROJECT_DIR$/src/Transactions/TransactionalRequestSender.kt" />
         <option value="$PROJECT_DIR$/src/Tcp/TcpRequestSender.kt" />
         <option value="$PROJECT_DIR$/src/Transactions/TuningParameters.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/Tester.kt" />
+        <option value="$PROJECT_DIR$/src/LockManagerCustom/LockManager.kt" />
         <option value="$PROJECT_DIR$/src/ServerCode/Client.java" />
       </list>
     </option>
@@ -328,6 +298,12 @@
               <item name="DistributedNew" type="b2602c69:ProjectViewProjectNode" />
               <item name="DistributedNew" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DistributedNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DistributedNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="LockManagerCustom" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="DistributedNew" type="b2602c69:ProjectViewProjectNode" />
@@ -536,11 +512,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="193754000" />
+    <option name="totallyTimeSpent" value="196810000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -550,7 +525,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27783668" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31177095" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -774,20 +749,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/LockManagerCustom/LockType.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="1" lean-forward="true" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LockManagerCustom/LockRequest.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="102" lean-forward="false" selection-start-line="16" selection-start-column="102" selection-end-line="16" selection-end-column="102" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Transactions/TcpRequestReceiver.kt" />
     <entry file="file://$PROJECT_DIR$/src/Transactions/TransactionalResourceManager.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -859,14 +820,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="29" lean-forward="false" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LockManagerCustom/LockManager.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="48" column="58" lean-forward="true" selection-start-line="48" selection-start-column="58" selection-end-line="48" selection-end-column="58" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -944,6 +897,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/LockManagerCustom/LockType.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="1" lean-forward="true" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LockManagerCustom/LockRequest.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="102" lean-forward="false" selection-start-line="16" selection-start-column="102" selection-end-line="16" selection-end-column="102" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LockManagerCustom/LockManager.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="114" column="9" lean-forward="true" selection-start-line="114" selection-start-column="9" selection-end-line="114" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerCode/Tester.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
@@ -959,8 +936,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerCode/Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="854">
-          <caret line="514" column="0" lean-forward="true" selection-start-line="514" selection-start-column="0" selection-end-line="514" selection-end-column="0" />
+        <state relative-caret-position="-1793">
+          <caret line="244" column="22" lean-forward="false" selection-start-line="244" selection-start-column="22" selection-end-line="244" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#499#508#0" expanded="true" />
