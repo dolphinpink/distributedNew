@@ -337,12 +337,12 @@ public class Client {
     }
 
     private static void customerAddReservation(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if (args.size() != 6)
+        if (args.size() != 3)
         {
             wrongNumber("customerAddReservation");
             return;
         }
-        boolean success = client.customerAddReservation(transaction, Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), new ReservableItem(typeOf(args.get(2)), args.get(3), Integer.parseInt(args.get(4)), Integer.parseInt(args.get(5))));
+        boolean success = client.customerAddReservation(transaction, Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)), args.get(2));
         System.out.println(success ? "Customer reserved resource." : "Could not reserve resource.");
     }
 
@@ -371,15 +371,15 @@ public class Client {
     }
 
     private static void itinerary(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {
-        if ((args.size() % 4) != 1)
+        if (args.size() < 2)
         {
             wrongNumber("itinerary");
             return;
         }
         int counter = 1;
         Map map = new HashMap();
-        for(int i=1; i<args.size(); i+=4){
-            map.put(counter, new ReservableItem(typeOf(args.get(i++)), args.get(i++), Integer.parseInt(args.get(i++)), Integer.parseInt(args.get(i++))));
+        for(int i=1; i<args.size(); i++){
+            map.put(counter, args.get(i));
             counter++;
         }
         boolean success = client.itinerary(transaction, Integer.parseInt(args.get(0)), map);
@@ -514,4 +514,3 @@ public class Client {
         listCommands();
     }
 }
-
