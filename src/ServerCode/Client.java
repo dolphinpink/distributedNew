@@ -242,7 +242,7 @@ public class Client {
                     System.exit(0);
                 default:
                     System.out.println("The interface does not support this command.");
-                    listCommands();
+                    //listCommands();
                     break;
             }
         }

@@ -6,6 +6,12 @@ data class Customer(val customerId: Int) {
 
     override fun hashCode() = customerId.hashCode()
 
+    override fun toString(): String {
+        var reservationString = "reservations:\n"
+        reservations.forEach {r -> reservationString += "$r" }
+        return ("Customer(customerId=$customerId)\n$reservationString")
+    }
+
     val reservations: MutableSet<Reservation> = mutableSetOf()
 
     private val lock = Any()

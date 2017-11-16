@@ -1,6 +1,8 @@
 package ServerCode
 
+import ResourceManagerCode.ReservableItem
 import ResourceManagerCode.ReservableType
+import ResourceManagerCode.Reservation
 import Tcp.*
 import Transactions.TransactionalMiddleware
 import Transactions.TransactionalRequestReceiver
@@ -45,12 +47,14 @@ object Tester {
 
         // Initiate resources to test on
         val r1 = client.start(12)
-        val r2 =client.createResource(12, ReservableType.FLIGHT, "fly_1", 50, 5)
-        val r3 =client.createResource(12, ReservableType.HOTEL, "hot_1", 50, 5)
-        val r4 =client.createResource(12, ReservableType.CAR, "car_1", 50, 5)
+        val r2 = client.createResource(12, ReservableType.FLIGHT, "fly_1", 50, 5)
+        val r3 = client.createCustomer(12, 1)
+        val r4 = client.customerAddReservation(12, 1, 1, "fly_1")
 
-        val r5 =client.queryResource(12, "fly_1")
-        val r6 =client.commit(12)
+        val r5 = client.queryCustomer(12, 1) ?: return
+        r5.addReservation(Reservation(2, ReservableItem(ReservableType.FLIGHT, "1", 1 ,1), 1, 1))
+
+        val r6 = client.commit(12)
 
         print("$r1 $r2 $r3 $r4 $r5 $r6")
 
