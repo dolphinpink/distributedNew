@@ -22,42 +22,16 @@ object Tester {
     val finishedLock = Any()
     var finishedCounter = 0
 
+    val random = Random()
+
+    fun rand(from: Int, to: Int) : Int {
+        return random.nextInt(to - from) + from
+    }
+
     @JvmStatic
     fun main(args: Array<String>) {
-        val requestReceiverFlight = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.flightRm)
-        requestReceiverFlight.runServer()
 
-        val requestReceiverHotel = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.hotelRm)
-        requestReceiverHotel.runServer()
-
-        val requestReceiverCar = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.carRm)
-        requestReceiverCar.runServer()
-
-        val requestReceiverCustomer = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.customerRm)
-        requestReceiverCustomer.runServer()
-
-        Thread.sleep(500)
-
-        val midware = TransactionalRequestReceiver(TransactionalMiddleware("127.0.0.1"), PortNumbers.middleware)
-        midware.runServer()
-
-        Thread.sleep(500)
-
-        val client = TransactionalRequestSender(PortNumbers.middleware, "127.0.0.1")
-
-        // Initiate resources to test on
-        val r1 = client.start(12)
-        val r2 = client.createResource(12, ReservableType.FLIGHT, "fly_1", 50, 5)
-        val r3 = client.createCustomer(12, 1)
-        val r4 = client.customerAddReservation(12, 1, 1, "fly_1")
-
-        val r5 = client.queryCustomer(12, 1) ?: return
-        r5.addReservation(Reservation(2, ReservableItem(ReservableType.FLIGHT, "1", 1 ,1), 1, 1))
-
-        val r6 = client.commit(12)
-
-        print("$r1 $r2 $r3 $r4 $r5 $r6")
-
+        performanceTest()
 
         }
 
@@ -88,19 +62,15 @@ object Tester {
 
         // Initiate resources to test on
         if (client.start(12)) {
-            client.createResource(12, ReservableType.FLIGHT, "fly_1", 50, 5)
-            client.createResource(12, ReservableType.HOTEL, "hot_1", 50, 5)
-            client.createResource(12, ReservableType.CAR, "car_1", 50, 5)
-            client.createResource(12, ReservableType.FLIGHT, "fly_2", 50, 5)
-            client.createResource(12, ReservableType.HOTEL, "hot_2", 50, 5)
-            client.createResource(12, ReservableType.CAR, "car_2", 50, 5)
+            client.createResource(12, ReservableType.FLIGHT, "1", 50, 5)
+            client.createResource(12, ReservableType.HOTEL, "2", 50, 5)
+            client.createResource(12, ReservableType.CAR, "3", 50, 5)
 
-            resourceList.add("fly_1")
-            resourceList.add("fly_2")
-            resourceList.add("car_1")
-            resourceList.add("car_2")
-            resourceList.add("hot_1")
-            resourceList.add("hot_2")
+
+            resourceList.add("1")
+            resourceList.add("2")
+            resourceList.add("3")
+
 
             client.createCustomer(12, 1)
             client.createCustomer(12, 2)
@@ -116,10 +86,10 @@ object Tester {
             println("Your transaction failed.\n")
         }
 
-        var numClients = 1
+        var numClients = 2
         while (true){
 
-            if (numClients > 1500)
+            if (numClients > 2)
                 break
 
             finishedCounter = 0
@@ -180,14 +150,47 @@ object Tester {
         while(true) {
             client.start(transactionId)
 
+
+
             var timeElapsed = measureTimeMillis {
-                client.queryResource(transactionId, "fly_1")
+
+
+                when (rand(1, 3)) {
+                    0 -> {
+                        println("$transactionId running query")
+                        client.queryResource(transactionId, resourceList.get(rand(0, resourceList.size)))
+                    }
+                    1,2 -> {
+                        println("$transactionId running create")
+                        val randId = rand(0, 200).toString()
+                        client.createResource(transactionId, ReservableType.FLIGHT, randId , 10, 1000)
+                        resourceList.add(randId)
+                    }
+                    else -> {
+                        var size = 0
+                        synchronized(resourceList) {
+                            size = resourceList.size
+                        }
+                        if (size > 2) {
+
+                            var resourceId = "-1"
+                            synchronized(resourceList) {
+                                val index = rand(0, resourceList.size)
+                                resourceId = resourceList.get(index)
+                                resourceList.removeAt(index)
+                            }
+
+                            client.deleteResource(transactionId, resourceId)
+
+                        }
+                    }
+                }
             }
 
-            if (times.get(totalClients) == null)
+            /*if (times.get(totalClients) == null)
                 times.put(totalClients, mutableListOf())
 
-            times.get(totalClients)!!.add(timeElapsed)
+            times.get(totalClients)!!.add(timeElapsed)*/
 
             client.commit(transactionId)
             Thread.sleep(100)

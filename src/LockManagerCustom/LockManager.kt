@@ -36,12 +36,18 @@ class LockManager {
 
         do {
             if (isAcquired(lock)) {
+                println("lock acquired $lock")
+                println(this.toString())
                 return true
             }
+            println("waiting for lock $lock")
+            Thread.sleep(20)
         } while (Date().time - lock.creationTime.time < DEADLOCK_TIMEOUT)
 
-        cleanupDeadlock(lock)
         println("Timeout reached for lock request: transactionId $xId, objectId $objectId, type $type. Deadlock assumed.")
+        println(this.toString())
+        cleanupDeadlock(lock)
+
         return false
     }
 
@@ -85,6 +91,8 @@ class LockManager {
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
                 waitingLocks.add(lockRequest)
+                println("$lockRequest added to wait queue")
+                println(this.toString())
                 waitlistAcquire()
             }
         }
@@ -98,9 +106,15 @@ class LockManager {
 
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
-                acquiredLocks.removeAll(acquiredLocks.filter { acquiredLock -> acquiredLock.xId == xId })
-                waitingLocks.removeAll(waitingLocks.filter { acquiredLock -> acquiredLock.xId == xId })
+                println("\nunlocking for $xId")
+                print(this.toString())
+                acquiredLocks.removeIf { acquiredLock -> acquiredLock.xId == xId }
+                //waitingLocks.removeIf { acquiredLock -> acquiredLock.xId == xId }
+                println("unlocked for $xId. reacquiring")
                 waitlistAcquire()
+                println("reacquired, list is now ")
+                println(this.toString())
+                println("\n")
             }
         }
 
@@ -120,29 +134,51 @@ class LockManager {
      * must be called everytime the waitlist or acquired locks list is modified
      */
     private fun waitlistAcquire() {
+
+        // can't modify list while iterating
+        val locksToDelete: MutableList<LockRequest> = mutableListOf()
+
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
                 waitingLocks.forEach { wLock ->
                     when (wLock.type) {
                         LockType.READ -> {
-                            if (acquiredLocks.find { aLock -> aLock.objectId == wLock.objectId && aLock.type == LockType.WRITE } == null)
+                            if (acquiredLocks.find { aLock -> aLock.objectId == wLock.objectId && aLock.type == LockType.WRITE } == null) {
                                 acquireLock(wLock)
+                                locksToDelete.add(wLock)
+                            }
                         }
                         LockType.WRITE -> {
                             if (acquiredLocks.find { aLock -> aLock.objectId == wLock.objectId && aLock.xId != wLock.xId} == null) {
                                 acquiredLocks.removeIf { aLock -> aLock.objectId == wLock.objectId && aLock.xId == wLock.xId }
                                 acquireLock(wLock)
+                                locksToDelete.add(wLock)
                             }
                         }
                     }
                 }
+                locksToDelete.forEach { del -> waitingLocks.removeIf{ll -> ll == del} }
             }
         }
     }
 
     private fun acquireLock(lockRequest: LockRequest) {
         synchronized(acquiredLocks) {
-            acquiredLocks.add(lockRequest)
+            synchronized(waitingLocks) {
+                acquiredLocks.add(lockRequest)
+            }
+        }
+    }
+
+    override fun toString(): String {
+
+        synchronized(acquiredLocks) {
+            synchronized(waitingLocks) {
+                var str = ""
+                acquiredLocks.forEach {ll -> str += "acqu $ll   ${System.identityHashCode(ll)}\n"}
+                waitingLocks.forEach {ll -> str += "wait $ll   ${System.identityHashCode(ll)}\n"}
+                return str
+            }
         }
     }
 
