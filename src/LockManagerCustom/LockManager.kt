@@ -145,23 +145,14 @@ class LockManager {
                 waitingLocks.forEach { waitingLock ->
                     if (acquiredLocks.find { acquiredLock -> waitingLock.isConflicting(acquiredLock) } == null) {
                         acquiredLocks.removeIf { acquiredLock -> acquiredLock.hasSameRequirementsAs(waitingLock) } // remove read lock if adding same write lock
-                        acquireLock(waitingLock)
+                        acquiredLocks.add(waitingLock)
+                        synchronized(waitingLock) {
+                            waitingLock.notifyAll()
+                        }
                         locksToDelete.add(waitingLock)
                     }
                 }
                 locksToDelete.forEach { del -> waitingLocks.removeIf { ll -> ll == del } }
-            }
-        }
-    }
-
-    // adds lock to acquired list and notifies waiting threads
-    private fun acquireLock(lockRequest: LockRequest) {
-        synchronized(acquiredLocks) {
-            synchronized(waitingLocks) {
-                acquiredLocks.add(lockRequest)
-                synchronized(lockRequest) {
-                    lockRequest.notifyAll()
-                }
             }
         }
     }
