@@ -22,6 +22,7 @@ class LockManager {
 
     /**
      * returns true if lock is acquired, or was already acquired
+     *
      * doesn't throw redundant lock exceptions
      *
      * throws false if lock is not acquired (deadlocked)
@@ -35,7 +36,8 @@ class LockManager {
 
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
-                val sameLock = sameLockAs(lock)
+                // if functionally same lock already exists, use that lock
+                val sameLock = getLockSameAs(lock)
 
                 if (sameLock == null)
                     addToWaitQueue(lock)
@@ -88,12 +90,12 @@ class LockManager {
     }
 
     /**
-     * if the resource is already locked for the passed lockRequest type, return that lockRequest
-     * e.g. an acquired write lock for object A would make a read lock redundant
+     * return a lockRequest that is functionally the same as the parameter lockRequest, if it exists
+     *
      * @param lockRequest a lockRequest that you're checking for redundancy
-     * @return the lockRequest that makes the passed lockRequest redundant, or null
+     * @return a lockRequest that is functionally the same as passed argument, or null
      */
-    private fun sameLockAs(lockRequest: LockRequest): LockRequest? {
+    private fun getLockSameAs(lockRequest: LockRequest): LockRequest? {
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
 
@@ -103,7 +105,7 @@ class LockManager {
         }
     }
 
-    // returns true if lock is acquired, or if different lock that has same permissions has been acquired
+    // returns true if lock is acquired, or if different lock is functionally the same has been acquired
     private fun isAcquired(lockRequest: LockRequest): Boolean {
         synchronized(acquiredLocks) {
             return acquiredLocks.find { acquiredLocks -> lockRequest.hasSameRequirementsAs(acquiredLocks) } != null
@@ -131,7 +133,7 @@ class LockManager {
 
     /**
      * lets waitlisted locks acquire locks if they are first in queue
-     * must be called everytime the waitlist or acquired locks list is modified
+     * must be called everytime the waitingLocks or acquiredLocks is modified
      */
     private fun waitlistAcquire() {
 
