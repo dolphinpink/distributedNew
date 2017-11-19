@@ -5,18 +5,20 @@ import java.util.*
 class LockManager {
 
     companion object {
-        private val DEADLOCK_TIMEOUT = 5000
+        private val DEADLOCK_TIMEOUT = 10000
     }
 
+    private val acquiredLocks: MutableSet<LockRequest> = mutableSetOf()
+    private val waitingLocks: MutableList<LockRequest> = mutableListOf()
+
+
+    // checks waiting queue for deadlocked requests every 5 ms
     init {
         Thread {
             checkLocks()
             Thread.sleep(5)
         }.start()
     }
-
-    private val acquiredLocks: MutableSet<LockRequest> = mutableSetOf()
-    private val waitingLocks: MutableList<LockRequest> = mutableListOf()
 
     /**
      * returns true if lock is acquired, or was already acquired
@@ -52,6 +54,24 @@ class LockManager {
         return (isAcquired(lock))
     }
 
+    // remove all lockRequests for this transaction from the lock manager
+    fun unlockAll(xId: Int): Boolean {
+
+        // if any parameter is invalid, then return false
+        if (xId < 0) return false
+
+        synchronized(acquiredLocks) {
+            synchronized(waitingLocks) {
+                acquiredLocks.removeIf { acquiredLock -> acquiredLock.xId == xId }
+                waitingLocks.removeIf { acquiredLock -> acquiredLock.xId == xId }
+                waitlistAcquire()
+            }
+        }
+
+        return true
+    }
+
+    // checks all waiting locks for deadlocks (locks past DEADLOCK_TIMEOUT)
     private fun checkLocks() {
 
         synchronized(waitingLocks) {
@@ -83,48 +103,24 @@ class LockManager {
         }
     }
 
-
+    // returns true if lock is acquired, or if different lock that has same permissions has been acquired
     private fun isAcquired(lockRequest: LockRequest): Boolean {
         synchronized(acquiredLocks) {
             return acquiredLocks.find { acquiredLocks -> lockRequest.hasSameRequirementsAs(acquiredLocks) } != null
         }
     }
 
+    // adds lockRequest to wait queue
     private fun addToWaitQueue(lockRequest: LockRequest) {
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
                 waitingLocks.add(lockRequest)
-                println("$lockRequest added to wait queue")
-                println(this.toString())
                 waitlistAcquire()
             }
         }
     }
 
-    // remove all locks for this transaction in the lock table.
-    fun unlockAll(xId: Int): Boolean {
-
-        // if any parameter is invalid, then return false
-        if (xId < 0) return false
-
-        synchronized(acquiredLocks) {
-            synchronized(waitingLocks) {
-                println("\nunlocking for $xId")
-                print(this.toString())
-                acquiredLocks.removeIf { acquiredLock -> acquiredLock.xId == xId }
-                //waitingLocks.removeIf { acquiredLock -> acquiredLock.xId == xId }
-                println("unlocked for $xId. reacquiring")
-                waitlistAcquire()
-                println("reacquired, list is now ")
-                println(this.toString())
-                println("\n")
-            }
-        }
-
-        return true
-    }
-
-    // cleanupDeadlock cleans up stampTable and waitTable, and throws DeadlockException
+    // cleans up
     private fun cleanupDeadlock(lockRequest: LockRequest) {
         lockRequest.notifyAll()
         synchronized(waitingLocks) {
@@ -154,11 +150,9 @@ class LockManager {
                 locksToDelete.forEach { del -> waitingLocks.removeIf { ll -> ll == del } }
             }
         }
-        println("notifed")
-        println(locksToDelete)
-        println(this.toString())
     }
 
+    // adds lock to acquired list and notifies waiting threads
     private fun acquireLock(lockRequest: LockRequest) {
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
