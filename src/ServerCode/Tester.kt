@@ -65,21 +65,15 @@ object Tester {
             client.createResource(12, ReservableType.FLIGHT, "1", 50, 5)
             client.createResource(12, ReservableType.HOTEL, "2", 50, 5)
             client.createResource(12, ReservableType.CAR, "3", 50, 5)
-
-
             resourceList.add("1")
             resourceList.add("2")
             resourceList.add("3")
-
-
             client.createCustomer(12, 1)
             client.createCustomer(12, 2)
             client.createCustomer(12, 3)
-
             customerList.add(1)
             customerList.add(2)
             customerList.add(3)
-
         }
 
         if (!client.commit(12)){

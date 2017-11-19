@@ -5,7 +5,14 @@ import java.util.*
 class LockManager {
 
     companion object {
-        private val DEADLOCK_TIMEOUT = 10000
+        private val DEADLOCK_TIMEOUT = 5000
+    }
+
+    init {
+        Thread {
+            checkLocks()
+            Thread.sleep(5)
+        }.start()
     }
 
     private val acquiredLocks: MutableSet<LockRequest> = mutableSetOf()
@@ -15,7 +22,7 @@ class LockManager {
      * returns true if lock is acquired, or was already acquired
      * doesn't throw redundant lock exceptions
      *
-     * throws false if lock is not acquired (deadlockde)
+     * throws false if lock is not acquired (deadlocked)
      */
     fun lock(xId: Int, objectId: String, type: LockType): Boolean {
 
@@ -27,30 +34,38 @@ class LockManager {
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
                 val sameLock = sameLockAs(lock)
+
                 if (sameLock == null)
                     addToWaitQueue(lock)
                 else
                     lock = sameLock
+
+                if (isAcquired(lock))
+                    return true
+
+                synchronized(lock) {
+                    // will be notified either by acquireLock or cleanupDeadlock
+                    lock.wait()
+                }
             }
         }
-
-        do {
-            if (isAcquired(lock)) {
-                println("lock acquired $lock")
-                println(this.toString())
-                return true
-            }
-            println("waiting for lock $lock")
-            Thread.sleep(20)
-        } while (Date().time - lock.creationTime.time < DEADLOCK_TIMEOUT)
-
-        println("Timeout reached for lock request: transactionId $xId, objectId $objectId, type $type. Deadlock assumed.")
-        println(this.toString())
-        cleanupDeadlock(lock)
-
-        return false
+        return (isAcquired(lock))
     }
 
+    private fun checkLocks() {
+
+        synchronized(waitingLocks) {
+            val now = Date().time
+            val deadLocked = mutableListOf<LockRequest>()
+            waitingLocks.forEach { wLock ->
+                if (now - wLock.creationTime.time > DEADLOCK_TIMEOUT)
+                    deadLocked.add(wLock)
+            }
+
+            deadLocked.forEach { deadlock -> cleanupDeadlock(deadlock) }
+        }
+
+    }
 
     /**
      * if the resource is already locked for the passed lockRequest type, return that lockRequest
@@ -62,28 +77,16 @@ class LockManager {
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
 
-                val acquiredLocksForObject = acquiredLocks.filter { acquiredLock -> acquiredLock.objectId == lockRequest.objectId }
-                val waitingLocksForObject = waitingLocks.filter { waitingLock -> waitingLock.objectId == lockRequest.objectId }
-
-                return when (lockRequest.type) {
-                    LockType.READ -> acquiredLocksForObject.find { aLock -> aLock.xId == lockRequest.xId } ?:
-                            waitingLocksForObject.find { wLock -> wLock.xId == lockRequest.xId }
-                    LockType.WRITE -> acquiredLocksForObject.find { aLock -> aLock.xId == lockRequest.xId && aLock.type == lockRequest.type } ?:
-                            waitingLocksForObject.find { wLock -> wLock.xId == lockRequest.xId && wLock.type == lockRequest.type }
-                }
+                return acquiredLocks.find { acquiredLock -> lockRequest.hasSameRequirementsAs(acquiredLock) } ?:
+                        waitingLocks.find { waitingLock -> lockRequest.hasSameRequirementsAs(waitingLock) }
             }
         }
     }
 
+
     private fun isAcquired(lockRequest: LockRequest): Boolean {
-
         synchronized(acquiredLocks) {
-            val acquiredLocksForObject = acquiredLocks.filter { acquiredLock -> acquiredLock.objectId == lockRequest.objectId }
-
-            return when (lockRequest.type) {
-                LockType.READ -> acquiredLocksForObject.find { aLock -> aLock.xId == lockRequest.xId } != null
-                LockType.WRITE -> acquiredLocksForObject.find { aLock -> aLock.xId == lockRequest.xId && aLock.type == lockRequest.type } != null
-            }
+            return acquiredLocks.find { acquiredLocks -> lockRequest.hasSameRequirementsAs(acquiredLocks) } != null
         }
     }
 
@@ -123,6 +126,7 @@ class LockManager {
 
     // cleanupDeadlock cleans up stampTable and waitTable, and throws DeadlockException
     private fun cleanupDeadlock(lockRequest: LockRequest) {
+        lockRequest.notifyAll()
         synchronized(waitingLocks) {
             waitingLocks.remove(lockRequest)
             waitlistAcquire()
@@ -140,32 +144,28 @@ class LockManager {
 
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
-                waitingLocks.forEach { wLock ->
-                    when (wLock.type) {
-                        LockType.READ -> {
-                            if (acquiredLocks.find { aLock -> aLock.objectId == wLock.objectId && aLock.type == LockType.WRITE } == null) {
-                                acquireLock(wLock)
-                                locksToDelete.add(wLock)
-                            }
-                        }
-                        LockType.WRITE -> {
-                            if (acquiredLocks.find { aLock -> aLock.objectId == wLock.objectId && aLock.xId != wLock.xId} == null) {
-                                acquiredLocks.removeIf { aLock -> aLock.objectId == wLock.objectId && aLock.xId == wLock.xId }
-                                acquireLock(wLock)
-                                locksToDelete.add(wLock)
-                            }
-                        }
+                waitingLocks.forEach { waitingLock ->
+                    if (acquiredLocks.find { acquiredLock -> waitingLock.isConflicting(acquiredLock) } == null) {
+                        acquiredLocks.removeIf { acquiredLock -> acquiredLock.hasSameRequirementsAs(waitingLock) } // remove read lock if adding same write lock
+                        acquireLock(waitingLock)
+                        locksToDelete.add(waitingLock)
                     }
                 }
-                locksToDelete.forEach { del -> waitingLocks.removeIf{ll -> ll == del} }
+                locksToDelete.forEach { del -> waitingLocks.removeIf { ll -> ll == del } }
             }
         }
+        println("notifed")
+        println(locksToDelete)
+        println(this.toString())
     }
 
     private fun acquireLock(lockRequest: LockRequest) {
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
                 acquiredLocks.add(lockRequest)
+                synchronized(lockRequest) {
+                    lockRequest.notifyAll()
+                }
             }
         }
     }
@@ -175,11 +175,17 @@ class LockManager {
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
                 var str = ""
-                acquiredLocks.forEach {ll -> str += "acqu $ll   ${System.identityHashCode(ll)}\n"}
-                waitingLocks.forEach {ll -> str += "wait $ll   ${System.identityHashCode(ll)}\n"}
+                acquiredLocks.forEach { ll -> str += "acqu $ll   ${System.identityHashCode(ll)}\n" }
+                waitingLocks.forEach { ll -> str += "wait $ll   ${System.identityHashCode(ll)}\n" }
                 return str
             }
         }
     }
+
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+    private fun Any.wait() = (this as java.lang.Object).wait()
+
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+    private fun Any.notifyAll() = (this as java.lang.Object).notifyAll()
 
 }

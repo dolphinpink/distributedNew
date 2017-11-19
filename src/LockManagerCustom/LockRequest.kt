@@ -14,4 +14,24 @@ import java.util.*
  * type: type of lock, either read or write
  * acquisitionTime: time when lock was created, i.e. started waiting for lock acquisition
  */
-data class LockRequest(val xId: Int, val objectId: String, var type: LockType, var creationTime: Date)
+data class LockRequest(val xId: Int, val objectId: String, var type: LockType, var creationTime: Date) {
+
+
+    // returns true if the lock argument conflicts with this lock
+    fun isConflicting(potential: LockRequest): Boolean {
+        when (type) {
+            LockType.READ -> return potential.xId == this.xId && potential.objectId == this.objectId && potential.type == LockType.WRITE
+            LockType.WRITE -> return potential.xId == this.xId && potential.objectId == this.objectId
+        }
+    }
+
+    // returns true if lock argument has all permissions this lock has needs
+    // e.g. returns true if this is read request and potential is read OR write request for same object
+    // e.g. returns false if this is write request and potential is read request for same object
+    fun hasSameRequirementsAs(potential: LockRequest): Boolean {
+        when (type) {
+            LockType.READ -> return potential.xId == this.xId && potential.objectId == this.objectId
+            LockType.WRITE -> return potential.xId == this.xId && potential.objectId == this.objectId && potential.type == LockType.WRITE
+        }
+    }
+}
