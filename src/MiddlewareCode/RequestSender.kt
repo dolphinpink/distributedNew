@@ -1,4 +1,4 @@
-package Tcp
+package MiddlewareCode
 
 import ResourceManagerCode.*
 import Transactions.TuningParameters
@@ -11,7 +11,7 @@ import java.io.PrintWriter
 import java.net.Socket
 
 
-class TcpRequestSender(val portNum: Int, val serverName: String, val requestIdStart: Int): ResourceManager {
+class RequestSender(val portNum: Int, val serverName: String, val requestIdStart: Int): ResourceManager {
     companion object {
         val MAX_REQUESTS = 1000000
     }

@@ -1,14 +1,14 @@
-package Tcp
+package MiddlewareCode
 
 import ResourceManagerCode.*
 
 class Middleware(val server: String,
                  val requestIdStart: Int,
                  val resourceType: MutableMap<String, ReservableType> = mutableMapOf(),
-                 private val customerRm: ResourceManager = TcpRequestSender(PortNumbers.customerRm, server, requestIdStart),
-                 private val flightRm: ResourceManager = TcpRequestSender(PortNumbers.flightRm, server, requestIdStart),
-                 private val hotelRm: ResourceManager = TcpRequestSender(PortNumbers.hotelRm, server, requestIdStart),
-                 private val carRm: ResourceManager = TcpRequestSender(PortNumbers.carRm, server, requestIdStart)) : ResourceManager {
+                 private val customerRm: ResourceManager = RequestSender(CommunicationsConfig.customerRm, server, requestIdStart),
+                 private val flightRm: ResourceManager = RequestSender(CommunicationsConfig.flightRm, server, requestIdStart),
+                 private val hotelRm: ResourceManager = RequestSender(CommunicationsConfig.hotelRm, server, requestIdStart),
+                 private val carRm: ResourceManager = RequestSender(CommunicationsConfig.carRm, server, requestIdStart)) : ResourceManager {
 
 
 

@@ -1,4 +1,4 @@
-package Tcp
+package MiddlewareCode
 
 import ResourceManagerCode.Customer
 import ResourceManagerCode.Resource

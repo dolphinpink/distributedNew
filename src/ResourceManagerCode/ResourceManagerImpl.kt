@@ -1,6 +1,4 @@
-package ServerCode
-
-import ResourceManagerCode.*
+package ResourceManagerCode
 
 class ResourceManagerImpl : ResourceManager {
 

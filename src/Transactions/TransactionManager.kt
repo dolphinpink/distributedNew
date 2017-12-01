@@ -2,7 +2,7 @@ package Transactions
 
 import ResourceManagerCode.ReservableType
 import ResourceManagerCode.ResourceManager
-import Tcp.*
+import MiddlewareCode.*
 import java.util.*
 
 class TransactionManager(val resourceType: MutableMap<String, ReservableType> = mutableMapOf(),
@@ -11,7 +11,7 @@ class TransactionManager(val resourceType: MutableMap<String, ReservableType> = 
                          private val hotelRm: ResourceManager,
                          private val carRm: ResourceManager) {
 
-    private val rm = Middleware("127.0.0.1", TcpRequestSender.MAX_REQUESTS, resourceType, customerRm, flightRm, hotelRm, carRm)
+    private val rm = Middleware("127.0.0.1", RequestSender.MAX_REQUESTS, resourceType, customerRm, flightRm, hotelRm, carRm)
 
     private val requestStacks: MutableMap<Int, Stack<RequestCommand>> = mutableMapOf()
 

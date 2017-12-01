@@ -4,7 +4,7 @@ import LockManagerCustom.DeadlockException
 import LockManagerCustom.LockManager
 import LockManagerCustom.LockType
 import ResourceManagerCode.*
-import Tcp.*
+import MiddlewareCode.*
 
 class TransactionalMiddleware(val server: String): TransactionalResourceManager {
     companion object {
@@ -13,10 +13,10 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
 
     val resourceType: MutableMap<String, ReservableType> = mutableMapOf()
 
-    private val customerRm: ResourceManager = TcpRequestSender(PortNumbers.customerRm, server, 0)
-    private val flightRm: ResourceManager = TcpRequestSender(PortNumbers.flightRm, server, 0)
-    private val hotelRm: ResourceManager = TcpRequestSender(PortNumbers.hotelRm, server, 0)
-    private val carRm: ResourceManager = TcpRequestSender(PortNumbers.carRm, server, 0)
+    private val customerRm: ResourceManager = RequestSender(CommunicationsConfig.customerRm, server, 0)
+    private val flightRm: ResourceManager = RequestSender(CommunicationsConfig.flightRm, server, 0)
+    private val hotelRm: ResourceManager = RequestSender(CommunicationsConfig.hotelRm, server, 0)
+    private val carRm: ResourceManager = RequestSender(CommunicationsConfig.carRm, server, 0)
 
     private val transactionManager = TransactionManager(resourceType, customerRm, flightRm, hotelRm, carRm)
 

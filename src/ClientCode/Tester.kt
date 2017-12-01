@@ -1,9 +1,8 @@
-package ServerCode
+package ClientCode
 
-import ResourceManagerCode.ReservableItem
 import ResourceManagerCode.ReservableType
-import ResourceManagerCode.Reservation
-import Tcp.*
+import ResourceManagerCode.ResourceManagerImpl
+import MiddlewareCode.*
 import Transactions.TransactionalMiddleware
 import Transactions.TransactionalRequestReceiver
 import Transactions.TransactionalRequestSender
@@ -33,80 +32,14 @@ object Tester {
 
         performanceTest()
 
-        }
+    }
 
     fun performanceTest() {
         println(" Performance Analysis Testing: \n")
         println("START: \n")
 
-        val requestReceiverFlight = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.flightRm)
-        requestReceiverFlight.runServer()
-
-        val requestReceiverHotel = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.hotelRm)
-        requestReceiverHotel.runServer()
-
-        val requestReceiverCar = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.carRm)
-        requestReceiverCar.runServer()
-
-        val requestReceiverCustomer = TcpRequestReceiver(ResourceManagerImpl(), PortNumbers.customerRm)
-        requestReceiverCustomer.runServer()
-
-        Thread.sleep(500)
-
-        val midware = TransactionalRequestReceiver(TransactionalMiddleware("127.0.0.1"), PortNumbers.middleware)
-        midware.runServer()
-
-        Thread.sleep(500)
-
-        val client = TransactionalRequestSender(PortNumbers.middleware, "127.0.0.1")
-
-        // Initiate resources to test on
-        if (client.start(12)) {
-            client.createResource(12, ReservableType.FLIGHT, "1", 50, 5)
-            client.createResource(12, ReservableType.HOTEL, "2", 50, 5)
-            client.createResource(12, ReservableType.CAR, "3", 50, 5)
-            resourceList.add("1")
-            resourceList.add("2")
-            resourceList.add("3")
-            client.createCustomer(12, 1)
-            client.createCustomer(12, 2)
-            client.createCustomer(12, 3)
-            customerList.add(1)
-            customerList.add(2)
-            customerList.add(3)
-        }
-
-        if (!client.commit(12)){
-            println("Your transaction failed.\n")
-        }
-
-        var numClients = 2
-        while (true){
-
-            if (numClients > 2)
-                break
-
-            finishedCounter = 0
-
-            for (i in 1..numClients) {
-                Thread {
-                    runCustomerSetTime(client, i, numClients)
-                }.start()
-            }
-            while (true) {
-                if (finishedCounter == numClients)
-                    break
-                Thread.sleep(10)
-            }
-            println("$numClients clients finished")
-
-            numClients *= 2
-        }
-
-        println("END\n")
-
-        times.forEach{(numClients, times) -> println("clients $numClients average time ${times.average()}")}
-        return
+        val requestReceiverFlight = RequestReceiver(ResourceManagerImpl())
+        requestReceiverFlight.start()
 
     }
 
