@@ -27,7 +27,7 @@ class ResourceManagerImpl(requestChannelName: String, replyChannelName: String) 
         val random = Random()
 
         if (random.nextInt(4) == 0) {
-            println("\nRM randomly crashing! -------------------------\n")
+           println("\nRM randomly crashing! -------------------------\n")
             receiver.requestChannel = JChannel().connect("not a real channel")
             receiver.replyChannel = JChannel().connect("not a real channel")
         }

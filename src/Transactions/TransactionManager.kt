@@ -17,7 +17,7 @@ class TransactionManager(val resourceType: MutableMap<String, ReservableType> = 
 
     fun createTransaction(transactionId: Int): Boolean {
         synchronized(requestStacks) {
-            println("$requestStacks")
+           //println("$requestStacks")
             if (requestStacks.contains(transactionId)) return false
 
             requestStacks.put(transactionId, Stack())
@@ -37,7 +37,7 @@ class TransactionManager(val resourceType: MutableMap<String, ReservableType> = 
             val requestStack = requestStacks[transactionId] ?: return false
             while(requestStack.isNotEmpty()) {
                 val succeeded = requestStack.pop().execute(rm) as BooleanReply
-                println("TRANSACTION MANAGER popping ${succeeded.value}")
+               //println("TRANSACTION MANAGER popping ${succeeded.value}")
 
             }
             requestStacks.remove(transactionId)

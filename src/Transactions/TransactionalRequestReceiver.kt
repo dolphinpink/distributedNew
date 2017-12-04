@@ -27,7 +27,7 @@ class TransactionalRequestReceiver(private val rm: TransactionalResourceManager)
         requestChannel.receiver = this
         requestChannel.connect(CommunicationsConfig.CM_REQUEST_CLUSTER)
 
-        println("RECEIVER ready")
+       //println("RECEIVER ready")
     }
 
     override fun viewAccepted(new_view: View) {
@@ -37,18 +37,18 @@ class TransactionalRequestReceiver(private val rm: TransactionalResourceManager)
 
     override fun receive(msg: Message) {
 
-        println("${msg.src}: ${msg.getObject<String>()}")
+       //println("${msg.src}: ${msg.getObject<String>()}")
 
         try {
             val request = mapper.readValue<TransactionalRequestCommand>(msg.getObject<String>())
-            println("MIDDLEWARE RECEIVER extracted $request")
+           //println("MIDDLEWARE RECEIVER extracted $request")
             val result = request.execute(rm)
             val resultJson = mapper.writeValueAsString(result)
-            println("MIDDLEWARE RECEIVER sending $resultJson")
+           //println("MIDDLEWARE RECEIVER sending $resultJson")
             replyChannel.send(null, resultJson)
 
         } catch (e: Exception) {
-            println(e)
+           //println(e)
         }
 
 

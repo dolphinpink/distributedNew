@@ -35,7 +35,7 @@ class TransactionalRequestSender(val senderId: Int): TransactionalResourceManage
         replyChannel.receiver = this
         replyChannel.connect(CommunicationsConfig.CM_REPLY_CLUSTER)
 
-        println("SENDER ready")
+       //println("SENDER ready")
     }
 
     override fun start(transactionId: Int): Boolean {
@@ -141,11 +141,11 @@ class TransactionalRequestSender(val senderId: Int): TransactionalResourceManage
 
     override fun receive(msg: Message) {
 
-        println("${msg.src}: ${msg.getObject<String>()}")
+       //println("${msg.src}: ${msg.getObject<String>()}")
 
         try {
             val reply = mapper.readValue<Reply>(msg.getObject<String>())
-            println("SENDER received reply $reply")
+           //println("SENDER received reply $reply")
             synchronized(alreadyReceived) {
                 synchronized(replies) {
                     if (requestIdInRange(reply.requestId) && !alreadyReceived.contains(reply.requestId) ) {
@@ -156,13 +156,13 @@ class TransactionalRequestSender(val senderId: Int): TransactionalResourceManage
                             notifier.notifyAll()
                         }
 
-                        println("notified ${reply.requestId}")
+                       //println("notified ${reply.requestId}")
                     }
                 }
             }
 
         } catch (e: Exception) {
-            println(e)
+           //println(e)
         }
 
     }
@@ -171,7 +171,7 @@ class TransactionalRequestSender(val senderId: Int): TransactionalResourceManage
 
         val json = mapper.writeValueAsString(request)
 
-        println("SENDER sending request $json")
+       //println("SENDER sending request $json")
 
         requestChannel.send(null, json)
 

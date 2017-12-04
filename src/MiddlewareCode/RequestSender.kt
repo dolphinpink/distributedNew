@@ -37,7 +37,7 @@ class RequestSender(val senderId: Int, val requestChannelName: String, val reply
         replyChannel.receiver = this
         replyChannel.connect(replyChannelName)
 
-        println("SENDER ready")
+       //println("SENDER ready")
     }
 
     override fun createResource(type: ReservableType, id: String, totalQuantity: Int, price: Int): Boolean {
@@ -163,11 +163,11 @@ class RequestSender(val senderId: Int, val requestChannelName: String, val reply
 
     override fun receive(msg: Message) {
 
-        println("${msg.src}: ${msg.getObject<String>()}")
+       //println("${msg.src}: ${msg.getObject<String>()}")
 
         try {
             val reply = mapper.readValue<Reply>(msg.getObject<String>())
-            println("MIDDLEWARE received reply $reply")
+           //println("MIDDLEWARE received reply $reply")
             synchronized(alreadyReceived) {
                 synchronized(replies) {
                     if (requestIdInRange(reply.requestId) && !alreadyReceived.contains(reply.requestId) ) {
@@ -178,13 +178,13 @@ class RequestSender(val senderId: Int, val requestChannelName: String, val reply
                             notifier.notifyAll()
                         }
 
-                        println("notified ${reply.requestId}")
+                       //println("notified ${reply.requestId}")
                     }
                 }
             }
 
         } catch (e: Exception) {
-            println(e)
+           //println(e)
         }
 
     }
@@ -193,7 +193,7 @@ class RequestSender(val senderId: Int, val requestChannelName: String, val reply
 
         val json = mapper.writeValueAsString(request)
 
-        println("MIDDLEWARE sending request $json")
+       //println("MIDDLEWARE sending request $json")
 
         requestChannel.send(null, json)
 

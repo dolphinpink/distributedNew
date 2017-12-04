@@ -42,8 +42,8 @@ object Tester {
     }
 
     fun performanceTest() {
-        println(" Performance Analysis Testing: \n")
-        println("START: \n")
+       //println(" Performance Analysis Testing: \n")
+       //println("START: \n")
 
         val rootLogger = LogManager.getLogManager().getLogger("")
         rootLogger.level = Level.SEVERE
@@ -67,15 +67,15 @@ object Tester {
         //val requestReceiverFlight2 = TransactionalMiddleware(1)
 
         val requestSender = TransactionalRequestSender(7)
-        println("\n\n\n\n")
+       //println("\n\n\n\n")
         Thread.sleep(100)
 
         requestSender.start(1)
-        println("\n\n\n\n")
+       //println("\n\n\n\n")
         Thread.sleep(100)
 
         requestSender.createCustomer(1, 1)
-        println("\n\n\n\n")
+       //println("\n\n\n\n")
         Thread.sleep(100)
 
         requestSender.createResource(1, ReservableType.FLIGHT, "flight", 100, 1000)
@@ -124,11 +124,11 @@ object Tester {
 
                 when (rand(1, 3)) {
                     0 -> {
-                        println("$transactionId running query")
+                       //println("$transactionId running query")
                         client.queryResource(transactionId, resourceList.get(rand(0, resourceList.size)))
                     }
                     1,2 -> {
-                        println("$transactionId running create")
+                       //println("$transactionId running create")
                         val randId = rand(0, 200).toString()
                         client.createResource(transactionId, ReservableType.FLIGHT, randId , 10, 1000)
                         resourceList.add(randId)

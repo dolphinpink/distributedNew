@@ -30,7 +30,7 @@ class RequestReceiver(private val rm: ResourceManager, val requestChannelName: S
         requestChannel.receiver = this
         requestChannel.connect(requestChannelName)
 
-        println("RECEIVER ready")
+       //println("RECEIVER ready")
     }
 
 
@@ -38,22 +38,22 @@ class RequestReceiver(private val rm: ResourceManager, val requestChannelName: S
 
     override fun receive(msg: Message) {
 
-        println("${msg.src}: ${msg.getObject<String>()}")
+       //println("${msg.src}: ${msg.getObject<String>()}")
 
         try {
             val request = mapper.readValue<RequestCommand>(msg.getObject<String>())
-            println("RM $requestChannelName extracted $request")
+           //println("RM $requestChannelName extracted $request")
             if (!receivedRequestIds.contains(request.requestId)) {
                 receivedRequestIds.add(request.requestId)
                 val result = request.execute(rm)
                 val resultJson = mapper.writeValueAsString(result)
-                println("RM $requestChannelName sending $resultJson")
+               //println("RM $requestChannelName sending $resultJson")
                 replyChannel.send(null, resultJson)
             }
 
 
         } catch (e: Exception) {
-            println(e)
+           //println(e)
         }
 
 

@@ -38,13 +38,13 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
     }
 
     private fun cleanupDeadlock(transactionId: Int) {
-        println("deadlocked, aborting")
+       //println("deadlocked, aborting")
         abort(transactionId)
         throw DeadlockException(transactionId, "")
     }
 
     override fun start(transactionId: Int): Boolean {
-        println("attempting start")
+       //println("attempting start")
         return transactionManager.createTransaction(transactionId)
     }
 
@@ -78,7 +78,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
         val random = Random()
 
         if (random.nextInt(5) == 0) {
-            println("\nMIDDLEWARE randomly crashing! -------------------------\n")
+           println("\nMIDDLEWARE randomly crashing! -------------------------\n")
             requestReceiver.requestChannel = JChannel().connect("not a real channel")
             requestReceiver.replyChannel = JChannel().connect("not a real channel")
         }
@@ -88,12 +88,12 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
         val type = resourceType[resourceId] ?: return false
         if (lockManager.lock(transactionId, type.toString(), LockType.WRITE)) {
             val snapshot = getRm(type).queryResource(resourceId) ?: return false
-            println("HERE 2")
+           //println("HERE 2")
             if (getRm(type).updateResource(resourceId, newTotalQuantity, newPrice)) {
                 transactionManager.addRequest(transactionId, UpdateResourceRequest(-1, resourceId, snapshot.item.totalQuantity, snapshot.item.price))
                 return true
             }
-            println("HERE 3")
+           //println("HERE 3")
         } else {
             cleanupDeadlock(transactionId)
         }
@@ -235,10 +235,10 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
 
         //don't allow itineraries with same resource twice
 
-        println("${reservationResources.values.toSet().size}    ${reservationResources.size}")
+       //println("${reservationResources.values.toSet().size}    ${reservationResources.size}")
 
         if (reservationResources.values.toSet().size != reservationResources.size) {
-            println("duplicate resources in itinerary")
+           //println("duplicate resources in itinerary")
             return false
         }
 

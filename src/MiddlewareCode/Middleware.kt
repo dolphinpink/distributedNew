@@ -41,7 +41,7 @@ class Middleware(val senderId: Int,
             resourceType.remove(resourceId)
             return true
         }
-        println("could not delete")
+       //println("could not delete")
         return false
     }
 
