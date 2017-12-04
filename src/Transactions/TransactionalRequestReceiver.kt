@@ -1,46 +1,56 @@
 package Transactions
 
+import MiddlewareCode.CommunicationsConfig
+import MiddlewareCode.RequestCommand
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.jgroups.JChannel
+import org.jgroups.Message
+import org.jgroups.ReceiverAdapter
+import org.jgroups.View
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.ServerSocket
 
-class TransactionalRequestReceiver(private var rm: TransactionalResourceManager, private var socket: Int) {
+class TransactionalRequestReceiver(private val rm: TransactionalResourceManager): ReceiverAdapter() {
 
-    @Throws(IOException::class)
-    fun runServer() {
+    val requestChannel: JChannel = JChannel()
+    val replyChannel: JChannel = JChannel()
+    val mapper = jacksonObjectMapper()
 
-        Thread {
-            val serverSocket = ServerSocket(socket)
-            val clientSocket = serverSocket.accept()
-            val outToServer = PrintWriter(clientSocket.getOutputStream(), true)
-            val inFromSender = BufferedReader(InputStreamReader(clientSocket.getInputStream()))
+    init {
+        mapper.enableDefaultTyping()
+        replyChannel.connect(CommunicationsConfig.CM_REPLY_CLUSTER)
 
-            val mapper = jacksonObjectMapper()
-            mapper.enableDefaultTyping()
+        requestChannel.receiver = this
+        requestChannel.connect(CommunicationsConfig.CM_REQUEST_CLUSTER)
 
-            //println("RECEIVER $socket ready")
+        println("RECEIVER ready")
+    }
 
-            var json: String? = null
-            while ({ json = inFromSender.readLine(); json }() != null) {
+    override fun viewAccepted(new_view: View) {
+        //println("** view: " + new_view)
+    }
 
-                //println("RECEIVER received $json")
 
-                try {
-                    val request = mapper.readValue<TransactionalRequestCommand>(json!!)
-                    //println("RECEIVER extracted $request")
-                    val result = request.execute(rm)
-                    val json = mapper.writeValueAsString(result)
-                    //println("RECEIVER sending $json")
-                    outToServer.println(json)
+    override fun receive(msg: Message) {
 
-                } catch (e: Exception) {
-                    println(e)
-                }
-            }
-        }.start()
+        println("${msg.src}: ${msg.getObject<String>()}")
+
+        try {
+            val request = mapper.readValue<TransactionalRequestCommand>(msg.getObject<String>())
+            println("MIDDLEWARE RECEIVER extracted $request")
+            val result = request.execute(rm)
+            val resultJson = mapper.writeValueAsString(result)
+            println("MIDDLEWARE RECEIVER sending $resultJson")
+            replyChannel.send(null, resultJson)
+
+        } catch (e: Exception) {
+            println(e)
+        }
+
+
     }
 }

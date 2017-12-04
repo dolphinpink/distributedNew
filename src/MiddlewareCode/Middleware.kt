@@ -2,13 +2,12 @@ package MiddlewareCode
 
 import ResourceManagerCode.*
 
-class Middleware(val server: String,
-                 val requestIdStart: Int,
+class Middleware(val senderId: Int,
                  val resourceType: MutableMap<String, ReservableType> = mutableMapOf(),
-                 private val customerRm: ResourceManager = RequestSender(CommunicationsConfig.customerRm, server, requestIdStart),
-                 private val flightRm: ResourceManager = RequestSender(CommunicationsConfig.flightRm, server, requestIdStart),
-                 private val hotelRm: ResourceManager = RequestSender(CommunicationsConfig.hotelRm, server, requestIdStart),
-                 private val carRm: ResourceManager = RequestSender(CommunicationsConfig.carRm, server, requestIdStart)) : ResourceManager {
+                 private val customerRm: ResourceManager = RequestSender(senderId, CommunicationsConfig.CUSTOMER_REQUEST, CommunicationsConfig.CUSTOMER_REPLY),
+                 private val flightRm: ResourceManager = RequestSender(senderId, CommunicationsConfig.FLIGHT_REQUEST, CommunicationsConfig.FLIGHT_REPLY),
+                 private val hotelRm: ResourceManager = RequestSender(senderId, CommunicationsConfig.HOTEL_REQUEST, CommunicationsConfig.HOTEL_REPLY),
+                 private val carRm: ResourceManager = RequestSender(senderId, CommunicationsConfig.CAR_REQUEST, CommunicationsConfig.CAR_REPLY)) : ResourceManager {
 
 
 

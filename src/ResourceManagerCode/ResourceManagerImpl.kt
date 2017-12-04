@@ -1,7 +1,10 @@
 package ResourceManagerCode
 
-class ResourceManagerImpl : ResourceManager {
+import MiddlewareCode.RequestReceiver
 
+class ResourceManagerImpl(requestChannelName: String, replyChannelName: String) : ResourceManager {
+
+    val receiver = RequestReceiver(this, requestChannelName, replyChannelName)
     val resources: MutableSet<Resource> = mutableSetOf()
     val customers: MutableSet<Customer> = mutableSetOf()
 

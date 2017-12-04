@@ -11,12 +11,13 @@ class TransactionManager(val resourceType: MutableMap<String, ReservableType> = 
                          private val hotelRm: ResourceManager,
                          private val carRm: ResourceManager) {
 
-    private val rm = Middleware("127.0.0.1", RequestSender.MAX_REQUESTS, resourceType, customerRm, flightRm, hotelRm, carRm)
+    private val rm = Middleware(CommunicationsConfig.REQUEST_ID_OFFSET, resourceType, customerRm, flightRm, hotelRm, carRm)
 
     private val requestStacks: MutableMap<Int, Stack<RequestCommand>> = mutableMapOf()
 
     fun createTransaction(transactionId: Int): Boolean {
         synchronized(requestStacks) {
+            println("$requestStacks")
             if (requestStacks.contains(transactionId)) return false
 
             requestStacks.put(transactionId, Stack())

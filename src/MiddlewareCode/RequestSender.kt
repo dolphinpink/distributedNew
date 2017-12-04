@@ -5,67 +5,39 @@ import Transactions.TuningParameters
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.jgroups.JChannel
+import org.jgroups.Message
+import org.jgroups.ReceiverAdapter
+import org.jgroups.View
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.Socket
 
 
-class RequestSender(val portNum: Int, val serverName: String, val requestIdStart: Int): ResourceManager {
-    companion object {
-        val MAX_REQUESTS = 1000000
-    }
+class RequestSender(val senderId: Int, val requestChannelName: String, val replyChannelName: String): ResourceManager, ReceiverAdapter() {
 
-    private val outToServer: PrintWriter
-    private val inFromServer: BufferedReader
-    private val mapper: ObjectMapper
-
-    private val requestIdLock = Any()
-    private var requestIdCounter: Int = requestIdStart
+    val requestChannel: JChannel = JChannel()
+    val replyChannel: JChannel = JChannel()
 
     private val replies: MutableSet<Reply> = mutableSetOf()
+    private val alreadyReceived: MutableSet<Int> = mutableSetOf()
+    private val waitingCalls: MutableMap<Int, Any> = mutableMapOf()
+
+    private val mapper: ObjectMapper = jacksonObjectMapper()
+
+    private val requestIdLock = Any()
+    private var requestIdCounter: Int = senderId * CommunicationsConfig.REQUEST_ID_OFFSET
+    private val requestIdStart = requestIdCounter
 
     init {
-        val socket = Socket(serverName, portNum) // establish a socket with a server using the given port#
-        outToServer = PrintWriter(socket.getOutputStream(), true) // open an output stream to the server...
-        inFromServer = BufferedReader(InputStreamReader(socket.getInputStream())) // open an input stream from the server...
-
-        mapper = jacksonObjectMapper()
         mapper.enableDefaultTyping()
+        requestChannel.connect(requestChannelName)
 
-        Thread {
-            var inputJson: String
+        replyChannel.receiver = this
+        replyChannel.connect(replyChannelName)
 
-            var json: String? = null
-            while ({ json = inFromServer.readLine(); json }() != null) {
-
-                try {
-                    val reply = mapper.readValue<Reply>(json!!)
-                    //println("SENDER RESPONSE LOOP extracted $reply")
-                    replies.add(reply)
-
-                } catch (e: Exception) {
-                    println(e)
-                }
-            }
-        }.start()
-
-
-    }
-
-    fun sendRequest(request: RequestCommand): Reply {
-
-        val json = mapper.writeValueAsString(request)
-        //println("port $portNum sending request Id: ${request.requestId}")
-        outToServer.println(json)
-        //println("SENDER sent $json AHAH")
-
-        val reply = getReply(request.requestId)
-
-        //println("SENDER reply received")
-
-        return reply
-
+        println("SENDER ready")
     }
 
     override fun createResource(type: ReservableType, id: String, totalQuantity: Int, price: Int): Boolean {
@@ -183,25 +155,85 @@ class RequestSender(val portNum: Int, val serverName: String, val requestIdStart
 
     }
 
+    override fun viewAccepted(new_view: View) {
+
+        //println("** view: " + new_view)
+
+    }
+
+    override fun receive(msg: Message) {
+
+        println("${msg.src}: ${msg.getObject<String>()}")
+
+        try {
+            val reply = mapper.readValue<Reply>(msg.getObject<String>())
+            println("MIDDLEWARE received reply $reply")
+            synchronized(alreadyReceived) {
+                synchronized(replies) {
+                    if (requestIdInRange(reply.requestId) && !alreadyReceived.contains(reply.requestId) ) {
+                        alreadyReceived.add(reply.requestId)
+                        replies.add(reply)
+                        val notifier = waitingCalls[reply.requestId] ?: throw Exception ("trying to notify something that isn't being waited on $reply")
+                        synchronized(notifier) {
+                            notifier.notifyAll()
+                        }
+
+                        println("notified ${reply.requestId}")
+                    }
+                }
+            }
+
+        } catch (e: Exception) {
+            println(e)
+        }
+
+    }
+
+    fun sendRequest(request: RequestCommand): Reply {
+
+        val json = mapper.writeValueAsString(request)
+
+        println("MIDDLEWARE sending request $json")
+
+        requestChannel.send(null, json)
+
+        return getReply(request.requestId)
+    }
+
+    fun getReply(requestId: Int): Reply {
+
+        val notifier = Any()
+
+        waitingCalls.put(requestId, notifier)
+
+        synchronized(notifier) {
+            notifier.wait()
+        }
+
+        var reply: Reply? = replies.find {r -> r.requestId == requestId} ?: throw Exception("Can't find reply")
+
+        return reply!!
+    }
+
     fun generateRequestId(): Int {
         synchronized(requestIdLock) {
-            if (requestIdCounter >= requestIdStart + MAX_REQUESTS - 1) {
+            if (requestIdCounter >= requestIdStart + CommunicationsConfig.REQUEST_ID_OFFSET - 1) {
                 requestIdCounter = requestIdStart
             }
             return requestIdCounter++
         }
     }
 
-    fun getReply(requestId: Int): Reply {
-
-        var reply: Reply? = null
-
-        while({reply = replies.find {r -> r.requestId == requestId}; reply}() == null) {
-            Thread.sleep(TuningParameters.CHECK_DELAY)
-        }
-
-        replies.remove(reply)
-
-        return reply!!
+    fun requestIdInRange(requestId: Int): Boolean {
+        return requestId >= requestIdStart && requestId <= requestIdStart + CommunicationsConfig.REQUEST_ID_OFFSET
     }
+
+
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+    private fun Any.wait() = (this as java.lang.Object).wait()
+
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+    private fun Any.notifyAll() = (this as java.lang.Object).notifyAll()
+
+
 }

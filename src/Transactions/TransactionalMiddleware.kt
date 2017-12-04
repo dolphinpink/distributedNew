@@ -6,17 +6,18 @@ import LockManagerCustom.LockType
 import ResourceManagerCode.*
 import MiddlewareCode.*
 
-class TransactionalMiddleware(val server: String): TransactionalResourceManager {
+class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
     companion object {
         val CUSTOMER = "customer"
     }
 
+    val requestReceiver = TransactionalRequestReceiver(this)
     val resourceType: MutableMap<String, ReservableType> = mutableMapOf()
 
-    private val customerRm: ResourceManager = RequestSender(CommunicationsConfig.customerRm, server, 0)
-    private val flightRm: ResourceManager = RequestSender(CommunicationsConfig.flightRm, server, 0)
-    private val hotelRm: ResourceManager = RequestSender(CommunicationsConfig.hotelRm, server, 0)
-    private val carRm: ResourceManager = RequestSender(CommunicationsConfig.carRm, server, 0)
+    private val customerRm: ResourceManager = RequestSender(senderId, CommunicationsConfig.CUSTOMER_REQUEST, CommunicationsConfig.CUSTOMER_REPLY)
+    private val flightRm: ResourceManager = RequestSender(senderId, CommunicationsConfig.FLIGHT_REQUEST, CommunicationsConfig.FLIGHT_REPLY)
+    private val hotelRm: ResourceManager = RequestSender(senderId, CommunicationsConfig.HOTEL_REQUEST, CommunicationsConfig.HOTEL_REPLY)
+    private val carRm: ResourceManager = RequestSender(senderId, CommunicationsConfig.CAR_REQUEST, CommunicationsConfig.CAR_REPLY)
 
     private val transactionManager = TransactionManager(resourceType, customerRm, flightRm, hotelRm, carRm)
 
@@ -39,6 +40,7 @@ class TransactionalMiddleware(val server: String): TransactionalResourceManager 
     }
 
     override fun start(transactionId: Int): Boolean {
+        println("attempting start")
         return transactionManager.createTransaction(transactionId)
     }
 

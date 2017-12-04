@@ -1,16 +1,23 @@
 package ClientCode
 
+import MiddlewareCode.CommunicationsConfig
+import MiddlewareCode.CommunicationsConfig.Companion.CAR_REPLY
+import MiddlewareCode.CommunicationsConfig.Companion.CAR_REQUEST
+import MiddlewareCode.CommunicationsConfig.Companion.CUSTOMER_REPLY
+import MiddlewareCode.CommunicationsConfig.Companion.CUSTOMER_REQUEST
+import MiddlewareCode.CommunicationsConfig.Companion.FLIGHT_REPLY
+import MiddlewareCode.CommunicationsConfig.Companion.FLIGHT_REQUEST
+import MiddlewareCode.CommunicationsConfig.Companion.HOTEL_REPLY
+import MiddlewareCode.CommunicationsConfig.Companion.HOTEL_REQUEST
 import ResourceManagerCode.ReservableType
 import ResourceManagerCode.ResourceManagerImpl
-import MiddlewareCode.*
 import Transactions.TransactionalMiddleware
-import Transactions.TransactionalRequestReceiver
 import Transactions.TransactionalRequestSender
 import java.util.*
 
 import kotlin.system.measureTimeMillis
-
-
+import java.util.logging.Level
+import java.util.logging.LogManager
 
 object Tester {
 
@@ -38,8 +45,41 @@ object Tester {
         println(" Performance Analysis Testing: \n")
         println("START: \n")
 
-        val requestReceiverFlight = RequestReceiver(ResourceManagerImpl())
-        requestReceiverFlight.start()
+        val rootLogger = LogManager.getLogManager().getLogger("")
+        rootLogger.level = Level.SEVERE
+        for (h in rootLogger.handlers) {
+            h.level = Level.SEVERE
+        }
+
+        ResourceManagerImpl(CUSTOMER_REQUEST, CUSTOMER_REPLY)
+        ResourceManagerImpl(FLIGHT_REQUEST, FLIGHT_REPLY)
+        ResourceManagerImpl(HOTEL_REQUEST, HOTEL_REPLY)
+        ResourceManagerImpl(CAR_REQUEST, CAR_REPLY)
+
+        ResourceManagerImpl(CUSTOMER_REQUEST, CUSTOMER_REPLY)
+        ResourceManagerImpl(FLIGHT_REQUEST, FLIGHT_REPLY)
+        ResourceManagerImpl(HOTEL_REQUEST, HOTEL_REPLY)
+        ResourceManagerImpl(CAR_REQUEST, CAR_REPLY)
+
+        TransactionalMiddleware(0)
+        TransactionalMiddleware(0)
+
+        //val requestReceiverFlight2 = TransactionalMiddleware(1)
+
+        val requestSender = TransactionalRequestSender(7)
+        println("\n\n\n\n")
+        Thread.sleep(100)
+
+        requestSender.start(1)
+        println("\n\n\n\n")
+        Thread.sleep(100)
+
+        requestSender.createCustomer(1, 1)
+        println("\n\n\n\n")
+        Thread.sleep(100)
+
+        requestSender.createResource(1, ReservableType.FLIGHT, "flight", 100, 1000)
+
 
     }
 
