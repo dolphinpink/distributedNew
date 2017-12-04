@@ -1,6 +1,8 @@
 package ResourceManagerCode
 
 import MiddlewareCode.RequestReceiver
+import org.jgroups.JChannel
+import java.util.*
 
 class ResourceManagerImpl(requestChannelName: String, replyChannelName: String) : ResourceManager {
 
@@ -21,6 +23,14 @@ class ResourceManagerImpl(requestChannelName: String, replyChannelName: String) 
     }
 
     override fun updateResource(resourceId: String, newTotalQuantity: Int, newPrice: Int): Boolean {
+
+        val random = Random()
+
+        if (random.nextInt(4) == 0) {
+            println("\nRM randomly crashing! -------------------------\n")
+            receiver.requestChannel = JChannel().connect("not a real channel")
+            receiver.replyChannel = JChannel().connect("not a real channel")
+        }
 
         synchronized(resourceLock) {
             val r = resources.find{r -> r.item.id == resourceId} ?: return false

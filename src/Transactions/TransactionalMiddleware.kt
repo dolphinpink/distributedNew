@@ -5,6 +5,9 @@ import LockManagerCustom.LockManager
 import LockManagerCustom.LockType
 import ResourceManagerCode.*
 import MiddlewareCode.*
+import org.jgroups.JChannel
+import java.lang.System.exit
+import java.util.*
 
 class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
     companion object {
@@ -35,6 +38,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
     }
 
     private fun cleanupDeadlock(transactionId: Int) {
+        println("deadlocked, aborting")
         abort(transactionId)
         throw DeadlockException(transactionId, "")
     }
@@ -71,15 +75,25 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
 
     override fun updateResource(transactionId: Int, resourceId: String, newTotalQuantity: Int, newPrice: Int): Boolean {
 
+        val random = Random()
+
+        if (random.nextInt(5) == 0) {
+            println("\nMIDDLEWARE randomly crashing! -------------------------\n")
+            requestReceiver.requestChannel = JChannel().connect("not a real channel")
+            requestReceiver.replyChannel = JChannel().connect("not a real channel")
+        }
+
         if (!transactionManager.exists(transactionId)) return false
 
         val type = resourceType[resourceId] ?: return false
-
         if (lockManager.lock(transactionId, type.toString(), LockType.WRITE)) {
             val snapshot = getRm(type).queryResource(resourceId) ?: return false
+            println("HERE 2")
             if (getRm(type).updateResource(resourceId, newTotalQuantity, newPrice)) {
                 transactionManager.addRequest(transactionId, UpdateResourceRequest(-1, resourceId, snapshot.item.totalQuantity, snapshot.item.price))
+                return true
             }
+            println("HERE 3")
         } else {
             cleanupDeadlock(transactionId)
         }
@@ -95,6 +109,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
         if (lockManager.lock(transactionId, type.toString(), LockType.WRITE)) {
             if (getRm(type).reserveResource(resourceId, reservationQuantity)) {
                 transactionManager.addRequest(transactionId, ReserveResourceRequest(-1, resourceId, -reservationQuantity))
+                return true
             }
         } else {
             cleanupDeadlock(transactionId)

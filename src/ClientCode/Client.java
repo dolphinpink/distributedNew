@@ -19,6 +19,9 @@ import java.util.logging.Logger;
 
 public class Client {
 
+    private static int currentTransaction = -1;
+    private static Date lastStart = new Date(Long.MAX_VALUE);
+
     private static List<Integer> activeTransactions = new ArrayList<Integer>();
 
     public static void main(String args[]) {
@@ -42,6 +45,25 @@ public class Client {
         new TransactionalMiddleware(0);
         new TransactionalMiddleware(0);
         TransactionalRequestSender client = new TransactionalRequestSender(0);
+
+        new Thread() {
+            public void run() {
+                while (true) {
+                    if (new Date().getTime() - lastStart.getTime() > 600000) {
+                        List<String> num = new ArrayList<>();
+                        num.add(String.valueOf(currentTransaction));
+                        System.out.println("TIMEOUT. ABORTING");
+                        abort(client, activeTransactions, num);
+                    }
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }.start();
 
 
         System.out.println("\n\n\tClient Interface");
@@ -211,6 +233,14 @@ public class Client {
                     //listCommands();
                     break;
             }
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+
+            }
+
+            System.out.flush();
+            System.out.println();
         }
     }
 
@@ -349,6 +379,8 @@ public class Client {
         int transaction = Integer.parseInt(args.get(1));
         boolean success = client.start(transaction);
         if (success) {
+            lastStart = new Date();
+            currentTransaction = transaction;
             activeTransactions.add(transaction);
             System.out.println("Started transaction: " + transaction + ".");
         } else {
@@ -361,9 +393,14 @@ public class Client {
             wrongNumber("commit");
             return;
         }
+
         int transaction = Integer.parseInt(args.get(0));
         activeTransactions.remove(new Integer(transaction));
         boolean exists = client.commit(transaction);
+        if (exists) {
+            lastStart = new Date(Long.MAX_VALUE);
+        }
+
         System.out.println(exists ? "Committed transaction: " + transaction + "." : "Could not commit transaction " + transaction + ". Transaction does not exist.");
     }
 
@@ -372,10 +409,12 @@ public class Client {
             wrongNumber("abort");
             return;
         }
+
         int transaction = Integer.parseInt(args.get(0));
         activeTransactions.remove(new Integer(transaction));
         boolean success = client.abort(transaction);
         if (success) {
+            lastStart = new Date(Long.MAX_VALUE);
             System.out.println("Transaction successfully aborted.");
         }
     }

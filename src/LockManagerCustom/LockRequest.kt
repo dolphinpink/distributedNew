@@ -20,8 +20,8 @@ data class LockRequest(val xId: Int, val objectId: String, var type: LockType, v
     // returns true if the lock argument conflicts with this lock
     fun isConflicting(potential: LockRequest): Boolean {
         when (type) {
-            LockType.READ -> return potential.xId == this.xId && potential.objectId == this.objectId && potential.type == LockType.WRITE
-            LockType.WRITE -> return potential.xId == this.xId && potential.objectId == this.objectId
+            LockType.READ -> return potential.xId != this.xId && potential.objectId == this.objectId && potential.type == LockType.WRITE
+            LockType.WRITE -> return potential.xId != this.xId && potential.objectId == this.objectId
         }
     }
 

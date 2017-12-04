@@ -16,8 +16,9 @@ import java.net.ServerSocket
 
 class RequestReceiver(private val rm: ResourceManager, val requestChannelName: String, val replyChannelName: String): ReceiverAdapter() {
 
-    val requestChannel: JChannel = JChannel()
-    val replyChannel: JChannel = JChannel()
+    // var for purposely sabatoging
+    var requestChannel: JChannel = JChannel()
+    var replyChannel: JChannel = JChannel()
     val mapper = jacksonObjectMapper()
 
     val receivedRequestIds: MutableSet<Int> = mutableSetOf()

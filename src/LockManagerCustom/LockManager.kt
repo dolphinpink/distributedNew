@@ -65,7 +65,7 @@ class LockManager {
         synchronized(acquiredLocks) {
             synchronized(waitingLocks) {
                 acquiredLocks.removeIf { acquiredLock -> acquiredLock.xId == xId }
-                waitingLocks.removeIf { acquiredLock -> acquiredLock.xId == xId }
+                waitingLocks.removeIf { waitingLock -> waitingLock.xId == xId }
                 waitlistAcquire()
             }
         }

@@ -16,8 +16,8 @@ import java.net.ServerSocket
 
 class TransactionalRequestReceiver(private val rm: TransactionalResourceManager): ReceiverAdapter() {
 
-    val requestChannel: JChannel = JChannel()
-    val replyChannel: JChannel = JChannel()
+    var requestChannel: JChannel = JChannel()
+    var replyChannel: JChannel = JChannel()
     val mapper = jacksonObjectMapper()
 
     init {
