@@ -125,6 +125,10 @@ class TransactionalRequestSender(val senderId: Int): TransactionalResourceManage
         val reply = sendRequest(TransactionalItineraryRequest(generateRequestId(), transactionId, customerId, reservationResources))
         return getBoolean(reply)
     }
+
+    override fun shutdown(name: String) {
+        sendRequest(TransactionalShutdownRequest(generateRequestId(), name))
+    }
     
     fun getBoolean(reply: Reply): Boolean {
         if (reply !is BooleanReply) {
@@ -171,9 +175,11 @@ class TransactionalRequestSender(val senderId: Int): TransactionalResourceManage
 
         val json = mapper.writeValueAsString(request)
 
-       //println("SENDER sending request $json")
+        println("SENDER sending request $json")
 
         requestChannel.send(null, json)
+
+        println("SENDER messsage sent")
 
         return getReply(request.requestId)
     }

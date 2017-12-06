@@ -4,7 +4,7 @@ import MiddlewareCode.RequestReceiver
 import org.jgroups.JChannel
 import java.util.*
 
-class ResourceManagerImpl(requestChannelName: String, replyChannelName: String) : ResourceManager {
+class ResourceManagerImpl(val name: String, requestChannelName: String, replyChannelName: String) : ResourceManager {
 
     val receiver = RequestReceiver(this, requestChannelName, replyChannelName)
     val resources: MutableSet<Resource> = mutableSetOf()
@@ -109,6 +109,14 @@ class ResourceManagerImpl(requestChannelName: String, replyChannelName: String) 
         synchronized(customerLock) {
             customer.removeReservation(reservationId)
             return true
+        }
+    }
+
+    override fun shutdown(name: String) {
+        if (name == this.name) {
+            println("MIDDLEWARE $name shutting down/crashing")
+            receiver.replyChannel.disconnect()
+            receiver.requestChannel.disconnect()
         }
     }
 

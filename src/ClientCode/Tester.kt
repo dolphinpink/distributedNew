@@ -51,18 +51,18 @@ object Tester {
             h.level = Level.SEVERE
         }
 
-        ResourceManagerImpl(CUSTOMER_REQUEST, CUSTOMER_REPLY)
-        ResourceManagerImpl(FLIGHT_REQUEST, FLIGHT_REPLY)
-        ResourceManagerImpl(HOTEL_REQUEST, HOTEL_REPLY)
-        ResourceManagerImpl(CAR_REQUEST, CAR_REPLY)
+        ResourceManagerImpl("customer_rm_1", CUSTOMER_REQUEST, CUSTOMER_REPLY)
+        ResourceManagerImpl("flight_rm_1", FLIGHT_REQUEST, FLIGHT_REPLY)
+        ResourceManagerImpl("hotel_rm_1", HOTEL_REQUEST, HOTEL_REPLY)
+        ResourceManagerImpl("car_rm_1", CAR_REQUEST, CAR_REPLY)
 
-        ResourceManagerImpl(CUSTOMER_REQUEST, CUSTOMER_REPLY)
-        ResourceManagerImpl(FLIGHT_REQUEST, FLIGHT_REPLY)
-        ResourceManagerImpl(HOTEL_REQUEST, HOTEL_REPLY)
-        ResourceManagerImpl(CAR_REQUEST, CAR_REPLY)
+        ResourceManagerImpl("customer_rm_2", CUSTOMER_REQUEST, CUSTOMER_REPLY)
+        ResourceManagerImpl("flight_rm_2", FLIGHT_REQUEST, FLIGHT_REPLY)
+        ResourceManagerImpl("hotel_rm_2", HOTEL_REQUEST, HOTEL_REPLY)
+        ResourceManagerImpl("car_rm_2", CAR_REQUEST, CAR_REPLY)
 
-        TransactionalMiddleware(0)
-        TransactionalMiddleware(0)
+        TransactionalMiddleware("middleware_1", 0)
+        TransactionalMiddleware("middleware_2", 0)
 
         //val requestReceiverFlight2 = TransactionalMiddleware(1)
 

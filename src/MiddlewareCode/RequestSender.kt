@@ -155,6 +155,10 @@ class RequestSender(val senderId: Int, val requestChannelName: String, val reply
 
     }
 
+    override fun shutdown(name: String) {
+        sendRequest(ShutdownRequest(generateRequestId(), name))
+    }
+
     override fun viewAccepted(new_view: View) {
 
         //println("** view: " + new_view)

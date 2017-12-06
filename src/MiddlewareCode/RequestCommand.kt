@@ -25,7 +25,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
         JsonSubTypes.Type(value = CustomerAddReservationRequest::class, name = "CustomerAddReservationRequest"),
         JsonSubTypes.Type(value = CustomerRemoveReservationRequest::class, name = "CustomerRemoveReservationRequest"),
         JsonSubTypes.Type(value = QueryCustomerRequest::class, name = "QueryCustomerRequest"),
-        JsonSubTypes.Type(value = ItineraryRequest::class, name = "ItineraryRequest"))
+        JsonSubTypes.Type(value = ItineraryRequest::class, name = "ItineraryRequest"),
+        JsonSubTypes.Type(value = ShutdownRequest::class, name = "ShutdownRequest"))
 abstract class RequestCommand(val requestId: Int) {
     abstract fun execute(rm: ResourceManager): Reply
 }
@@ -99,5 +100,12 @@ class QueryCustomerRequest(requestId: Int, val customerId: Int): RequestCommand(
 class ItineraryRequest(requestId: Int, val customerId: Int, val reservationResources: MutableMap<Int, ReservableItem>): RequestCommand(requestId){
     override fun execute(rm: ResourceManager): Reply {
         return BooleanReply(requestId, rm.itinerary(customerId, reservationResources))
+    }
+}
+
+class ShutdownRequest(requestId: Int, val name: String): RequestCommand(requestId) {
+    override fun execute(rm: ResourceManager): Reply {
+        rm.shutdown(name)
+        return BooleanReply(requestId, true)
     }
 }

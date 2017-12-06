@@ -20,6 +20,7 @@ class RequestReceiver(private val rm: ResourceManager, val requestChannelName: S
     var requestChannel: JChannel = JChannel()
     var replyChannel: JChannel = JChannel()
     val mapper = jacksonObjectMapper()
+    val executionLock = Any()
 
     val receivedRequestIds: MutableSet<Int> = mutableSetOf()
 
@@ -39,23 +40,22 @@ class RequestReceiver(private val rm: ResourceManager, val requestChannelName: S
     override fun receive(msg: Message) {
 
        //println("${msg.src}: ${msg.getObject<String>()}")
+        synchronized(executionLock) {
+            try {
+                val request = mapper.readValue<RequestCommand>(msg.getObject<String>())
+                //println("RM $requestChannelName extracted $request")
+                if (!receivedRequestIds.contains(request.requestId)) {
+                    receivedRequestIds.add(request.requestId)
+                    val result = request.execute(rm)
+                    val resultJson = mapper.writeValueAsString(result)
+                    //println("RM $requestChannelName sending $resultJson")
+                    replyChannel.send(null, resultJson)
+                }
 
-        try {
-            val request = mapper.readValue<RequestCommand>(msg.getObject<String>())
-           //println("RM $requestChannelName extracted $request")
-            if (!receivedRequestIds.contains(request.requestId)) {
-                receivedRequestIds.add(request.requestId)
-                val result = request.execute(rm)
-                val resultJson = mapper.writeValueAsString(result)
-               //println("RM $requestChannelName sending $resultJson")
-                replyChannel.send(null, resultJson)
+
+            } catch (e: Exception) {
+                //println(e)
             }
-
-
-        } catch (e: Exception) {
-           //println(e)
         }
-
-
     }
 }

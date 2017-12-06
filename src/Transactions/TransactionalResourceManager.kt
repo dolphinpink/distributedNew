@@ -138,4 +138,10 @@ interface TransactionalResourceManager {
      */
     fun itinerary(transactionId: Int, customerId: Int, reservationResources: MutableMap<Int, String>): Boolean
 
+    /**
+     * shuts down the process with the following name
+     */
+    fun shutdown(name: String)
+
+
 }

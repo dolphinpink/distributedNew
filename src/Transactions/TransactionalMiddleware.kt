@@ -6,15 +6,14 @@ import LockManagerCustom.LockType
 import ResourceManagerCode.*
 import MiddlewareCode.*
 import org.jgroups.JChannel
-import java.lang.System.exit
 import java.util.*
 
-class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
+class TransactionalMiddleware(val name: String, senderId: Int): TransactionalResourceManager {
     companion object {
         val CUSTOMER = "customer"
     }
 
-    val requestReceiver = TransactionalRequestReceiver(this)
+    val receiver = TransactionalRequestReceiver(this)
     val resourceType: MutableMap<String, ReservableType> = mutableMapOf()
 
     private val customerRm: ResourceManager = RequestSender(senderId, CommunicationsConfig.CUSTOMER_REQUEST, CommunicationsConfig.CUSTOMER_REPLY)
@@ -44,7 +43,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
     }
 
     override fun start(transactionId: Int): Boolean {
-       //println("attempting start")
+       println("attempting start")
         return transactionManager.createTransaction(transactionId)
     }
 
@@ -60,7 +59,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
 
         if (!transactionManager.exists(transactionId)) return false
 
-        if (lockManager.lock(transactionId, type.toString(), LockType.WRITE)) {
+        if (lockManager.lock(transactionId, resourceId, LockType.WRITE)) {
             if (getRm(type).createResource(type, resourceId, totalQuantity, price)) {
                 resourceType.put(resourceId, type)
                 transactionManager.addRequest(transactionId, DeleteResourceRequest(-1, resourceId))
@@ -77,16 +76,16 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
 
         val random = Random()
 
-        if (random.nextInt(5) == 0) {
+        if (random.nextInt(5) == 10) {
            println("\nMIDDLEWARE randomly crashing! -------------------------\n")
-            requestReceiver.requestChannel = JChannel().connect("not a real channel")
-            requestReceiver.replyChannel = JChannel().connect("not a real channel")
+            receiver.requestChannel = JChannel().connect("not a real channel")
+            receiver.replyChannel = JChannel().connect("not a real channel")
         }
 
         if (!transactionManager.exists(transactionId)) return false
 
         val type = resourceType[resourceId] ?: return false
-        if (lockManager.lock(transactionId, type.toString(), LockType.WRITE)) {
+        if (lockManager.lock(transactionId, resourceId, LockType.WRITE)) {
             val snapshot = getRm(type).queryResource(resourceId) ?: return false
            //println("HERE 2")
             if (getRm(type).updateResource(resourceId, newTotalQuantity, newPrice)) {
@@ -106,7 +105,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
         if (!transactionManager.exists(transactionId)) return false
         val type = resourceType[resourceId] ?: return false
 
-        if (lockManager.lock(transactionId, type.toString(), LockType.WRITE)) {
+        if (lockManager.lock(transactionId, resourceId, LockType.WRITE)) {
             if (getRm(type).reserveResource(resourceId, reservationQuantity)) {
                 transactionManager.addRequest(transactionId, ReserveResourceRequest(-1, resourceId, -reservationQuantity))
                 return true
@@ -123,7 +122,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
         if (!transactionManager.exists(transactionId)) return false
         val type = resourceType[resourceId] ?: return false
 
-        if (lockManager.lock(transactionId, type.toString(), LockType.WRITE)) {
+        if (lockManager.lock(transactionId, resourceId, LockType.WRITE)) {
             val snapshot = getRm(type).queryResource(resourceId) ?: return false
             if (getRm(type).deleteResource(resourceId)) {
                 transactionManager.addRequest(transactionId, CreateResourceRequest(-1, snapshot.item.type, resourceId, snapshot.item.totalQuantity, snapshot.item.price))
@@ -159,7 +158,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
 
         if (!transactionManager.exists(transactionId)) return false
 
-        if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) {
+        if (lockManager.lock(transactionId, CUSTOMER + customerId, LockType.WRITE)) {
             if (customerRm.createCustomer(customerId)) {
                 transactionManager.addRequest(transactionId, DeleteCustomerRequest(-1, customerId))
                 return true
@@ -175,7 +174,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
 
         if (!transactionManager.exists(transactionId)) return false
 
-        if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) {
+        if (lockManager.lock(transactionId, CUSTOMER + customerId, LockType.WRITE)) {
             if(customerRm.deleteCustomer(customerId)) {
                 transactionManager.addRequest(transactionId, CreateCustomerRequest(-1, customerId))
             }
@@ -191,7 +190,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
 
         if (!transactionManager.exists(transactionId)) return null
 
-        if (lockManager.lock(transactionId, CUSTOMER, LockType.READ)) {
+        if (lockManager.lock(transactionId, CUSTOMER + customerId, LockType.READ)) {
             return customerRm.queryCustomer(customerId)
         } else {
             cleanupDeadlock(transactionId)
@@ -204,7 +203,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
 
         val itemType = resourceType.get(resourceId) ?: return false
 
-        if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE) && lockManager.lock(transactionId, itemType.toString(), LockType.WRITE)) {
+        if (lockManager.lock(transactionId, CUSTOMER + customerId, LockType.WRITE) && lockManager.lock(transactionId, itemType.toString(), LockType.WRITE)) {
             val resource = queryResource(transactionId, resourceId) ?: return false
             val customer = queryCustomer(transactionId, customerId) ?: return false
             getRm(itemType).reserveResource(resourceId, 1)
@@ -220,7 +219,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
 
     override fun customerRemoveReservation(transactionId: Int, customerId: Int, reservationId: Int): Boolean {
 
-        if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) { // customer write lock acquired
+        if (lockManager.lock(transactionId, CUSTOMER + customerId, LockType.WRITE)) { // customer write lock acquired
             val snapshot = customerRm.queryCustomer(customerId)?.reservations?.find { r -> r.reservationId == reservationId } ?: return false
             customerRm.customerRemoveReservation(customerId, reservationId)
             transactionManager.addRequest(transactionId, CustomerAddReservationRequest(-1, customerId, reservationId, snapshot.item))
@@ -242,7 +241,7 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
             return false
         }
 
-        if (lockManager.lock(transactionId, CUSTOMER, LockType.WRITE)) { // customer write lock acquired
+        if (lockManager.lock(transactionId, CUSTOMER + customerId, LockType.WRITE)) { // customer write lock acquired
 
             reservationResources.forEach {(reservationId, resourceId) ->
                 val resourceType = resourceType.get(resourceId) ?: return false
@@ -271,6 +270,19 @@ class TransactionalMiddleware(senderId: Int): TransactionalResourceManager {
             cleanupDeadlock(transactionId)
         }
         return false
+    }
+
+    override fun shutdown(name: String) {
+        if (name == this.name) {
+            println("MIDDLEWARE $name shutting down/crashing")
+            receiver.replyChannel.disconnect()
+            receiver.requestChannel.disconnect()
+        }
+
+        customerRm.shutdown(name)
+        flightRm.shutdown(name)
+        hotelRm.shutdown(name)
+        carRm.shutdown(name)
     }
 
     private fun generateCustomerId(): Int {

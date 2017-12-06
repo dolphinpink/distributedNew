@@ -19,6 +19,7 @@ class TransactionalRequestReceiver(private val rm: TransactionalResourceManager)
     var requestChannel: JChannel = JChannel()
     var replyChannel: JChannel = JChannel()
     val mapper = jacksonObjectMapper()
+    val executionLock = Any()
 
     init {
         mapper.enableDefaultTyping()
@@ -37,20 +38,19 @@ class TransactionalRequestReceiver(private val rm: TransactionalResourceManager)
 
     override fun receive(msg: Message) {
 
-       //println("${msg.src}: ${msg.getObject<String>()}")
+        println("${msg.src}: ${msg.getObject<String>()}")
+        synchronized(executionLock) {
+            try {
+                val request = mapper.readValue<TransactionalRequestCommand>(msg.getObject<String>())
+                //println("MIDDLEWARE RECEIVER extracted $request")
+                val result = request.execute(rm)
+                val resultJson = mapper.writeValueAsString(result)
+                //println("MIDDLEWARE RECEIVER sending $resultJson")
+                replyChannel.send(null, resultJson)
 
-        try {
-            val request = mapper.readValue<TransactionalRequestCommand>(msg.getObject<String>())
-           //println("MIDDLEWARE RECEIVER extracted $request")
-            val result = request.execute(rm)
-            val resultJson = mapper.writeValueAsString(result)
-           //println("MIDDLEWARE RECEIVER sending $resultJson")
-            replyChannel.send(null, resultJson)
-
-        } catch (e: Exception) {
-           //println(e)
+            } catch (e: Exception) {
+                //println(e)
+            }
         }
-
-
     }
 }

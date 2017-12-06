@@ -120,4 +120,9 @@ interface ResourceManager {
      */
     fun itinerary(customerId: Int, reservationResources: MutableMap<Int, ReservableItem>): Boolean
 
+    /**
+     * shuts down the process with the following name
+     */
+    fun shutdown(name: String)
+
 }

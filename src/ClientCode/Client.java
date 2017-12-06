@@ -32,18 +32,19 @@ public class Client {
             h.setLevel(Level.SEVERE);
         }
 
-        new ResourceManagerImpl(CommunicationsConfig.Companion.getCUSTOMER_REQUEST(), CommunicationsConfig.Companion.getCUSTOMER_REPLY());
-        new ResourceManagerImpl(CommunicationsConfig.Companion.getFLIGHT_REQUEST(), CommunicationsConfig.Companion.getFLIGHT_REPLY());
-        new ResourceManagerImpl(CommunicationsConfig.Companion.getHOTEL_REQUEST(), CommunicationsConfig.Companion.getHOTEL_REPLY());
-        new ResourceManagerImpl(CommunicationsConfig.Companion.getCAR_REQUEST(), CommunicationsConfig.Companion.getCAR_REPLY());
+        //new ResourceManagerImpl("customer_rm_1", CommunicationsConfig.Companion.getCUSTOMER_REQUEST(), CommunicationsConfig.Companion.getCUSTOMER_REPLY());
+        //new ResourceManagerImpl("flight_rm_1", CommunicationsConfig.Companion.getFLIGHT_REQUEST(), CommunicationsConfig.Companion.getFLIGHT_REPLY());
+        //new ResourceManagerImpl("hotel_rm_1", CommunicationsConfig.Companion.getHOTEL_REQUEST(), CommunicationsConfig.Companion.getHOTEL_REPLY());
+        //new ResourceManagerImpl("car_rm_1", CommunicationsConfig.Companion.getCAR_REQUEST(), CommunicationsConfig.Companion.getCAR_REPLY());
 
-        new ResourceManagerImpl(CommunicationsConfig.Companion.getCUSTOMER_REQUEST(), CommunicationsConfig.Companion.getCUSTOMER_REPLY());
-        new ResourceManagerImpl(CommunicationsConfig.Companion.getFLIGHT_REQUEST(), CommunicationsConfig.Companion.getFLIGHT_REPLY());
-        new ResourceManagerImpl(CommunicationsConfig.Companion.getHOTEL_REQUEST(), CommunicationsConfig.Companion.getHOTEL_REPLY());
-        new ResourceManagerImpl(CommunicationsConfig.Companion.getCAR_REQUEST(), CommunicationsConfig.Companion.getCAR_REPLY());
+        //new ResourceManagerImpl("customer_rm_2", CommunicationsConfig.Companion.getCUSTOMER_REQUEST(), CommunicationsConfig.Companion.getCUSTOMER_REPLY());
+        //new ResourceManagerImpl("flight_rm_2", CommunicationsConfig.Companion.getFLIGHT_REQUEST(), CommunicationsConfig.Companion.getFLIGHT_REPLY());
+        //new ResourceManagerImpl("hotel_rm_2", CommunicationsConfig.Companion.getHOTEL_REQUEST(), CommunicationsConfig.Companion.getHOTEL_REPLY());
+        //new ResourceManagerImpl("car_rm_2", CommunicationsConfig.Companion.getCAR_REQUEST(), CommunicationsConfig.Companion.getCAR_REPLY());
 
-        new TransactionalMiddleware(0);
-        new TransactionalMiddleware(0);
+        new TransactionalMiddleware("middleware_1", 0);
+        //new TransactionalMiddleware("middleware_2",0);
+
         TransactionalRequestSender client = new TransactionalRequestSender(0);
 
         new Thread() {
@@ -417,6 +418,17 @@ public class Client {
             lastStart = new Date(Long.MAX_VALUE);
             System.out.println("Transaction successfully aborted.");
         }
+    }
+
+    private static void shutdown(TransactionalRequestSender client, List<String> args) {
+        if (args.size() != 1) {
+            wrongNumber("crash");
+            return;
+        }
+
+        String name = args.get(0);
+        System.out.println("sending shutdown signal to " + name);
+        client.shutdown(name);
     }
 
     private static ReservableType typeOf(String s) {

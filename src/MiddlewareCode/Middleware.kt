@@ -77,4 +77,8 @@ class Middleware(val senderId: Int,
         return false;
     }
 
+    override fun shutdown(name: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

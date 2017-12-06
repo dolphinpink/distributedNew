@@ -27,7 +27,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
         JsonSubTypes.Type(value = TransactionalCustomerAddReservationRequest::class, name = "TransactionalCustomerAddReservationRequest"),
         JsonSubTypes.Type(value = TransactionalCustomerRemoveReservationRequest::class, name = "TransactionalCustomerRemoveReservationRequest"),
         JsonSubTypes.Type(value = TransactionalQueryCustomerRequest::class, name = "TransactionalQueryCustomerRequest"),
-        JsonSubTypes.Type(value = TransactionalItineraryRequest::class, name = "TransactionalItineraryRequest"))
+        JsonSubTypes.Type(value = TransactionalItineraryRequest::class, name = "TransactionalItineraryRequest"),
+        JsonSubTypes.Type(value = TransactionalShutdownRequest::class, name = "TransactionalShutdownRequest"))
 abstract class TransactionalRequestCommand(val requestId: Int, val transactionId: Int) {
     abstract fun execute(rm: TransactionalResourceManager): Reply
 }
@@ -119,5 +120,12 @@ class TransactionalQueryCustomerRequest(requestId: Int, transactionId: Int, val 
 class TransactionalItineraryRequest(requestId: Int, transactionId: Int, val customerId: Int, val reservationResources: MutableMap<Int, String>): TransactionalRequestCommand(requestId, transactionId){
     override fun execute(rm: TransactionalResourceManager): Reply {
         return BooleanReply(requestId, rm.itinerary(transactionId, customerId, reservationResources))
+    }
+}
+
+class TransactionalShutdownRequest(requestId: Int, val name: String): TransactionalRequestCommand(requestId, -1) {
+    override fun execute(rm: TransactionalResourceManager): Reply {
+        rm.shutdown(name)
+        return BooleanReply(0, true)
     }
 }
