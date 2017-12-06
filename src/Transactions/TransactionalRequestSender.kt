@@ -127,7 +127,11 @@ class TransactionalRequestSender(val senderId: Int): TransactionalResourceManage
     }
 
     override fun shutdown(name: String) {
-        sendRequest(TransactionalShutdownRequest(generateRequestId(), name))
+
+        val json = mapper.writeValueAsString(TransactionalShutdownRequest(generateRequestId(), name))
+
+        requestChannel.send(null, json)
+        // don't wait for response, as it is impossible
     }
     
     fun getBoolean(reply: Reply): Boolean {
@@ -175,11 +179,11 @@ class TransactionalRequestSender(val senderId: Int): TransactionalResourceManage
 
         val json = mapper.writeValueAsString(request)
 
-        println("SENDER sending request $json")
+        //println("SENDER sending request $json")
 
         requestChannel.send(null, json)
 
-        println("SENDER messsage sent")
+        //println("SENDER messsage sent")
 
         return getReply(request.requestId)
     }

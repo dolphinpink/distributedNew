@@ -43,7 +43,6 @@ class TransactionalMiddleware(val name: String, senderId: Int): TransactionalRes
     }
 
     override fun start(transactionId: Int): Boolean {
-       println("attempting start")
         return transactionManager.createTransaction(transactionId)
     }
 

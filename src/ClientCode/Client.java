@@ -32,18 +32,18 @@ public class Client {
             h.setLevel(Level.SEVERE);
         }
 
-        //new ResourceManagerImpl("customer_rm_1", CommunicationsConfig.Companion.getCUSTOMER_REQUEST(), CommunicationsConfig.Companion.getCUSTOMER_REPLY());
-        //new ResourceManagerImpl("flight_rm_1", CommunicationsConfig.Companion.getFLIGHT_REQUEST(), CommunicationsConfig.Companion.getFLIGHT_REPLY());
-        //new ResourceManagerImpl("hotel_rm_1", CommunicationsConfig.Companion.getHOTEL_REQUEST(), CommunicationsConfig.Companion.getHOTEL_REPLY());
-        //new ResourceManagerImpl("car_rm_1", CommunicationsConfig.Companion.getCAR_REQUEST(), CommunicationsConfig.Companion.getCAR_REPLY());
+        new ResourceManagerImpl("customer_rm_1", CommunicationsConfig.Companion.getCUSTOMER_REQUEST(), CommunicationsConfig.Companion.getCUSTOMER_REPLY());
+        new ResourceManagerImpl("flight_rm_1", CommunicationsConfig.Companion.getFLIGHT_REQUEST(), CommunicationsConfig.Companion.getFLIGHT_REPLY());
+        new ResourceManagerImpl("hotel_rm_1", CommunicationsConfig.Companion.getHOTEL_REQUEST(), CommunicationsConfig.Companion.getHOTEL_REPLY());
+        new ResourceManagerImpl("car_rm_1", CommunicationsConfig.Companion.getCAR_REQUEST(), CommunicationsConfig.Companion.getCAR_REPLY());
 
-        //new ResourceManagerImpl("customer_rm_2", CommunicationsConfig.Companion.getCUSTOMER_REQUEST(), CommunicationsConfig.Companion.getCUSTOMER_REPLY());
-        //new ResourceManagerImpl("flight_rm_2", CommunicationsConfig.Companion.getFLIGHT_REQUEST(), CommunicationsConfig.Companion.getFLIGHT_REPLY());
-        //new ResourceManagerImpl("hotel_rm_2", CommunicationsConfig.Companion.getHOTEL_REQUEST(), CommunicationsConfig.Companion.getHOTEL_REPLY());
-        //new ResourceManagerImpl("car_rm_2", CommunicationsConfig.Companion.getCAR_REQUEST(), CommunicationsConfig.Companion.getCAR_REPLY());
+        new ResourceManagerImpl("customer_rm_2", CommunicationsConfig.Companion.getCUSTOMER_REQUEST(), CommunicationsConfig.Companion.getCUSTOMER_REPLY());
+        new ResourceManagerImpl("flight_rm_2", CommunicationsConfig.Companion.getFLIGHT_REQUEST(), CommunicationsConfig.Companion.getFLIGHT_REPLY());
+        new ResourceManagerImpl("hotel_rm_2", CommunicationsConfig.Companion.getHOTEL_REQUEST(), CommunicationsConfig.Companion.getHOTEL_REPLY());
+        new ResourceManagerImpl("car_rm_2", CommunicationsConfig.Companion.getCAR_REQUEST(), CommunicationsConfig.Companion.getCAR_REPLY());
 
         new TransactionalMiddleware("middleware_1", 0);
-        //new TransactionalMiddleware("middleware_2",0);
+        new TransactionalMiddleware("middleware_2",0);
 
         TransactionalRequestSender client = new TransactionalRequestSender(0);
 
@@ -224,6 +224,9 @@ public class Client {
                 case "abort":
                     abort(client, activeTransactions, tail(arglist));
                     break;
+                case "shutdown":
+                    shutdown(client, tail(arglist));
+                    break;
                 case "help":
                     listCommands();
                     break;
@@ -352,8 +355,15 @@ public class Client {
             return;
         }
 
-        Customer bill = client.queryCustomer(transaction, Integer.parseInt(args.get(0)));
-        System.out.println(bill);
+        Customer customer = client.queryCustomer(transaction, Integer.parseInt(args.get(0)));
+        for(Reservation r : customer.getReservations()) {
+            ReservableItem item = r.getItem();
+            System.out.println("reservation id: " + r.getReservationId());
+            System.out.println("reserved: " + item.getType() + " " + item.getId());
+            System.out.println("quantity: " + r.getQuantity());
+            System.out.println("pricePaid: " + r.getPricePaid());
+            System.out.println();
+        }
     }
 
     private static void itinerary(TransactionalRequestSender client, int transaction, List<String> args) throws RemoteException {

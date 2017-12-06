@@ -156,7 +156,11 @@ class RequestSender(val senderId: Int, val requestChannelName: String, val reply
     }
 
     override fun shutdown(name: String) {
-        sendRequest(ShutdownRequest(generateRequestId(), name))
+
+        val json = mapper.writeValueAsString(ShutdownRequest(generateRequestId(), name))
+
+        requestChannel.send(null, json)
+        // don't wait for response, cannot respond if shut down
     }
 
     override fun viewAccepted(new_view: View) {

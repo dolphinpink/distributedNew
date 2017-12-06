@@ -38,7 +38,7 @@ class TransactionalRequestReceiver(private val rm: TransactionalResourceManager)
 
     override fun receive(msg: Message) {
 
-        println("${msg.src}: ${msg.getObject<String>()}")
+        //println("${msg.src}: ${msg.getObject<String>()}")
         synchronized(executionLock) {
             try {
                 val request = mapper.readValue<TransactionalRequestCommand>(msg.getObject<String>())
