@@ -152,6 +152,9 @@
 	
 	The implementation of locking mechanisms through a middleware server promotes concurrency control of the system. Backing up the data to an external source allows data persistance in the system and strengthens the fault tolerance. The bottleneck of the system appears to be the TCP calls sending requests over the network. A more efficient implementation would be to perhaps use a hashmap to store replies in the TCP queues, instead of unneccessarily iterating over all the elements. This system is strong against server crashes at various points in the execution, and is robust against a variety of fault scenarios.
 	
+	\section{Statement of Contribution}
+	Yiwei did the code implementation, the translation into Kotlin, and the testing/error handling for all three phases. Marie did the slides, the reports, the testing, the performance analysis, and the client-side interface. The breakdown was roughly 80-20. 
+	
 	\section{Bibliography}
 	
 	All the theory in this report came directly from the lecture slides on the course website or the recommended textbook, Distributed Systems: Principles and Paradigms by Andrew S. Tanenbaum and Maarten Van Steen, Second Edition, Pearson and Prentice Hall, Amsterdam, 2007. 
